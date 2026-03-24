@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+<defs>
+  <filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#0E1E40" flood-opacity="0.10"/></filter>
+  <filter id="ss" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#0E1E40" flood-opacity="0.07"/></filter>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop offset="0%" stop-color="#F7F9FC"/><stop offset="100%" stop-color="#EBF5FB"/></linearGradient>
+</defs>
+<rect width="1200" height="675" fill="url(#bg)"/>
+<rect x="210" y="430" width="110" height="120" rx="10" fill="#D4E6F1" filter="url(#ss)"/>
+<rect x="350" y="360" width="110" height="190" rx="10" fill="#AED6F1" filter="url(#ss)"/>
+<rect x="490" y="270" width="110" height="280" rx="10" fill="#5AAAD4" filter="url(#ss)"/>
+<rect x="630" y="175" width="110" height="375" rx="10" fill="#2575A8" filter="url(#ss)"/>
+<rect x="770" y="100" width="110" height="450" rx="10" fill="#1B3358" filter="url(#s)"/>
+<rect x="770" y="96" width="110" height="8" rx="4" fill="#C9A84C"/>
+<line x1="178" y1="553" x2="922" y2="553" stroke="#0E1E40" stroke-opacity="0.07" stroke-width="2"/>
+</svg>

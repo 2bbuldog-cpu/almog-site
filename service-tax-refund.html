@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>החזרי מס | אלמוג בן דוד – רואה חשבון</title>
+  <meta name="description" content="קבל החזר מס ממוצע של 8,000–25,000 ₪. אלמוג בן דוד, רואת חשבון מוסמכת, מגישה בשמך בקשה להחזר מס – מהיר, קל, ובלי לצאת מהבית." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0E1E40;--navy-mid:#1B3358;--gold:#C9A84C;--gold-light:#E8C96A;
+      --gold-pale:#FDF5E0;--white:#FFFFFF;--light:#F7F9FC;--text:#1A1A2E;
+      --text-mid:#4A5568;--text-light:#8492A6;--border:#E2E8F0;
+      --shadow:0 8px 32px rgba(14,30,64,.12);--shadow-lg:0 20px 60px rgba(14,30,64,.18);
+      --radius:16px;--radius-sm:10px;--transition:.3s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Heebo',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    .section{padding:80px 0}
+    .section-light{background:var(--light)}
+    .gold-line{width:60px;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin-bottom:20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-family:'Heebo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;border:none;transition:var(--transition)}
+    .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+    .btn-navy{background:var(--navy);color:var(--white)}
+    .btn-navy:hover{background:var(--navy-mid);transform:translateY(-2px)}
+    .btn-outline{background:transparent;border:2px solid var(--white);color:var(--white)}
+    .btn-outline:hover{background:var(--white);color:var(--navy)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:var(--transition)}
+    nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 2px 8px rgba(14,30,64,.08);padding:10px 0}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo img{height:50px;width:auto;object-fit:contain;transition:var(--transition)}
+    nav.scrolled .nav-logo img{height:40px}
+    .nav-back{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:600;padding:8px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.3);transition:var(--transition)}
+    nav.scrolled .nav-back{color:var(--navy);border-color:var(--border)}
+    .nav-back:hover{background:rgba(255,255,255,.15)}
+    nav.scrolled .nav-back:hover{background:var(--light)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)!important;font-weight:700;padding:10px 22px;border-radius:50px;font-size:.9rem}
+
+    /* HERO */
+    .hero{min-height:88vh;position:relative;display:flex;align-items:center;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 50%,#2A4A7A 100%);overflow:hidden}
+    .hero-pattern{position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.1) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.15),transparent 70%);top:-100px;left:-100px;pointer-events:none}
+    .hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:.88rem;font-weight:600;margin-bottom:24px}
+    .hero h1{font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:var(--white);line-height:1.15;margin-bottom:16px}
+    .hero h1 em{color:var(--gold-light);font-style:normal}
+    .hero p{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:32px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .hero-trust{display:flex;gap:24px;margin-top:40px}
+    .hero-trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-size:.88rem}
+    .hero-trust-item::before{content:'✓';color:var(--gold-light);font-weight:800}
+    .hero-visual{display:flex;flex-direction:column;gap:16px}
+    .hero-stat-card{background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:24px;text-align:center;transition:var(--transition)}
+    .hero-stat-card:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+    .hero-stat-num{font-size:2.4rem;font-weight:900;color:var(--gold-light)}
+    .hero-stat-label{font-size:.85rem;color:rgba(255,255,255,.65);margin-top:4px}
+    .hero-cards-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+    /* WHO QUALIFIES */
+    .qualify-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .qualify-card{background:var(--white);border-radius:var(--radius);padding:28px 24px;border:2px solid var(--border);transition:var(--transition);position:relative;overflow:hidden}
+    .qualify-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-pale),transparent);opacity:0;transition:var(--transition)}
+    .qualify-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:var(--shadow)}
+    .qualify-card:hover::after{opacity:1}
+    .qualify-icon{font-size:2rem;margin-bottom:12px;position:relative;z-index:1}
+    .qualify-card h3{font-weight:800;font-size:1rem;color:var(--navy);margin-bottom:8px;position:relative;z-index:1}
+    .qualify-card p{font-size:.88rem;color:var(--text-mid);line-height:1.6;position:relative;z-index:1}
+
+    /* PROCESS */
+    .process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+    .process-steps::before{content:'';position:absolute;top:40px;right:12.5%;left:12.5%;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));z-index:0}
+    .process-step{text-align:center;position:relative;z-index:1}
+    .step-num{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-size:1.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(201,168,76,.35)}
+    .process-step h3{font-weight:800;font-size:1rem;color:var(--navy);margin-bottom:8px}
+    .process-step p{font-size:.88rem;color:var(--text-mid);line-height:1.6}
+
+    /* CALCULATOR */
+    .calc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+    .calc-form{background:var(--white);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow)}
+    .calc-form h3{font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+    .calc-form p{font-size:.9rem;color:var(--text-mid);margin-bottom:28px}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:8px}
+    .form-group input,.form-group select{width:100%;padding:13px 16px;border-radius:var(--radius-sm);border:2px solid var(--border);font-family:'Heebo',sans-serif;font-size:1rem;color:var(--text);outline:none;transition:var(--transition)}
+    .form-group input:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.15)}
+    .calc-result{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--radius);padding:36px;color:var(--white)}
+    .calc-result h3{font-size:1.1rem;color:rgba(255,255,255,.65);margin-bottom:28px}
+    .result-big{text-align:center;padding:20px 0 28px}
+    .result-big-num{font-size:3.2rem;font-weight:900;color:var(--gold-light)}
+    .result-big-label{color:rgba(255,255,255,.6);font-size:.9rem;margin-top:6px}
+    .result-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .result-row:last-child{border:none}
+    .result-label{color:rgba(255,255,255,.7);font-size:.9rem}
+    .result-value{color:var(--white);font-weight:700}
+    .result-cta{margin-top:24px;background:rgba(201,168,76,.15);border-radius:var(--radius-sm);padding:20px;text-align:center}
+    .result-cta p{color:rgba(255,255,255,.8);font-size:.9rem;margin-bottom:14px}
+    .calc-disclaimer{background:var(--gold-pale);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius-sm);padding:14px;font-size:.82rem;color:var(--text-mid);line-height:1.6;margin-top:16px}
+
+    /* FAQ */
+    .faq-list{max-width:800px;margin:0 auto}
+    .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+    .faq-question{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;background:var(--white);transition:var(--transition)}
+    .faq-question:hover{background:var(--gold-pale)}
+    .faq-question h3{font-weight:700;font-size:1rem;color:var(--navy)}
+    .faq-toggle{font-size:1.3rem;color:var(--gold);transition:var(--transition);font-weight:300;flex-shrink:0;margin-right:12px}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+    .faq-answer p{padding:0 24px 20px;color:var(--text-mid);line-height:1.8;font-size:.95rem}
+    .faq-item.open .faq-toggle{transform:rotate(45deg)}
+    .faq-item.open .faq-answer{max-height:300px}
+
+    /* CTA BANNER */
+    .cta-banner{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:24px;padding:64px 48px;text-align:center;position:relative;overflow:hidden}
+    .cta-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.08) 1px,transparent 1px);background-size:28px 28px}
+    .cta-banner h2{font-size:2.2rem;font-weight:900;color:var(--white);margin-bottom:12px;position:relative}
+    .cta-banner p{color:rgba(255,255,255,.75);font-size:1.1rem;margin-bottom:32px;position:relative}
+    .cta-banner .btn-primary{position:relative;font-size:1.1rem;padding:16px 48px}
+
+    /* FOOTER MINI */
+    .footer-mini{background:var(--navy);padding:28px 0;text-align:center;color:rgba(255,255,255,.5);font-size:.88rem}
+    .footer-mini a{color:var(--gold-light);font-weight:600}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .hero-content{grid-template-columns:1fr}
+      .hero-visual{display:none}
+      .qualify-grid{grid-template-columns:1fr 1fr}
+      .process-steps{grid-template-columns:1fr 1fr;gap:32px}
+      .process-steps::before{display:none}
+      .calc-wrapper{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .qualify-grid{grid-template-columns:1fr}
+      .process-steps{grid-template-columns:1fr}
+      .cta-banner{padding:40px 24px}
+      .cta-banner h2{font-size:1.7rem}
+    }
+    /* PREMIUM UPGRADES 2026 */
+    .btn-primary { box-shadow: 0 4px 16px rgba(201,168,76,.2); }
+    .btn-primary:hover { transform: translateY(-3px) !important; box-shadow: 0 10px 32px rgba(201,168,76,.5) !important; }
+    .qualify-card { box-shadow: 0 4px 12px rgba(14,30,64,.06); }
+    .qualify-card:hover { transform: translateY(-6px) scale(1.01) !important; box-shadow: 0 16px 40px rgba(14,30,64,.2) !important; }
+    .process-step:hover .step-num { transform: scale(1.1); box-shadow: 0 12px 32px rgba(201,168,76,.5); }
+    .step-num { transition: transform .3s ease, box-shadow .3s ease; }
+    .calc-insight { background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.25); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 16px; font-size: .88rem; color: var(--gold-light); font-weight: 600; line-height: 1.5; text-align: center; transition: opacity .4s ease; }
+    .trust-line { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 14px; position: relative; }
+    .mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 800; padding: 14px 20px; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -4px 20px rgba(14,30,64,.3); }
+    .mobile-cta-bar .btn-primary { flex: 1; justify-content: center; padding: 12px 20px; font-size: .95rem; }
+    @media(max-width:768px) { .mobile-cta-bar { display: flex; } body { padding-bottom: 72px; } }
+    /* ─── REFUND METER ─── */
+    .refund-meter{margin:20px 0 8px}
+    .refund-meter-lbl{display:flex;justify-content:space-between;font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:8px}
+    .meter-track{height:16px;background:rgba(240,80,80,.22);border-radius:8px;overflow:hidden}
+    .meter-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:8px;transition:width .8s ease;width:0}
+    .meter-pct-txt{text-align:center;font-size:.88rem;font-weight:700;color:var(--gold-light);margin-top:7px;min-height:1.2em}
+    .cumul-box{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.22);border-radius:var(--radius-sm);padding:14px;text-align:center;margin-top:14px}
+    .cumul-num{font-size:1.8rem;font-weight:900;color:var(--gold-light)}
+    .cumul-lbl{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:4px}
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.svg" alt="אלמוג בן דוד" /></a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-back">← חזרה לאתר</a>
+      <a href="#calc" class="nav-cta">חישוב החזר ←</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge">💰 החזרי מס | שירות מקצועי</div>
+        <h1>קיבלת מס יתר?<br/><em>מגיע לך כסף בחזרה</em></h1>
+        <p>אלמוג בן דוד מגישה בשמך בקשה להחזר מס לרשות המיסים. ממוצע החזר ללקוח – 12,000 ₪. ניתן לתבוע עד 6 שנים אחורה.</p>
+        <div class="hero-btns">
+          <a href="#calc" class="btn btn-primary">📊 חשב את ההחזר שלי</a>
+          <a href="index.html#contact" class="btn btn-outline">דברי עם אלמוג</a>
+        </div>
+        <div class="hero-trust">
+          <span class="hero-trust-item">חינם לבדיקה ראשונית</span>
+          <span class="hero-trust-item">ללא יציאה מהבית</span>
+          <span class="hero-trust-item">מהיר ומאובטח</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">₪ 12,000</div>
+          <div class="hero-stat-label">ממוצע החזר ללקוח</div>
+        </div>
+        <div class="hero-cards-row">
+          <div class="hero-stat-card">
+            <div class="hero-stat-num">6</div>
+            <div class="hero-stat-label">שנים אחורה</div>
+          </div>
+          <div class="hero-stat-card">
+            <div class="hero-stat-num">98%</div>
+            <div class="hero-stat-label">הצלחה</div>
+          </div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">לקוחות קיבלו החזר</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO QUALIFIES -->
+<section class="section section-light">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">מי זכאי להחזר מס?</h2>
+      <p style="color:var(--text-mid);max-width:560px;margin:0 auto">רבים לא יודעים שהם זכאים – בדוק אם אחד מהמקרים חל עליך</p>
+    </div>
+    <div class="qualify-grid">
+      <div class="qualify-card reveal">
+        <div class="qualify-icon">👶</div>
+        <h3>חופשת לידה / אבהות</h3>
+        <p>יצאת לחופשת לידה? שינוי ההכנסה גורם לאי-התאמה במס ששילמת.</p>
+      </div>
+      <div class="qualify-card reveal reveal-delay-1">
+        <div class="qualify-icon">🔄</div>
+        <h3>החלפת מקום עבודה</h3>
+        <p>כל מעסיק מחשב מס בנפרד. אם עבדת אצל 2+ מעסיקים – כנראה שילמת יותר.</p>
+      </div>
+      <div class="qualify-card reveal reveal-delay-2">
+        <div class="qualify-icon">📅</div>
+        <h3>עבדת רק חלק מהשנה</h3>
+        <p>פוטרת, התפטרת, או יצאת לחל"ת? מס ששולם בחישוב שנתי עשוי להיות גבוה מדי.</p>
+      </div>
+      <div class="qualify-card reveal">
+        <div class="qualify-icon">🎓</div>
+        <h3>הוצאות לימודים</h3>
+        <p>לימודי תואר, השתלמויות מקצועיות? חלקן מוכרות לצורכי מס.</p>
+      </div>
+      <div class="qualify-card reveal reveal-delay-1">
+        <div class="qualify-icon">♿</div>
+        <h3>נכות / מוגבלות</h3>
+        <p>בעל תעודת נכות? ייתכן שמגיעות לך נקודות זיכוי נוספות.</p>
+      </div>
+      <div class="qualify-card reveal reveal-delay-2">
+        <div class="qualify-icon">🏠</div>
+        <h3>תרומות / משכנתא</h3>
+        <p>תרמת לעמותה מוכרת? ריבית משכנתא עשויה לזכות אותך בהחזר.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">איך התהליך עובד?</h2>
+      <p style="color:var(--text-mid)">4 צעדים פשוטים לכסף בחשבון שלך</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">1</div>
+        <h3>בדיקה ראשונית חינם</h3>
+        <p>שולחים לי פרטים בסיסיים. אני בודקת מה מגיע לך בתוך 24 שעות.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <h3>איסוף מסמכים</h3>
+        <p>שולחים לי טפסי 106 ומסמכים רלוונטיים בוואטסאפ או מייל.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <h3>הגשה לרשות המיסים</h3>
+        <p>אני מגישה את הדוח בשמך ועוקבת אחרי ההגשה עד לאישור.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-num">4</div>
+        <h3>הכסף מגיע אליך</h3>
+        <p>רשות המיסים מעבירה את ההחזר ישירות לחשבון הבנק שלך.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section section-light" id="calc">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">כמה מגיע לי?</h2>
+      <p style="color:var(--text-mid)">חשב הערכת החזר מס – בחינם ובשניות</p>
+    </div>
+    <div class="calc-wrapper">
+      <div class="calc-form">
+        <h3>מחשבון החזר מס</h3>
+        <p>הכנס פרטים לקבלת הערכה מיידית</p>
+        <div class="form-group">
+          <label>שנת מס לבדיקה</label>
+          <select id="tr-year" onchange="calc()">
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>הכנסה ברוטו באותה שנה (₪)</label>
+          <input type="number" id="tr-income" value="120000" min="0" oninput="calc()" />
+        </div>
+        <div class="form-group">
+          <label>חודשי עבודה בפועל</label>
+          <select id="tr-months" onchange="calc()">
+            <option value="12">12 חודשים (שנה מלאה)</option>
+            <option value="10">10 חודשים</option>
+            <option value="8">8 חודשים</option>
+            <option value="6">6 חודשים</option>
+            <option value="4">4 חודשים</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>מצב משפחתי</label>
+          <select id="tr-family" onchange="calc()">
+            <option value="2.25">רווק/ה</option>
+            <option value="2.75">נשוי/ה ללא ילדים</option>
+            <option value="3.25">הורה לילד עד גיל 5</option>
+            <option value="4.0">הורה חד-הורי</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>מספר מעסיקים באותה שנה</label>
+          <select id="tr-employers" onchange="calc()">
+            <option value="1">מעסיק אחד</option>
+            <option value="2">שני מעסיקים</option>
+            <option value="3">שלושה ומעלה</option>
+          </select>
+        </div>
+        <div class="calc-disclaimer">⚡ הערכה בלבד. הסכום האמיתי עשוי להיות גבוה יותר. לבדיקה מדויקת – <a href="index.html#contact" style="color:var(--navy);font-weight:600">פנה אליי חינם</a>.</div>
+      </div>
+      <div class="calc-result">
+        <h3>תוצאה מיידית</h3>
+        <div class="result-big">
+          <div class="result-big-num" id="tr-result">0 ₪</div>
+          <div class="result-big-label">החזר מס משוער</div>
+        </div>
+        <div class="result-row"><span class="result-label">מס שנגבה (הערכה)</span><span class="result-value" id="tr-paid">0 ₪</span></div>
+        <div class="result-row"><span class="result-label">מס שהיה צריך לשלם</span><span class="result-value" id="tr-should">0 ₪</span></div>
+        <div class="result-row"><span class="result-label">עודף מס ששולם</span><span class="result-value" id="tr-diff" style="color:var(--gold-light)">0 ₪</span></div>
+        <div class="refund-meter">
+          <div class="refund-meter-lbl"><span>מס ששולם</span><span id="meter-pct-lbl">—</span></div>
+          <div class="meter-track"><div class="meter-fill" id="meter-fill"></div></div>
+          <div class="meter-pct-txt" id="meter-pct-txt"></div>
+        </div>
+        <div class="cumul-box">
+          <div class="cumul-num" id="cumul-total">—</div>
+          <div class="cumul-lbl">פוטנציאל מצטבר ל-6 שנים אחורה</div>
+        </div>
+        <div class="result-cta">
+          <p>רוצה לדעת את הסכום המדויק? אני בודקת חינם!</p>
+          <a href="index.html#contact" class="btn btn-primary">📞 בדיקה חינמית</a>
+        </div>
+        <div class="calc-insight" id="tr-insight"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">שאלות נפוצות</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>כמה זמן לוקח לקבל את ההחזר?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>לאחר הגשת הדוח, רשות המיסים מעבדת את הבקשה בדרך כלל תוך 60–90 יום. בחלק מהמקרים הכסף מגיע מהר יותר. אני עוקבת אחרי ההגשה ומעדכנת אותך בכל שלב.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>כמה שנים אחורה ניתן לתבוע?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>ניתן להגיש בקשת החזר מס עד 6 שנים אחורה. כלומר, כיום ניתן לתבוע עד 6 שנים אחורה — מבוסס על הנתונים העדכניים ביותר. זה אומר שייתכן שמגיע לך עשרות אלפי שקלים!</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>מה המסמכים שאני צריך לשלוח?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>בדרך כלל נדרשים: טופס 106 מכל מעסיק, תלושי שכר, תעודת זהות, ופרטי חשבון בנק. ייתכן שיידרשו מסמכים נוספים בהתאם למצב – אני מפרטת לך אחרי הבדיקה הראשונית.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>כמה עולה השירות?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>הבדיקה הראשונית חינמית לחלוטין. אם מגיע לך החזר ואנחנו ממשיכים, שכר הטרחה הוא אחוז קטן מהסכום שיוחזר לך – כלומר משלמים רק אם מקבלים. לפרטים מדויקים – צרו קשר.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>האם אני צריך להגיע פיזית למשרד?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>לא! כל התהליך מתנהל דיגיטלית – שולחים מסמכים בוואטסאפ או מייל, חותמים דיגיטלית, והכסף מגיע לחשבון שלך. נוח, מהיר, ובלי בזבוז זמן.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-light">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <h2>מוכן לקבל את הכסף שלך בחזרה?</h2>
+      <p>השאר פרטים – אחזור אליך תוך שעות עם הערכת ההחזר שמגיע לך</p>
+      <a href="index.html#contact" class="btn btn-primary">📞 בדיקה חינמית עכשיו</a>
+      <p class="trust-line">✓ בדיקה ללא התחייבות · מענה תוך 24 שעות · פרטיות מלאה</p>
+    </div>
+  </div>
+</section>
+
+<div class="footer-mini">
+  <p>© 2026 <a href="index.html">אלמוג בן דוד – רואת חשבון מוסמכת</a> | באר שבע</p>
+  <div style="margin-top:10px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap">
+    <a href="accessibility.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">הצהרת נגישות</a>
+    <a href="privacy.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">מדיניות פרטיות</a>
+    <a href="terms.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">תנאי שימוש</a>
+  </div>
+</div>
+
+<a href="https://wa.me/972500000000" target="_blank" style="position:fixed;bottom:28px;left:28px;z-index:900;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4);transition:.3s">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+const revObs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// ─── FINANCIAL CONSTANTS ───
+// 2026 values not yet published — using 2025 official values (רשות המסים ישראל)
+const CREDIT_POINT_ANNUAL = 2904; // ₪/year
+// 2026 tax brackets not yet published — using 2025 official values
+const TAX_BRACKETS = [[81480,.10],[116760,.14],[187440,.20],[260520,.31],[557200,.35],[Infinity,.47]];
+
+function formatNum(n) { return Math.round(n).toLocaleString('he-IL') + ' ₪'; }
+
+// Animated number counter
+function animateNum(elId, targetVal, prefix='', suffix=' ₪') {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const start = parseFloat((el.textContent || '0').replace(/[^0-9.-]/g, '')) || 0;
+  const end = targetVal;
+  const duration = 600;
+  const startTime = performance.now();
+  function step(now) {
+    const p = Math.min((now - startTime) / duration, 1);
+    const ease = p < .5 ? 2*p*p : -1+(4-2*p)*p;
+    const val = start + (end - start) * ease;
+    el.textContent = prefix + Math.round(val).toLocaleString('he-IL') + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function calc() {
+  const income = parseFloat(document.getElementById('tr-income').value) || 0;
+  const months = parseInt(document.getElementById('tr-months').value) || 12;
+  const creditPts = parseFloat(document.getElementById('tr-family').value) || 2.25;
+  const employers = parseInt(document.getElementById('tr-employers').value) || 1;
+  const creditValue = creditPts * CREDIT_POINT_ANNUAL;
+  const annualized = income * (12 / months);
+  let taxAnn = 0, prev = 0;
+  for (const [limit, rate] of TAX_BRACKETS) {
+    if (annualized <= prev) break;
+    taxAnn += (Math.min(annualized, limit) - prev) * rate;
+    prev = limit;
+  }
+  const paid = Math.max(0, taxAnn - creditValue) * (months / 12);
+  let taxShould = 0; prev = 0;
+  for (const [limit, rate] of TAX_BRACKETS) {
+    if (income <= prev) break;
+    taxShould += (Math.min(income, limit) - prev) * rate;
+    prev = limit;
+  }
+  const should = Math.max(0, taxShould - creditValue);
+  const employerBonus = employers > 1 ? income * 0.02 * (employers - 1) : 0;
+  const refund = Math.max(0, paid - should + employerBonus);
+
+  animateNum('tr-paid', paid);
+  animateNum('tr-should', should);
+  animateNum('tr-diff', refund);
+  animateNum('tr-result', refund);
+
+  // Refund meter
+  const pct = paid > 0 ? Math.min(100, (refund / paid) * 100) : 0;
+  document.getElementById('meter-fill').style.width = pct.toFixed(1) + '%';
+  document.getElementById('meter-pct-lbl').textContent = pct > 0 ? Math.round(pct) + '% יוחזר' : '—';
+  document.getElementById('meter-pct-txt').textContent = pct > 1 ? `${Math.round(pct)}% מהמס שניגבה יחזור אליך` : '';
+  animateNum('cumul-total', refund * 6);
+
+  // Smart insight
+  const insight = document.getElementById('tr-insight');
+  if (insight) {
+    if (refund > 10000) insight.textContent = '⚡ נהדר! ממצאי מראים שכנראה מגיע לך החזר משמעותי. שווה מאוד לבדוק!';
+    else if (refund > 3000) insight.textContent = '💡 ייתכן שמגיע לך החזר — הסכום האמיתי עשוי להיות גבוה אף יותר עם בדיקה מלאה.';
+    else if (months < 12) insight.textContent = '📅 עבדת פחות מ-12 חודשים? זה אחד הטריגרים העיקריים לקבלת החזר מס!';
+    else insight.textContent = '✓ בצע בדיקה מלאה — לעיתים יש זיכויים נוספים שהמחשבון לא מכיל.';
+    insight.style.opacity = '0';
+    setTimeout(() => { insight.style.opacity = '1'; }, 50);
+  }
+}
+calc();
+
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+<div class="mobile-cta-bar" id="mobileCta">
+  <a href="#calc" class="btn btn-primary">📊 חשב את ההחזר שלי</a>
+  <a href="https://wa.me/972500000000" target="_blank" style="width:48px;height:48px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+</body>
+</html>

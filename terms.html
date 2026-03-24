@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>תנאי שימוש | אלמוג בן דוד – רואה חשבון</title>
+  <meta name="description" content="תנאי השימוש של אתר משרד אלמוג בן דוד, רואה חשבון מוסמך בבאר שבע." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0E1E40;--navy-mid:#1B3358;--gold:#C9A84C;--gold-light:#E8C96A;
+      --gold-pale:#FDF5E0;--white:#FFFFFF;--light:#F7F9FC;
+      --text:#1A1A2E;--text-mid:#4A5568;--text-light:#8492A6;--border:#E2E8F0;
+      --shadow:0 8px 32px rgba(14,30,64,.12);--shadow-lg:0 20px 60px rgba(14,30,64,.18);
+      --radius:16px;--radius-sm:10px;--transition:.3s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Heebo',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:var(--transition)}
+    nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 2px 8px rgba(14,30,64,.08);padding:10px 0}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo img{height:50px;width:auto;object-fit:contain;transition:var(--transition)}
+    nav.scrolled .nav-logo img{height:40px}
+    .nav-back{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:600;padding:8px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.3);transition:var(--transition)}
+    nav.scrolled .nav-back{color:var(--navy);border-color:var(--border)}
+    .nav-back:hover{background:rgba(255,255,255,.12)}
+    nav.scrolled .nav-back:hover{background:var(--light)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)!important;font-weight:700;padding:10px 22px;border-radius:50px;font-size:.9rem}
+
+    .page-hero{min-height:52vh;display:flex;align-items:center;background:linear-gradient(135deg,#0A1628 0%,var(--navy) 40%,#153050 100%);position:relative;overflow:hidden;padding-top:80px}
+    .hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.08) 1.5px,transparent 1.5px);background-size:40px 40px;pointer-events:none}
+    .page-hero-content{position:relative;z-index:2;padding:60px 0}
+    .page-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:.88rem;font-weight:600;margin-bottom:20px}
+    .page-hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--white);line-height:1.2;margin-bottom:14px}
+    .page-hero h1 em{color:var(--gold-light);font-style:normal}
+    .page-hero p{font-size:1.05rem;color:rgba(255,255,255,.75);line-height:1.7;max-width:620px}
+
+    .content-section{padding:72px 0}
+    .content-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:40px 48px;margin-bottom:28px;box-shadow:var(--shadow)}
+    .content-card:last-child{margin-bottom:0}
+    .gold-line{width:48px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin-bottom:16px}
+    .content-card h2{font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:20px}
+    .content-card h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:10px;margin-top:24px}
+    .content-card h3:first-of-type{margin-top:0}
+    .content-card p{color:var(--text-mid);line-height:1.8;margin-bottom:14px;font-size:.98rem}
+    .content-card p:last-child{margin-bottom:0}
+    .content-card ul{padding-right:0;margin-bottom:14px}
+    .content-card ul li{color:var(--text-mid);line-height:1.8;font-size:.98rem;padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+    .content-card ul li:last-child{border:none}
+    .content-card ul li::before{content:'•';color:var(--gold);font-weight:800;flex-shrink:0;margin-top:2px}
+    .highlight-box{background:var(--gold-pale);border-right:4px solid var(--gold);border-radius:var(--radius-sm);padding:20px 24px;margin:20px 0}
+    .highlight-box p{color:var(--navy);font-weight:600;margin:0;font-size:.95rem}
+    .contact-box{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--radius);padding:36px 40px;text-align:center;margin-top:28px}
+    .contact-box h3{color:var(--white);font-size:1.3rem;font-weight:800;margin-bottom:10px}
+    .contact-box p{color:rgba(255,255,255,.75);margin-bottom:20px}
+    .contact-box a{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-weight:700;padding:12px 32px;border-radius:50px;display:inline-block;font-size:.95rem}
+    .contact-box a:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+
+    .footer-mini{background:var(--navy);padding:32px 0;text-align:center;color:rgba(255,255,255,.5);font-size:.88rem}
+    .footer-mini a{color:var(--gold-light);font-weight:600}
+    .footer-mini .footer-links{margin-top:10px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+    .footer-mini .footer-links a{color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400}
+    .footer-mini .footer-links a:hover{color:var(--gold-light)}
+
+    @media(max-width:768px){
+      .content-card{padding:28px 22px}
+      .contact-box{padding:28px 22px}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.svg" alt="אלמוג בן דוד" /></a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-back">← חזרה לאתר</a>
+      <a href="index.html#contact" class="nav-cta">ייעוץ חינמי</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-dots"></div>
+  <div class="container page-hero-content">
+    <div class="page-badge">📋 תנאים</div>
+    <h1>תנאי <em>שימוש</em></h1>
+    <p>ברוכים הבאים לאתר משרד אלמוג בן דוד. קראו בעיון את תנאי השימוש לפני שימוש באתר. שימוש באתר מהווה הסכמה מלאה לתנאים אלה.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>כללי</h2>
+      <p>תנאי שימוש אלה מסדירים את השימוש באתר האינטרנט של משרד אלמוג בן דוד, רואה חשבון מוסמך (להלן: "האתר", "המשרד", "אנו"), הפועל בבאר שבע, ישראל.</p>
+      <p>השימוש באתר כפוף לתנאים אלה בלבד ולכל דין החל בישראל. אם אינכם מסכימים לתנאים אלה, אנא הימנעו משימוש באתר.</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>מטרת האתר</h2>
+      <p>האתר נועד לספק מידע כללי על שירותי המשרד, לאפשר יצירת קשר ראשוני, ולהציג כלים מחשבוניים לשימוש מידעני בלבד.</p>
+      <div class="highlight-box">
+        <p>המידע והמחשבונים באתר מיועדים לצרכים אינפורמטיביים בלבד ואינם מהווים ייעוץ מקצועי, משפטי, מיסויי, או פיננסי.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>הגבלות שימוש</h2>
+      <p>בשימוש באתר, אתם מתחייבים שלא:</p>
+      <ul>
+        <li>להשתמש באתר למטרות בלתי חוקיות</li>
+        <li>להעלות או להפיץ תוכן פוגעני, מזיק, או מטעה</li>
+        <li>לנסות לפרוץ או לפגוע באבטחת האתר</li>
+        <li>לאסוף מידע על משתמשים אחרים ללא אישור</li>
+        <li>להשתמש בתוכן האתר למטרות מסחריות ללא אישור בכתב</li>
+        <li>לבצע פעולות שיפגעו בזמינות האתר לאחרים</li>
+        <li>להתחזות לאדם אחר או לגורם אחר</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>קניין רוחני</h2>
+      <p>כל התכנים באתר, לרבות טקסטים, תמונות, לוגואים, גרפיקה, עיצוב, מחשבונים, ושירותים – הינם קניינו הבלעדי של המשרד, ומוגנים בזכויות יוצרים ובחוקי קניין רוחני.</p>
+      <p>אין להעתיק, לשכפל, לפרסם, להפיץ, או לעשות שימוש מסחרי בתכנים ללא אישור מפורש ובכתב מהמשרד.</p>
+      <p>ניתן לצטט מידע מהאתר לצורכים אישיים ולא מסחריים, בתנאי שיצוין קרדיט ברור למשרד.</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>אחריות מוגבלת</h2>
+      <h3>מחשבונים ומידע</h3>
+      <p>המחשבונים והמידע באתר מסופקים "כפי שהם" ולמטרות הדגמה ומידע בלבד. הם אינם מחליפים ייעוץ מקצועי מותאם אישית.</p>
+      <p>המשרד אינו אחראי לכל נזק ישיר, עקיף, מקרי, או תוצאתי הנובע מהסתמכות על מידע מהאתר.</p>
+      <h3>שגיאות ואי-דיוקים</h3>
+      <p>אנו שואפים לדיוק, אולם איננו ערבים לכך שכל המידע באתר מדויק, שלם, ועדכני בכל עת. מסים, תקנות ושיעורים משתנים, ויש לוודא מידע רלוונטי מול גורמים מוסמכים.</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>פרטיות ואבטחה</h2>
+      <p>השימוש במידע האישי שתמסרו כפוף <a href="privacy.html" style="color:var(--gold);font-weight:600">למדיניות הפרטיות</a> שלנו, המהווה חלק בלתי נפרד מתנאי שימוש אלה.</p>
+      <p>אנו נוקטים אמצעי אבטחה סבירים להגנת המידע, אך אין אנו יכולים להבטיח אבטחה מוחלטת בסביבת האינטרנט.</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>קישורים חיצוניים</h2>
+      <p>האתר עשוי להכיל קישורים לאתרים של צדדים שלישיים. קישורים אלה מסופקים לנוחיותכם בלבד. אין לנו שליטה על תוכן אתרים חיצוניים ואיננו אחראים להם.</p>
+      <p>הפניה לאתר חיצוני אינה מהווה המלצה או תמיכה בו.</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>שינויים בתנאי השימוש</h2>
+      <p>המשרד שומר לעצמו את הזכות לשנות תנאי שימוש אלה בכל עת, ללא הודעה מוקדמת. השינויים ייכנסו לתוקף עם פרסומם באתר.</p>
+      <p>המשך השימוש באתר לאחר פרסום שינויים מהווה הסכמה לתנאים המעודכנים.</p>
+      <p><strong>תאריך עדכון אחרון:</strong> מרץ 2026</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>דין חל וסמכות שיפוט</h2>
+      <p>תנאי שימוש אלה כפופים לדיני מדינת ישראל בלבד. כל מחלוקת הנוגעת לשימוש באתר תידון בבית המשפט המוסמך בבאר שבע, ישראל.</p>
+    </div>
+
+    <div class="content-card">
+      <div class="gold-line"></div>
+      <h2>פנייה אלינו</h2>
+      <p>לשאלות, הבהרות, או פניות בנושא תנאי שימוש אלה, ניתן לפנות:</p>
+      <ul>
+        <li>דואר אלקטרוני: almog@cpa.co.il</li>
+        <li>שעות פעילות: ימים א'–ה', 9:00–18:00</li>
+        <li>מיקום: באר שבע, ישראל</li>
+      </ul>
+    </div>
+
+    <div class="contact-box">
+      <h3>יש לכם שאלה?</h3>
+      <p>נשמח לענות על כל שאלה בנושא תנאי השימוש או כל נושא אחר</p>
+      <a href="index.html#contact">צרו קשר</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="footer-mini">
+  <p>© 2026 <a href="index.html">אלמוג בן דוד – רואת חשבון מוסמכת</a> | באר שבע</p>
+  <div class="footer-links">
+    <a href="accessibility.html">הצהרת נגישות</a>
+    <a href="privacy.html">מדיניות פרטיות</a>
+    <a href="terms.html">תנאי שימוש</a>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+</script>
+</body>
+</html>

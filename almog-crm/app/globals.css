@@ -1,0 +1,133 @@
+/* ─── DESIGN TOKENS — matches existing almog HTML site ─── */
+:root {
+  --navy: #0E1E40;
+  --navy-mid: #1B3358;
+  --navy-light: #2A4A7A;
+  --gold: #C9A84C;
+  --gold-light: #E8C96A;
+  --gold-pale: #FDF5E0;
+  --white: #FFFFFF;
+  --light: #F7F9FC;
+  --light2: #EFF2F8;
+  --text: #1A1A2E;
+  --text-mid: #4A5568;
+  --text-light: #8492A6;
+  --border: #E2E8F0;
+  --shadow-sm: 0 2px 8px rgba(14,30,64,.08);
+  --shadow: 0 8px 32px rgba(14,30,64,.12);
+  --shadow-lg: 0 20px 60px rgba(14,30,64,.18);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: .3s cubic-bezier(.4,0,.2,1);
+  /* Status colors */
+  --status-new: #3B82F6;
+  --status-contacted: #8B5CF6;
+  --status-docs: #F59E0B;
+  --status-review: #06B6D4;
+  --status-submitted: #10B981;
+  --status-completed: #059669;
+  --status-lost: #6B7280;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Heebo', 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  overflow-x: hidden;
+  direction: rtl;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 96px 0; }
+.section-light { background: var(--light); }
+
+.section-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 14px;
+  line-height: 1.18;
+  letter-spacing: -.3px;
+}
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--text-mid);
+  margin-bottom: 52px;
+  max-width: 560px;
+  line-height: 1.7;
+}
+.gold-line {
+  width: 48px; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+.gold-line.center { margin: 0 auto 20px; }
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 34px;
+  border-radius: 50px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  color: var(--navy);
+  box-shadow: 0 4px 20px rgba(201,168,76,.25);
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(201,168,76,.5);
+}
+.btn-navy { background: var(--navy); color: var(--white); }
+.btn-navy:hover { background: var(--navy-mid); transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn-outline-navy {
+  background: transparent;
+  border: 2px solid var(--navy);
+  color: var(--navy);
+}
+.btn-outline-navy:hover { background: var(--navy); color: var(--white); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,.4); }
+  50% { box-shadow: 0 0 0 8px rgba(201,168,76,.0); }
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(14,30,64,.15); border-radius: 4px; }
+
+/* ─── FOCUS ─── */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }

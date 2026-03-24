@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מאמרים מקצועיים – מיסים, חשבונאות וכסף | אלמוג בן דוד רואה חשבון</title>
+  <meta name="description" content="מאמרים מקצועיים על מיסים, החזרי מס, פתיחת עסק, פנסיה ועוד. מידע אמין, מאומת ומוצג בצורה פשוטה — על ידי אלמוג בן דוד, רואת חשבון מוסמכת." />
+  <link rel="canonical" href="https://almogcpa.co.il/articles.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--navy:#0E1E40;--navy-mid:#1B3358;--gold:#C9A84C;--gold-light:#E8C96A;--gold-pale:#FDF5E0;--white:#FFFFFF;--light:#F7F9FC;--text:#1A1A2E;--text-mid:#4A5568;--text-light:#8492A6;--border:#E2E8F0;--shadow:0 8px 32px rgba(14,30,64,.12);--shadow-lg:0 20px 60px rgba(14,30,64,.18);--radius:16px;--radius-sm:10px;--transition:.3s cubic-bezier(.4,0,.2,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Heebo',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}ul{list-style:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:var(--transition)}
+    nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 2px 8px rgba(14,30,64,.08);padding:10px 0}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo img{height:50px;width:auto;object-fit:contain;transition:var(--transition)}
+    nav.scrolled .nav-logo img{height:40px}
+    .nav-links{display:flex;align-items:center;gap:12px}
+    .nav-back{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:600;padding:8px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.3);transition:var(--transition);font-size:.9rem}
+    nav.scrolled .nav-back{color:var(--navy);border-color:var(--border)}
+    .nav-back:hover,.nav-scrolled .nav-back:hover{background:rgba(255,255,255,.15)}
+    nav.scrolled .nav-back:hover{background:var(--light)}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)!important;font-weight:700;padding:10px 22px;border-radius:50px;font-size:.9rem;transition:var(--transition)}
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,168,76,.4)}
+
+    .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,#2A4A7A 100%);padding:140px 0 80px;position:relative;overflow:hidden}
+    .hero-pattern{position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.1) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-content{position:relative;z-index:2;text-align:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);padding:8px 20px;border-radius:50px;font-size:.85rem;font-weight:600;margin-bottom:20px}
+    .hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--white);line-height:1.15;margin-bottom:14px}
+    .hero h1 em{color:var(--gold-light);font-style:normal}
+    .hero p{font-size:1.05rem;color:rgba(255,255,255,.75);line-height:1.7;max-width:580px;margin:0 auto 32px}
+    .hero-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+    .hstat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-sm);padding:12px 20px;text-align:center}
+    .hstat-n{font-size:1.4rem;font-weight:900;color:var(--gold-light)}
+    .hstat-l{font-size:.75rem;color:rgba(255,255,255,.55);margin-top:2px}
+
+    .filter-bar{background:var(--white);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:72px;z-index:100}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .filter-btn{padding:8px 18px;border-radius:50px;border:2px solid var(--border);background:var(--white);font-family:'Heebo',sans-serif;font-size:.85rem;font-weight:600;color:var(--text-mid);cursor:pointer;transition:var(--transition)}
+    .filter-btn:hover{border-color:var(--gold);color:var(--navy)}
+    .filter-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+    .filter-label{font-size:.82rem;color:var(--text-light);font-weight:700;margin-left:8px}
+
+    .articles-section{padding:60px 0 80px}
+    .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+    .article-card{background:var(--white);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:var(--transition);display:flex;flex-direction:column}
+    .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .card-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative}
+    .card-badge{position:absolute;top:12px;right:12px;padding:4px 12px;border-radius:50px;font-size:.72rem;font-weight:700;background:rgba(14,30,64,.75);color:var(--gold-light)}
+    .card-reading{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:50px;font-size:.72rem;font-weight:600;background:rgba(0,0,0,.5);color:rgba(255,255,255,.8)}
+    .card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+    .card-cat{font-size:.75rem;font-weight:700;color:var(--text-light);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+    .card-title{font-size:1.05rem;font-weight:800;color:var(--navy);line-height:1.4;margin-bottom:10px}
+    .card-excerpt{font-size:.88rem;color:var(--text-mid);line-height:1.65;flex:1;margin-bottom:16px}
+    .card-link{display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-weight:700;font-size:.88rem;padding:10px 20px;border:2px solid var(--border);border-radius:50px;transition:var(--transition);align-self:flex-start}
+    .card-link:hover{border-color:var(--gold);background:var(--gold-pale);color:var(--navy)}
+    .featured-badge{position:absolute;bottom:12px;right:12px;background:var(--gold);color:var(--navy);padding:3px 10px;border-radius:50px;font-size:.7rem;font-weight:800}
+
+    .calcs-banner{background:linear-gradient(135deg,var(--navy),#2A4A7A);border-radius:var(--radius);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:48px;flex-wrap:wrap}
+    .calcs-banner h2{font-size:1.6rem;font-weight:900;color:var(--white);margin-bottom:8px}
+    .calcs-banner p{color:rgba(255,255,255,.7);font-size:.95rem;max-width:480px;line-height:1.6}
+    .btn-gold{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);border-radius:50px;font-weight:800;font-size:.95rem;transition:var(--transition);white-space:nowrap}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+
+    .cta-section{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:72px 0;text-align:center}
+    .cta-section h2{font-size:2rem;font-weight:900;color:var(--white);margin-bottom:14px}
+    .cta-section p{color:rgba(255,255,255,.7);font-size:1rem;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
+    .cta-trust{color:rgba(255,255,255,.45);font-size:.82rem;margin-top:18px}
+
+    .footer-mini{background:var(--navy);padding:24px 0;text-align:center}
+    .footer-mini p{color:rgba(255,255,255,.5);font-size:.85rem}
+    .footer-mini a{color:rgba(255,255,255,.7)}
+    .footer-mini a:hover{color:var(--gold-light)}
+    .wa-fab{position:fixed;bottom:28px;left:28px;z-index:900;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4);transition:.3s}
+    .wa-fab:hover{transform:scale(1.1)}
+
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){.articles-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:580px){.articles-grid{grid-template-columns:1fr}.calcs-banner{text-align:center;flex-direction:column}}
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><img src="logo.png" alt="אלמוג בן דוד רואת חשבון" /></a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-back">← לאתר</a>
+        <a href="index.html#contact" class="nav-cta">ייעוץ חינמי</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">📚 מידע מקצועי · מאומת · עדכני</div>
+      <h1>מאמרים על <em>מיסים וכסף</em><br>שכתבנו בשבילך</h1>
+      <p>מידע מקצועי, ברור ומאומת מול מקורות רשמיים. בלי עמלות שיווק, בלי ז'רגון — רק מה שבאמת שימושי.</p>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">10</div><div class="hstat-l">מאמרים</div></div>
+        <div class="hstat"><div class="hstat-n">8</div><div class="hstat-l">מחשבונים</div></div>
+        <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">חינמי</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <div class="container">
+    <div class="filters">
+      <span class="filter-label">סנן לפי:</span>
+      <button class="filter-btn active" onclick="filterArticles('all',this)">הכל</button>
+      <button class="filter-btn" onclick="filterArticles('tax',this)">💰 מיסים</button>
+      <button class="filter-btn" onclick="filterArticles('business',this)">🚀 עסקים</button>
+      <button class="filter-btn" onclick="filterArticles('retirement',this)">🌅 פרישה</button>
+      <button class="filter-btn" onclick="filterArticles('realestate',this)">🏠 נדל"ן</button>
+    </div>
+  </div>
+</div>
+
+<section class="articles-section">
+  <div class="container">
+
+    <!-- Calculators Banner -->
+    <div class="calcs-banner reveal">
+      <div>
+        <h2>🧮 8 מחשבוני מס חינמיים</h2>
+        <p>החזר מס, ברוטו-נטו, נקודות זיכוי, ביטוח לאומי, קרן השתלמות ועוד — בלחיצה אחת</p>
+      </div>
+      <a href="calculators.html" class="btn-gold">לכל המחשבונים ←</a>
+    </div>
+
+    <div class="articles-grid" id="articles-grid">
+
+      <!-- Article 1 -->
+      <div class="article-card reveal" data-cat="tax">
+        <div class="card-img" style="background:linear-gradient(135deg,#1A5276,#2980B9)">
+          <span>💰</span>
+          <div class="card-badge">💰 החזרי מס</div>
+          <div class="card-reading">6 דק'</div>
+          <div class="featured-badge">⭐ פופולרי</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">מיסים · החזרי מס</div>
+          <h2 class="card-title">מדריך החזר מס לשכיר 2025 — כל מה שצריך לדעת</h2>
+          <p class="card-excerpt">מי זכאי, כמה מגיע, איך מגישים, ואיך לא לפספס שקל. המדריך המלא להחזרי מס לשכירים בישראל.</p>
+          <a href="article-tax-refund-guide.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 2 -->
+      <div class="article-card reveal" data-cat="tax">
+        <div class="card-img" style="background:linear-gradient(135deg,#145A32,#27AE60)">
+          <span>📋</span>
+          <div class="card-badge">📋 זכאות</div>
+          <div class="card-reading">8 דק'</div>
+          <div class="featured-badge">⭐ מומלץ</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">מיסים · זכאות</div>
+          <h2 class="card-title">11 מצבים שמזכים בהחזר מס — האם אתה ברשימה?</h2>
+          <p class="card-excerpt">החלפת עבודה, חופשת לידה, תואר אקדמי, יישוב מזכה ועוד. בדוק אם אתה זכאי להחזר שלא ידעת עליו.</p>
+          <a href="article-who-qualifies.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 3 -->
+      <div class="article-card reveal" data-cat="tax">
+        <div class="card-img" style="background:linear-gradient(135deg,#6C3483,#8E44AD)">
+          <span>📊</span>
+          <div class="card-badge">📊 מס הכנסה</div>
+          <div class="card-reading">5 דק'</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">מיסים · מדרגות</div>
+          <h2 class="card-title">מדרגות מס הכנסה בישראל 2025 — כמה מס אתה משלם בפועל?</h2>
+          <p class="card-excerpt">טבלת מדרגות מס הכנסה 2025, דוגמת חישוב מלאה, ומה ההבדל בין מס שולי למס אפקטיבי.</p>
+          <a href="article-tax-brackets.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 4 -->
+      <div class="article-card reveal" data-cat="tax">
+        <div class="card-img" style="background:linear-gradient(135deg,#B7950B,#D4AC0D)">
+          <span>⭐</span>
+          <div class="card-badge">⭐ נקודות זיכוי</div>
+          <div class="card-reading">5 דק'</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">מיסים · זיכויים</div>
+          <h2 class="card-title">נקודות זיכוי ממס הכנסה 2025 — המדריך המלא</h2>
+          <p class="card-excerpt">כמה שווה כל נקודת זיכוי? מי זכאי? ואיך לוודא שהמעסיק מחיל את כולן — כך לא תפספס אף שקל.</p>
+          <a href="article-credit-points.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 5 -->
+      <div class="article-card reveal" data-cat="business">
+        <div class="card-img" style="background:linear-gradient(135deg,#1F618D,#2E86C1)">
+          <span>🚀</span>
+          <div class="card-badge">🚀 עסקים</div>
+          <div class="card-reading">7 דק'</div>
+          <div class="featured-badge">⭐ פופולרי</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">עסקים · מבנה</div>
+          <h2 class="card-title">עוסק פטור, מורשה, או חברה בע"מ — המדריך לבחירה הנכונה</h2>
+          <p class="card-excerpt">יתרונות וחסרונות של כל מבנה עסקי, טבלת השוואה, ואיך לדעת מה מתאים לך.</p>
+          <a href="article-osek-types.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 6 -->
+      <div class="article-card reveal" data-cat="retirement">
+        <div class="card-img" style="background:linear-gradient(135deg,#117A65,#1ABC9C)">
+          <span>📈</span>
+          <div class="card-badge">📈 חיסכון</div>
+          <div class="card-reading">7 דק'</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">פרישה · חיסכון</div>
+          <h2 class="card-title">קרן השתלמות 2025 — מדריך מלא: יתרונות, משיכה ומס</h2>
+          <p class="card-excerpt">כל מה שרואה חשבון רוצה שתדע על קרן השתלמות: הפרשות, פטור ממס, תנאי משיכה, ואיך למקסם.</p>
+          <a href="article-study-fund.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 7 -->
+      <div class="article-card reveal" data-cat="business">
+        <div class="card-img" style="background:linear-gradient(135deg,#922B21,#CB4335)">
+          <span>🏥</span>
+          <div class="card-badge">🏥 ביטוח לאומי</div>
+          <div class="card-reading">6 דק'</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">עסקים · ביטוח לאומי</div>
+          <h2 class="card-title">ביטוח לאומי לעצמאים 2025 — חישוב, מועדים וזכויות</h2>
+          <p class="card-excerpt">כמה משלמים, מתי, מה הזכויות שלך — ואיך לא לפספס דמי לידה, נכות ואבטלה.</p>
+          <a href="article-national-insurance.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 8 -->
+      <div class="article-card reveal" data-cat="business">
+        <div class="card-img" style="background:linear-gradient(135deg,#1E8449,#239B56)">
+          <span>🧾</span>
+          <div class="card-badge">🧾 הוצאות</div>
+          <div class="card-reading">7 דק'</div>
+          <div class="featured-badge">⭐ מומלץ</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">עסקים · ניכויים</div>
+          <h2 class="card-title">הוצאות מוכרות לעצמאים 2025 — הרשימה המלאה</h2>
+          <p class="card-excerpt">אילו הוצאות עסקיות ניתן לנכות ממס? הרשימה המלאה עם הסברים — ואיך לא לנכות יותר מדי.</p>
+          <a href="article-recognized-expenses.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 9 -->
+      <div class="article-card reveal" data-cat="realestate">
+        <div class="card-img" style="background:linear-gradient(135deg,#34495E,#5D6D7E)">
+          <span>🏠</span>
+          <div class="card-badge">🏠 נדל"ן</div>
+          <div class="card-reading">8 דק'</div>
+          <div class="featured-badge">⭐ פופולרי</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">נדל"ן · מיסוי</div>
+          <h2 class="card-title">מיסוי שכירות דירה בישראל 2025 — המדריך המלא</h2>
+          <p class="card-excerpt">שלושת המסלולים למיסוי הכנסות שכירות, מה עדיף לך, ומי פטור ממס לחלוטין.</p>
+          <a href="article-rental-tax.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+      <!-- Article 10 -->
+      <div class="article-card reveal" data-cat="retirement">
+        <div class="card-img" style="background:linear-gradient(135deg,#784212,#B7770D)">
+          <span>🌅</span>
+          <div class="card-badge">🌅 פרישה</div>
+          <div class="card-reading">9 דק'</div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">פרישה · תכנון</div>
+          <h2 class="card-title">תכנון פרישה 2025 — פנסיה, קרן השתלמות ומס</h2>
+          <p class="card-excerpt">כמה צריך לפרישה, מתי אפשר לפרוש, ואיך לנהל את המס בחכמה בשנות הפרישה.</p>
+          <a href="article-retirement.html" class="card-link">קרא את המאמר ←</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>יש לך שאלה? אלמוג כאן</h2>
+    <p>קראת מאמר ועדיין יש שאלות? ייעוץ ראשוני חינמי — ללא התחייבות</p>
+    <a href="index.html#contact" class="btn-gold">📞 צור קשר עם אלמוג</a>
+    <p class="cta-trust">✓ ללא התחייבות · ✓ מענה תוך 24 שעות · ✓ פרטיות מלאה</p>
+  </div>
+</section>
+
+<div class="footer-mini">
+  <p>© 2026 <a href="index.html">אלמוג בן דוד – רואת חשבון מוסמכת</a> | באר שבע</p>
+  <div style="margin-top:10px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap">
+    <a href="calculators.html" style="color:rgba(255,255,255,.4);font-size:.82rem">מחשבוני מס</a>
+    <a href="privacy.html" style="color:rgba(255,255,255,.4);font-size:.82rem">מדיניות פרטיות</a>
+    <a href="terms.html" style="color:rgba(255,255,255,.4);font-size:.82rem">תנאי שימוש</a>
+  </div>
+</div>
+
+<a href="https://wa.me/972500000000" target="_blank" class="wa-fab">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>60));
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+function filterArticles(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-card').forEach(c=>{
+    if(cat==='all'||c.dataset.cat===cat){c.style.display='flex';}
+    else{c.style.display='none';}
+  });
+}
+</script>
+</body>
+</html>

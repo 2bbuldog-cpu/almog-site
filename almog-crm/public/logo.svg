@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 60" width="230" height="60" role="img" aria-label="אלמוג בן דוד – רואה חשבון מוסמך">
+  <!-- Scales icon -->
+  <line x1="30" y1="13" x2="30" y2="49" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="21" y1="49" x2="39" y2="49" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="13" y1="17" x2="47" y2="17" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="30" cy="13" r="2.8" fill="#C9A84C"/>
+  <!-- Left pan -->
+  <line x1="13" y1="17" x2="13" y2="30" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M6 30 Q13 37 20 30" stroke="#C9A84C" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Right pan (tilted lower) -->
+  <line x1="47" y1="17" x2="47" y2="27" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M40 27 Q47 34 54 27" stroke="#C9A84C" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Name -->
+  <text x="65" y="29" font-family="Heebo, Arial, sans-serif" font-size="19" font-weight="800" fill="#0E1E40">אלמוג בן דוד</text>
+  <!-- Title -->
+  <text x="65" y="48" font-family="Heebo, Arial, sans-serif" font-size="11.5" font-weight="500" fill="#C9A84C" letter-spacing="0.3">רואה חשבון מוסמך</text>
+</svg>

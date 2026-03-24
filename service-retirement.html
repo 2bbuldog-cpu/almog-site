@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>תכנון פרישה | אלמוג בן דוד – רואה חשבון</title>
+  <meta name="description" content="תכנון פרישה מקצועי עם אלמוג בן דוד – רואת חשבון. בניית תוכנית אישית לפרישה, מיסוי מינימלי על פנסיה, ויציבות כלכלית לאורך שנים." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0E1E40;--navy-mid:#1B3358;--gold:#C9A84C;--gold-light:#E8C96A;
+      --gold-pale:#FDF5E0;--white:#FFFFFF;--light:#F7F9FC;--purple:#7C3AED;
+      --text:#1A1A2E;--text-mid:#4A5568;--text-light:#8492A6;--border:#E2E8F0;
+      --shadow:0 8px 32px rgba(14,30,64,.12);--shadow-lg:0 20px 60px rgba(14,30,64,.18);
+      --radius:16px;--radius-sm:10px;--transition:.3s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Heebo',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    .section{padding:80px 0}
+    .section-light{background:var(--light)}
+    .gold-line{width:60px;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin-bottom:20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-family:'Heebo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;border:none;transition:var(--transition)}
+    .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+    .btn-outline{background:transparent;border:2px solid var(--white);color:var(--white)}
+    .btn-outline:hover{background:var(--white);color:var(--navy)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:var(--transition)}
+    nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 2px 8px rgba(14,30,64,.08);padding:10px 0}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo img{height:50px;width:auto;object-fit:contain;transition:var(--transition)}
+    nav.scrolled .nav-logo img{height:40px}
+    .nav-back{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:600;padding:8px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.3);transition:var(--transition)}
+    nav.scrolled .nav-back{color:var(--navy);border-color:var(--border)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)!important;font-weight:700;padding:10px 22px;border-radius:50px;font-size:.9rem}
+
+    /* HERO */
+    .hero{min-height:88vh;position:relative;display:flex;align-items:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0A1628 0%,#1a1040 50%,#0a2840 100%)}
+    .hero-stars{position:absolute;inset:0;pointer-events:none}
+    .hero-stars::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(201,168,76,.12) 0%,transparent 50%)}
+    .hero-stars::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 80%,rgba(124,58,237,.1) 0%,transparent 50%)}
+    .hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:#C4B5FD;padding:8px 20px;border-radius:50px;font-size:.88rem;font-weight:600;margin-bottom:24px}
+    .hero h1{font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:var(--white);line-height:1.15;margin-bottom:16px}
+    .hero h1 em{color:var(--gold-light);font-style:normal}
+    .hero p{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:32px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .hero-promise{margin-top:40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:24px}
+    .hero-promise-title{color:var(--gold-light);font-weight:700;font-size:.9rem;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+    .hero-promise-items{display:flex;flex-direction:column;gap:10px}
+    .promise-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.8);font-size:.9rem}
+    .promise-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+    .hero-visual{display:flex;flex-direction:column;gap:16px}
+    .wealth-card{background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:28px}
+    .wealth-card-title{color:rgba(255,255,255,.6);font-size:.82rem;margin-bottom:16px;text-transform:uppercase;letter-spacing:.4px}
+    .wealth-bar-wrap{margin-bottom:12px}
+    .wealth-bar-label{display:flex;justify-content:space-between;font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:6px}
+    .wealth-bar{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+    .wealth-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light));animation:growBar 1.5s ease-out forwards;width:0}
+    @keyframes growBar{to{width:var(--target-width)}}
+    .wealth-total{margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+    .wealth-total-label{color:rgba(255,255,255,.6);font-size:.82rem}
+    .wealth-total-num{font-size:2rem;font-weight:900;color:var(--gold-light);margin-top:4px}
+    .hero-milestone{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:var(--radius-sm);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .milestone-icon{font-size:1.8rem}
+    .milestone-label{color:rgba(255,255,255,.7);font-size:.8rem}
+    .milestone-val{color:var(--gold-light);font-weight:800;font-size:1.05rem}
+
+    /* WHY EARLY */
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+    .why-chart{background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+    .chart-title{font-weight:800;color:var(--navy);margin-bottom:24px}
+    .chart-bars{display:flex;align-items:flex-end;gap:16px;height:200px}
+    .chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+    .chart-bar-container{flex:1;width:100%;display:flex;align-items:flex-end}
+    .chart-bar{width:100%;border-radius:8px 8px 0 0;transition:height 1.2s ease;background:var(--border)}
+    .chart-bar.gold{background:linear-gradient(to top,var(--gold),var(--gold-light))}
+    .chart-bar-label{font-size:.8rem;color:var(--text-mid);text-align:center;font-weight:600}
+    .chart-bar-val{font-size:.82rem;font-weight:800;color:var(--navy)}
+    .why-content h2{font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:16px}
+    .why-content p{color:var(--text-mid);line-height:1.8;margin-bottom:16px}
+    .highlight-box{background:var(--gold-pale);border:2px solid rgba(201,168,76,.3);border-radius:var(--radius-sm);padding:20px;margin-top:24px}
+    .highlight-box p{color:var(--navy-mid);font-weight:600;line-height:1.7;margin:0}
+
+    /* PILLARS */
+    .pillars-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+    .pillar-card{background:var(--white);border-radius:var(--radius);padding:32px;border:1px solid var(--border);transition:var(--transition);position:relative;overflow:hidden}
+    .pillar-card::before{content:'';position:absolute;top:0;right:0;left:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transform:scaleX(0);transform-origin:right;transition:var(--transition)}
+    .pillar-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
+    .pillar-card:hover::before{transform:scaleX(1)}
+    .pillar-num{font-size:3rem;font-weight:900;color:rgba(201,168,76,.2);line-height:1;margin-bottom:12px}
+    .pillar-icon{font-size:2rem;margin-bottom:12px}
+    .pillar-card h3{font-weight:800;font-size:1.1rem;color:var(--navy);margin-bottom:10px}
+    .pillar-card p{font-size:.9rem;color:var(--text-mid);line-height:1.7}
+
+    /* CALCULATOR */
+    .calc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+    .calc-form{background:var(--white);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow)}
+    .calc-form h3{font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+    .calc-form p{font-size:.9rem;color:var(--text-mid);margin-bottom:28px}
+    .form-group{margin-bottom:18px}
+    .form-group label{display:block;font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:7px}
+    .form-group input,.form-group select{width:100%;padding:13px 16px;border-radius:var(--radius-sm);border:2px solid var(--border);font-family:'Heebo',sans-serif;font-size:1rem;color:var(--text);outline:none;transition:var(--transition)}
+    .form-group input:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.15)}
+    .range-wrap{display:flex;align-items:center;gap:12px}
+    .range-wrap input[type=range]{flex:1;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--border);cursor:pointer}
+    .range-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 2px 6px rgba(201,168,76,.4)}
+    .range-val{font-weight:700;color:var(--navy);min-width:40px;text-align:center}
+    .calc-result{background:linear-gradient(135deg,#1a0a40,var(--navy));border-radius:var(--radius);padding:36px;color:var(--white)}
+    .calc-result h3{font-size:1rem;color:rgba(255,255,255,.65);margin-bottom:20px}
+    .result-big{text-align:center;padding:16px 0 28px}
+    .result-big-num{font-size:3rem;font-weight:900;color:var(--gold-light)}
+    .result-big-label{color:rgba(255,255,255,.6);font-size:.9rem;margin-top:6px}
+    .result-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .result-row:last-child{border:none}
+    .result-label{color:rgba(255,255,255,.7);font-size:.88rem}
+    .result-value{color:var(--white);font-weight:700}
+    .progress-section{margin-top:20px}
+    .progress-label{display:flex;justify-content:space-between;font-size:.82rem;color:rgba(255,255,255,.6);margin-bottom:8px}
+    .progress-bar{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:5px;transition:width .8s ease}
+    .result-cta{margin-top:24px;background:rgba(201,168,76,.12);border-radius:var(--radius-sm);padding:18px;text-align:center}
+    .result-cta p{color:rgba(255,255,255,.75);font-size:.88rem;margin-bottom:12px}
+    .calc-disclaimer{background:var(--gold-pale);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius-sm);padding:12px;font-size:.8rem;color:var(--text-mid);line-height:1.6;margin-top:14px}
+
+    /* FAQ */
+    .faq-list{max-width:800px;margin:0 auto}
+    .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+    .faq-question{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;background:var(--white);transition:var(--transition)}
+    .faq-question:hover{background:var(--gold-pale)}
+    .faq-question h3{font-weight:700;font-size:1rem;color:var(--navy)}
+    .faq-toggle{font-size:1.3rem;color:var(--gold);transition:var(--transition);flex-shrink:0;margin-right:12px}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease}
+    .faq-answer p{padding:0 24px 20px;color:var(--text-mid);line-height:1.8;font-size:.95rem}
+    .faq-item.open .faq-toggle{transform:rotate(45deg)}
+    .faq-item.open .faq-answer{max-height:300px}
+
+    .cta-banner{background:linear-gradient(135deg,#1a0a40,var(--navy));border-radius:24px;padding:64px 48px;text-align:center;position:relative;overflow:hidden}
+    .cta-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.07) 1px,transparent 1px);background-size:28px 28px}
+    .cta-banner h2{font-size:2.2rem;font-weight:900;color:var(--white);margin-bottom:12px;position:relative}
+    .cta-banner p{color:rgba(255,255,255,.75);font-size:1.1rem;margin-bottom:32px;position:relative}
+    .footer-mini{background:var(--navy);padding:28px 0;text-align:center;color:rgba(255,255,255,.5);font-size:.88rem}
+    .footer-mini a{color:var(--gold-light);font-weight:600}
+
+    @media(max-width:900px){
+      .hero-content{grid-template-columns:1fr}
+      .hero-visual{display:none}
+      .why-grid{grid-template-columns:1fr}
+      .pillars-grid{grid-template-columns:1fr}
+      .calc-wrapper{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .cta-banner{padding:40px 24px}
+      .cta-banner h2{font-size:1.7rem}
+    }
+    /* PREMIUM UPGRADES 2026 */
+    .btn-primary { box-shadow: 0 4px 16px rgba(201,168,76,.2); }
+    .btn-primary:hover { transform: translateY(-3px) !important; box-shadow: 0 10px 32px rgba(201,168,76,.5) !important; }
+    .pillar-card { box-shadow: 0 4px 12px rgba(14,30,64,.06); }
+    .pillar-card:hover { transform: translateY(-6px) scale(1.01) !important; box-shadow: 0 20px 48px rgba(14,30,64,.2) !important; }
+    .calc-insight { background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.25); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 16px; font-size: .88rem; color: var(--gold-light); font-weight: 600; line-height: 1.5; text-align: center; transition: opacity .4s ease; }
+    .trust-line { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 14px; position: relative; }
+    .mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 800; padding: 14px 20px; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -4px 20px rgba(14,30,64,.3); }
+    .mobile-cta-bar .btn-primary { flex: 1; justify-content: center; padding: 12px 20px; font-size: .95rem; }
+    @media(max-width:768px) { .mobile-cta-bar { display: flex; } body { padding-bottom: 72px; } }
+    /* ─── GROWTH CHART ─── */
+    .mini-chart{margin-top:18px;border-top:1px solid rgba(255,255,255,.08);padding-top:14px}
+    .mini-chart-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .mini-chart-ttl{font-size:.78rem;color:rgba(255,255,255,.5)}
+    .mini-chart-retire{font-size:.75rem;color:var(--gold-light);font-weight:700}
+    .chart-svg-box{width:100%;overflow:visible;display:block}
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.svg" alt="אלמוג בן דוד" /></a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-back">← חזרה לאתר</a>
+      <a href="#calc" class="nav-cta">תחשב את הפרישה ←</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge">🌅 תכנון פרישה | ליווי אישי</div>
+        <h1>פרישה שקטה<br/><em>מתחילים לתכנן היום</em></h1>
+        <p>פרישה טובה זה לא רק כמה כסף חסכת — זה גם מיסוי נכון, הכנסות מכמה מקורות, ותכנון שמונע הפתעות. אלמוג בונה איתך תוכנית בהתאם למצב שלך.</p>
+        <div class="hero-btns">
+          <a href="#calc" class="btn btn-primary">📊 חשב את הפרישה שלי</a>
+          <a href="index.html#contact" class="btn btn-outline">ייעוץ חינמי</a>
+        </div>
+        <div class="hero-promise">
+          <div class="hero-promise-title">✦ מה תקבל בתכנון פרישה</div>
+          <div class="hero-promise-items">
+            <div class="promise-item"><div class="promise-dot"></div><span>תחזית פיננסית אישית לגיל הפרישה</span></div>
+            <div class="promise-item"><div class="promise-dot"></div><span>הפחתת מס על קצבאות ופנסיה — בצורה חוקית</span></div>
+            <div class="promise-item"><div class="promise-dot"></div><span>תכנון הכנסות מגוונות – פנסיה, שכירות, חיסכון</span></div>
+            <div class="promise-item"><div class="promise-dot"></div><span>ניצול פטורים ממס פרישה לפי חוק</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="wealth-card">
+          <div class="wealth-card-title">תחזית חיסכון לגיל 67</div>
+          <div class="wealth-bar-wrap">
+            <div class="wealth-bar-label"><span>מתחילים בגיל 30</span><span>2,800,000 ₪</span></div>
+            <div class="wealth-bar"><div class="wealth-bar-fill" style="--target-width:100%"></div></div>
+          </div>
+          <div class="wealth-bar-wrap">
+            <div class="wealth-bar-label"><span>מתחילים בגיל 40</span><span>1,600,000 ₪</span></div>
+            <div class="wealth-bar"><div class="wealth-bar-fill" style="--target-width:57%" id="bar2"></div></div>
+          </div>
+          <div class="wealth-bar-wrap">
+            <div class="wealth-bar-label"><span>מתחילים בגיל 50</span><span>750,000 ₪</span></div>
+            <div class="wealth-bar"><div class="wealth-bar-fill" style="--target-width:27%" id="bar3"></div></div>
+          </div>
+          <div class="wealth-total">
+            <div class="wealth-total-label">הפרש בין גיל 30 לגיל 50</div>
+            <div class="wealth-total-num">2,050,000 ₪</div>
+          </div>
+        </div>
+        <div class="hero-milestone">
+          <div class="milestone-icon">⏰</div>
+          <div>
+            <div class="milestone-label">כל שנה שמחכים עולה</div>
+            <div class="milestone-val">~55,000 ₪ בממוצע</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY EARLY -->
+<section class="section section-light">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-content reveal">
+        <div class="gold-line"></div>
+        <h2>למה לתכנן עכשיו<br/>ולא בגיל 60?</h2>
+        <p>ריבית דריבית היא הכוח החזק ביותר בעולם הפיננסי. כל שנה שאתם ממתינים, הקרן גדלה פחות – ואת ההפרש אי-אפשר להשלים.</p>
+        <p>בנוסף לכך, תכנון מס נכון לפרישה דורש שנים של הכנות – מסלולי השקעה, תיקון 190, קרנות השתלמות ועוד. ממש לא משהו שעושים חודש לפני הפרישה.</p>
+        <div class="highlight-box">
+          <p>💡 לקוח שמתחיל לתכנן בגיל 40 במקום 55 יכול לחסוך <strong>מאות אלפי שקלים במיסים</strong> ולהגיע לפרישה עם הכנסה חודשית גבוהה בעשרות אחוזים.</p>
+        </div>
+      </div>
+      <div class="why-chart reveal reveal-delay-1">
+        <div class="chart-title">השפעת גיל ההתחלה על החיסכון (₪)</div>
+        <div class="chart-bars" id="chartBars">
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">2.8M</div>
+            <div class="chart-bar-container"><div class="chart-bar gold" style="height:100%"></div></div>
+            <div class="chart-bar-label">גיל 30</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">1.6M</div>
+            <div class="chart-bar-container"><div class="chart-bar gold" style="height:57%"></div></div>
+            <div class="chart-bar-label">גיל 40</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">750K</div>
+            <div class="chart-bar-container"><div class="chart-bar gold" style="height:27%"></div></div>
+            <div class="chart-bar-label">גיל 50</div>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-val">250K</div>
+            <div class="chart-bar-container"><div class="chart-bar" style="height:9%;background:var(--border)"></div></div>
+            <div class="chart-bar-label">גיל 60</div>
+          </div>
+        </div>
+        <p style="font-size:.8rem;color:var(--text-light);margin-top:16px;text-align:center">* הפקדה חודשית של 2,000 ₪, תשואה שנתית 5%</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">ארבעת עמודי הפרישה החכמה</h2>
+      <p style="color:var(--text-mid)">ארבעה דברים שצריך לסדר — כל אחד חשוב</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon">🏦</div>
+        <h3>קצבת פנסיה — לבחור נכון</h3>
+        <p>קצבה, הון, או שילוב? גיל הפרישה משפיע על המיסוי. תיקון 190 יכול לחסוך הרבה — אם יודעים לנצל אותו.</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-1">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon">💹</div>
+        <h3>תכנון מס על הכנסות הפרישה</h3>
+        <p>פנסיה חייבת במס, אבל יש פטורים ניכרים לפורשים. ניצול נכון יכול לחסוך עשרות אלפי שקלים בשנה.</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-2">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon">🏠</div>
+        <h3>הכנסות נוספות — שכירות, חיסכון</h3>
+        <p>שכירות, השקעות, קרן השתלמות — כל מקור הכנסה נוסף שמתוכנן נכון מוסיף לחודשי.</p>
+      </div>
+      <div class="pillar-card reveal reveal-delay-3">
+        <div class="pillar-num">04</div>
+        <div class="pillar-icon">🛡</div>
+        <h3>ביטוחים ורשת ביטחון</h3>
+        <p>ביטוח אובדן כושר עבודה, ביטוח בריאות, וצוואה/הסדרי עיזבון לשקט נפשי ולהגנה על יקיריך.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section section-light" id="calc">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">מחשבון תכנון פרישה</h2>
+      <p style="color:var(--text-mid)">קבל תחזית מיידית לפרישה שלך</p>
+    </div>
+    <div class="calc-wrapper">
+      <div class="calc-form">
+        <h3>פרטי הפרישה שלך</h3>
+        <p>הכנס נתונים לקבלת תחזית אישית</p>
+        <div class="form-group">
+          <label>גיל נוכחי</label>
+          <div class="range-wrap">
+            <input type="range" id="ret-age" min="25" max="65" value="40" oninput="updateRange('ret-age','ret-age-val');calcRet()" />
+            <span class="range-val" id="ret-age-val">40</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>גיל פרישה מתוכנן</label>
+          <select id="ret-retire" onchange="calcRet()">
+            <option value="62">62</option>
+            <option value="65">65</option>
+            <option value="67" selected>67 (גיל פרישה חוקי)</option>
+            <option value="70">70</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>חיסכון פנסיוני נוכחי (₪)</label>
+          <input type="number" id="ret-savings" value="200000" oninput="calcRet()" />
+        </div>
+        <div class="form-group">
+          <label>הפקדה חודשית לחיסכון (₪)</label>
+          <input type="number" id="ret-monthly" value="2000" oninput="calcRet()" />
+        </div>
+        <div class="form-group">
+          <label>תשואה שנתית משוערת</label>
+          <div class="range-wrap">
+            <input type="range" id="ret-rate" min="3" max="8" value="5" step="0.5" oninput="updateRange('ret-rate','ret-rate-val','%');calcRet()" />
+            <span class="range-val" id="ret-rate-val">5%</span>
+          </div>
+        </div>
+        <div class="calc-disclaimer">🌅 התחזית מבוססת על הנחות שמרניות. ייעוץ אישי יביא לתחזית מדויקת ומקסום הכנסה בפרישה.</div>
+      </div>
+      <div class="calc-result">
+        <h3>תחזית הפרישה שלך</h3>
+        <div class="result-big">
+          <div class="result-big-num" id="ret-total">0 ₪</div>
+          <div class="result-big-label">חיסכון כולל בגיל הפרישה</div>
+        </div>
+        <div class="result-row"><span class="result-label">שנים עד פרישה</span><span class="result-value" id="ret-years">0</span></div>
+        <div class="result-row"><span class="result-label">גידול הקרן הנוכחית</span><span class="result-value" id="ret-growth">0 ₪</span></div>
+        <div class="result-row"><span class="result-label">צבירה מהפקדות עתידיות</span><span class="result-value" id="ret-new-savings">0 ₪</span></div>
+        <div class="result-row"><span class="result-label">קצבה חודשית משוערת</span><span class="result-value" id="ret-monthly-pension" style="color:var(--gold-light)">0 ₪</span></div>
+        <div class="progress-section">
+          <div class="progress-label">
+            <span>יעד הפרישה</span>
+            <span id="ret-progress-txt">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="ret-progress" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="mini-chart">
+          <div class="mini-chart-hdr">
+            <span class="mini-chart-ttl">מסלול הצמיחה הצפוי</span>
+            <span class="mini-chart-retire" id="chart-retire-label">פרישה בגיל 67</span>
+          </div>
+          <svg class="chart-svg-box" viewBox="0 0 300 72" preserveAspectRatio="none" height="72">
+            <defs>
+              <linearGradient id="aG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(201,168,76,.38)"/>
+                <stop offset="100%" stop-color="rgba(201,168,76,.02)"/>
+              </linearGradient>
+            </defs>
+            <path id="chart-area" fill="url(#aG)" d="M0,72 L0,72 Z"/>
+            <path id="chart-line" fill="none" stroke="#C9A84C" stroke-width="2" d=""/>
+            <line id="chart-vline" x1="0" y1="0" x2="0" y2="72" stroke="rgba(255,255,255,.28)" stroke-width="1" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+        <div class="result-cta">
+          <p>רוצה לדעת איך לחסוך עוד?</p>
+          <a href="index.html#contact" class="btn btn-primary">📞 ייעוץ פרישה חינמי</a>
+        </div>
+        <div class="calc-insight" id="ret-insight"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">שאלות נפוצות</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>מה זה תיקון 190 ואיך הוא חוסך לי כסף?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>תיקון 190 לפקודת מס הכנסה מאפשר למי שיש לו קרן פנסיה/גמל לבחור בין משיכת הון (20% מס) לבין קצבה חייבת במס שוטף. עם תכנון נכון, ניתן לנצל פטורים ניכרים ולשלם הרבה פחות מס על כספי הפרישה.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>כמה מס אשלם על קצבת הפנסיה?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>גמלאים נהנים מפטור ממס על הכנסות מסוימות. מבוסס על הנתונים העדכניים, יש פטור על קצבה מזכה עד לתקרה מסוימת (תלוי בגיל ובסוג הפרישה). תכנון נכון כולל פיצול בין קצבה פטורה לחייבת, ניצול נקודות זיכוי ועוד.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>מה ההבדל בין פנסיה לקרן השתלמות?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>קרן פנסיה מיועדת לפרישה ותשלום קצבה חודשית. קרן השתלמות היא חיסכון לטווח בינוני (6 שנות ותק), ולאחריה ניתן למשוך הכסף פטור ממס על הרווחים. שתיהן כלי חיסכון חשוב, אך עם שימושים שונים בתכנון הפרישה.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>האם ניתן לפרוש לפני גיל 67?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>כן. פרישה מוקדמת אפשרית, אך יש לה השלכות מיסויות ופנסיוניות. לאישה – גיל הפרישה 62, לגבר – 67 (בתהליך השוואה). עם תכנון מוקדם, ניתן לממן פרישה מוקדמת בצורה יעילה ובמינימום מס.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>מתי הכי נכון להתחיל לתכנן פרישה?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>עכשיו. ממש עכשיו. כל שנה שממתינים עולה הרבה מאוד בריבית דריבית. אבל גם מי שמתחיל בגיל 55–60 יכול לשפר משמעותית את מצבו עם תכנון נכון. אין מצב שאין בו אפשרות לשיפור.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-light">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <h2>מוכן לבנות פרישה שקטה?</h2>
+      <p>ייעוץ ראשוני חינמי – אלמוג תבנה לך תמונה ברורה של עתידך הפיננסי</p>
+      <a href="index.html#contact" class="btn btn-primary">🌅 תחל לתכנן עכשיו</a>
+      <p class="trust-line">✓ ייעוץ ראשוני ללא התחייבות · מענה תוך 24 שעות · פרטיות מלאה</p>
+    </div>
+  </div>
+</section>
+
+<div class="footer-mini">
+  <p>© 2026 <a href="index.html">אלמוג בן דוד – רואת חשבון מוסמכת</a> | באר שבע</p>
+  <div style="margin-top:10px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap">
+    <a href="accessibility.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">הצהרת נגישות</a>
+    <a href="privacy.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">מדיניות פרטיות</a>
+    <a href="terms.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">תנאי שימוש</a>
+  </div>
+</div>
+
+<a href="https://wa.me/972500000000" target="_blank" style="position:fixed;bottom:28px;left:28px;z-index:900;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4)">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+const revObs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+function formatNum(n){ return Math.round(n).toLocaleString('he-IL') + ' ₪'; }
+
+// Animated number counter
+function animateNum(elId, targetVal, suffix=' ₪') {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const start = parseFloat((el.textContent || '0').replace(/[^0-9.-]/g, '')) || 0;
+  const duration = 600;
+  const startTime = performance.now();
+  function step(now) {
+    const p = Math.min((now - startTime) / duration, 1);
+    const ease = p < .5 ? 2*p*p : -1+(4-2*p)*p;
+    const val = start + (targetVal - start) * ease;
+    el.textContent = Math.round(val).toLocaleString('he-IL') + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function updateRange(id, displayId, suffix='') {
+  document.getElementById(displayId).textContent = document.getElementById(id).value + suffix;
+}
+
+function updateRetChart(age, retireAge, savings, monthly, rate) {
+  const totalYrs = Math.max(retireAge - age + 5, 10);
+  const pts = [];
+  for (let y = 0; y <= totalYrs; y++) {
+    const v = savings * Math.pow(1 + rate, y) +
+      (rate > 0 ? monthly * 12 * (Math.pow(1 + rate, y) - 1) / rate : monthly * 12 * y);
+    pts.push(v);
+  }
+  const maxV = Math.max(...pts) * 1.05 || 1;
+  const W = 300, H = 72;
+  let line = '', area = `M0,${H}`;
+  pts.forEach((v, i) => {
+    const x = (i / totalYrs * W).toFixed(1);
+    const y = (H - (v / maxV) * (H - 4)).toFixed(1);
+    if (i === 0) { line = `M${x},${y}`; area += ` L${x},${y}`; }
+    else { line += ` L${x},${y}`; area += ` L${x},${y}`; }
+  });
+  area += ` L${W},${H} Z`;
+  document.getElementById('chart-area').setAttribute('d', area);
+  document.getElementById('chart-line').setAttribute('d', line);
+  const retX = ((retireAge - age) / totalYrs * W).toFixed(1);
+  document.getElementById('chart-vline').setAttribute('x1', retX);
+  document.getElementById('chart-vline').setAttribute('x2', retX);
+  document.getElementById('chart-retire-label').textContent = `פרישה בגיל ${retireAge}`;
+}
+
+function calcRet() {
+  const age = parseInt(document.getElementById('ret-age').value) || 40;
+  const retireAge = parseInt(document.getElementById('ret-retire').value) || 67;
+  const savings = parseFloat(document.getElementById('ret-savings').value) || 0;
+  const monthly = parseFloat(document.getElementById('ret-monthly').value) || 0;
+  const rate = parseFloat(document.getElementById('ret-rate').value) / 100 || 0.05;
+  const years = Math.max(0, retireAge - age);
+
+  const savingsGrowth = savings * Math.pow(1 + rate, years);
+  const newSavings = years > 0 ? monthly * 12 * (Math.pow(1 + rate, years) - 1) / rate : 0;
+  const total = savingsGrowth + newSavings;
+  const monthlyPension = total / (22 * 12);
+  const target = monthly * 12 * (Math.pow(1 + rate, 30) - 1) / rate;
+  const progress = Math.min(100, (total / Math.max(target, 1)) * 100);
+
+  document.getElementById('ret-years').textContent = years + ' שנים';
+  animateNum('ret-growth', savingsGrowth);
+  animateNum('ret-new-savings', newSavings);
+  animateNum('ret-total', total);
+  animateNum('ret-monthly-pension', monthlyPension, ' ₪/חודש');
+  document.getElementById('ret-progress').style.width = progress.toFixed(0) + '%';
+  document.getElementById('ret-progress-txt').textContent = progress.toFixed(0) + '%';
+
+  // Growth chart
+  updateRetChart(age, retireAge, savings, monthly, rate);
+
+  // Smart insight
+  const insight = document.getElementById('ret-insight');
+  if (insight) {
+    if (years < 5) insight.textContent = '⏰ פרישה קרובה! תכנון מס מיידי יכול לחסוך לך עשרות אלפי שקלים. צרי קשר בהקדם.';
+    else if (monthlyPension < 5000) insight.textContent = '⚠️ הקצבה המשוערת נמוכה יחסית — העלאת ההפקדה החודשית עוד עכשיו תשנה את התמונה משמעותית.';
+    else if (monthlyPension > 12000) insight.textContent = '✨ נהדר! אתה בדרך לפרישה איתנה. עם תכנון מס נכון, תוכל לשמור עוד יותר.';
+    else insight.textContent = `💡 קצבה חודשית משוערת: ${Math.round(monthlyPension).toLocaleString('he-IL')} ₪. תכנון נכון יכול להוסיף אלפי שקלים לחודש.`;
+    insight.style.opacity = '0';
+    setTimeout(() => { insight.style.opacity = '1'; }, 50);
+  }
+}
+calcRet();
+
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+<div class="mobile-cta-bar" id="mobileCta">
+  <a href="#calc" class="btn btn-primary">📊 חשב את הפרישה שלי</a>
+  <a href="https://wa.me/972500000000" target="_blank" style="width:48px;height:48px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+</body>
+</html>

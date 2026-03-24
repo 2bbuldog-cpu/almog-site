@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>פתיחת עסק | אלמוג בן דוד – רואה חשבון</title>
+  <meta name="description" content="פותחים עסק? אלמוג בן דוד מלווה אתכם מהצעד הראשון – רישום, בחירת מסלול מיסוי, הנהלת חשבונות, וכל מה שצריך לשנה הראשונה." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0E1E40;--navy-mid:#1B3358;--gold:#C9A84C;--gold-light:#E8C96A;
+      --gold-pale:#FDF5E0;--white:#FFFFFF;--light:#F7F9FC;--green:#0F9B58;
+      --text:#1A1A2E;--text-mid:#4A5568;--text-light:#8492A6;--border:#E2E8F0;
+      --shadow:0 8px 32px rgba(14,30,64,.12);--shadow-lg:0 20px 60px rgba(14,30,64,.18);
+      --radius:16px;--radius-sm:10px;--transition:.3s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Heebo',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    .section{padding:80px 0}
+    .section-light{background:var(--light)}
+    .gold-line{width:60px;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin-bottom:20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-family:'Heebo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;border:none;transition:var(--transition)}
+    .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+    .btn-outline{background:transparent;border:2px solid var(--white);color:var(--white)}
+    .btn-outline:hover{background:var(--white);color:var(--navy)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:var(--transition)}
+    nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 2px 8px rgba(14,30,64,.08);padding:10px 0}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo img{height:50px;width:auto;object-fit:contain;transition:var(--transition)}
+    nav.scrolled .nav-logo img{height:40px}
+    .nav-back{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:600;padding:8px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.3);transition:var(--transition)}
+    nav.scrolled .nav-back{color:var(--navy);border-color:var(--border)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)!important;font-weight:700;padding:10px 22px;border-radius:50px;font-size:.9rem}
+
+    /* HERO */
+    .hero{min-height:88vh;position:relative;display:flex;align-items:center;background:linear-gradient(135deg,#0A1628 0%,var(--navy) 40%,#153050 100%);overflow:hidden}
+    .hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.08) 1.5px,transparent 1.5px);background-size:40px 40px;pointer-events:none}
+    .hero-circle{position:absolute;right:-200px;top:50%;transform:translateY(-50%);width:600px;height:600px;border-radius:50%;border:1px solid rgba(201,168,76,.1);pointer-events:none}
+    .hero-circle2{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:400px;height:400px;border-radius:50%;border:1px solid rgba(201,168,76,.08);pointer-events:none}
+    .hero-content{position:relative;z-index:2;max-width:700px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(15,155,88,.15);border:1px solid rgba(15,155,88,.3);color:#4ADE80;padding:8px 20px;border-radius:50px;font-size:.88rem;font-weight:600;margin-bottom:24px}
+    .hero h1{font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:var(--white);line-height:1.15;margin-bottom:16px}
+    .hero h1 em{color:var(--gold-light);font-style:normal}
+    .hero p{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:32px}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .hero-checklist{margin-top:40px;display:flex;flex-direction:column;gap:10px}
+    .hero-check{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.8);font-size:.95rem}
+    .check-icon{width:24px;height:24px;background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#4ADE80;font-size:.8rem;font-weight:700}
+
+    /* COMPARISON */
+    .compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .compare-card{background:var(--white);border-radius:var(--radius);padding:32px 28px;border:2px solid var(--border);transition:var(--transition);text-align:center}
+    .compare-card.featured{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,168,76,.1)}
+    .compare-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .compare-badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:.75rem;font-weight:800;padding:4px 14px;border-radius:50px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+    .compare-icon{font-size:2.8rem;margin-bottom:16px}
+    .compare-card h3{font-size:1.3rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+    .compare-type{color:var(--text-mid);font-size:.9rem;margin-bottom:24px}
+    .compare-list{text-align:right}
+    .compare-list li{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.88rem;color:var(--text-mid)}
+    .compare-list li:last-child{border:none}
+    .compare-list li::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0;margin-top:1px}
+    .compare-list li.no::before{content:'✗';color:#EF4444}
+    .compare-cta{margin-top:24px}
+
+    /* ROADMAP */
+    .roadmap{display:flex;flex-direction:column;gap:0;max-width:760px;margin:0 auto}
+    .roadmap-item{display:grid;grid-template-columns:80px 1fr;gap:24px;position:relative}
+    .roadmap-item::after{content:'';position:absolute;right:39px;top:80px;bottom:-20px;width:2px;background:linear-gradient(var(--gold),var(--border));z-index:0}
+    .roadmap-item:last-child::after{display:none}
+    .roadmap-num{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-size:1.5rem;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(201,168,76,.35);flex-shrink:0;position:relative;z-index:1}
+    .roadmap-content{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--border);margin-bottom:20px;transition:var(--transition)}
+    .roadmap-content:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+    .roadmap-content h3{font-weight:800;font-size:1.05rem;color:var(--navy);margin-bottom:8px}
+    .roadmap-content p{font-size:.9rem;color:var(--text-mid);line-height:1.7}
+    .roadmap-time{display:inline-block;background:var(--gold-pale);color:var(--navy-mid);font-size:.8rem;font-weight:700;padding:4px 12px;border-radius:50px;margin-top:10px}
+
+    /* CALCULATOR */
+    .calc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+    .calc-form{background:var(--white);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow)}
+    .calc-form h3{font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+    .calc-form p{font-size:.9rem;color:var(--text-mid);margin-bottom:28px}
+    .form-group{margin-bottom:18px}
+    .form-group label{display:block;font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:7px}
+    .form-group input,.form-group select{width:100%;padding:13px 16px;border-radius:var(--radius-sm);border:2px solid var(--border);font-family:'Heebo',sans-serif;font-size:1rem;color:var(--text);outline:none;transition:var(--transition)}
+    .form-group input:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.15)}
+    .calc-result{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--radius);padding:36px;color:var(--white)}
+    .calc-result h3{font-size:1rem;color:rgba(255,255,255,.65);margin-bottom:20px}
+    .result-tab-area{display:flex;gap:8px;margin-bottom:24px}
+    .result-tab{padding:6px 16px;border-radius:50px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.6);font-family:'Heebo',sans-serif;font-size:.85rem;cursor:pointer;transition:var(--transition)}
+    .result-tab.active{background:rgba(201,168,76,.2);border-color:var(--gold);color:var(--gold-light)}
+    .res-section{display:none}.res-section.active{display:block}
+    .result-big{text-align:center;padding:16px 0 24px}
+    .result-big-num{font-size:2.8rem;font-weight:900;color:var(--gold-light)}
+    .result-big-label{color:rgba(255,255,255,.6);font-size:.88rem;margin-top:4px}
+    .result-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .result-row:last-child{border:none}
+    .result-label{color:rgba(255,255,255,.7);font-size:.88rem}
+    .result-value{color:var(--white);font-weight:700;font-size:.95rem}
+    .result-cta{margin-top:24px;background:rgba(201,168,76,.12);border-radius:var(--radius-sm);padding:18px;text-align:center}
+    .result-cta p{color:rgba(255,255,255,.75);font-size:.88rem;margin-bottom:12px}
+    .calc-disclaimer{background:var(--gold-pale);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius-sm);padding:12px;font-size:.8rem;color:var(--text-mid);line-height:1.6;margin-top:14px}
+
+    /* FAQ */
+    .faq-list{max-width:800px;margin:0 auto}
+    .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+    .faq-question{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;background:var(--white);transition:var(--transition)}
+    .faq-question:hover{background:var(--gold-pale)}
+    .faq-question h3{font-weight:700;font-size:1rem;color:var(--navy)}
+    .faq-toggle{font-size:1.3rem;color:var(--gold);transition:var(--transition);flex-shrink:0;margin-right:12px}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease}
+    .faq-answer p{padding:0 24px 20px;color:var(--text-mid);line-height:1.8;font-size:.95rem}
+    .faq-item.open .faq-toggle{transform:rotate(45deg)}
+    .faq-item.open .faq-answer{max-height:300px}
+
+    .cta-banner{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:24px;padding:64px 48px;text-align:center;position:relative;overflow:hidden}
+    .cta-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(201,168,76,.07) 1px,transparent 1px);background-size:28px 28px}
+    .cta-banner h2{font-size:2.2rem;font-weight:900;color:var(--white);margin-bottom:12px;position:relative}
+    .cta-banner p{color:rgba(255,255,255,.75);font-size:1.1rem;margin-bottom:32px;position:relative}
+    .footer-mini{background:var(--navy);padding:28px 0;text-align:center;color:rgba(255,255,255,.5);font-size:.88rem}
+    .footer-mini a{color:var(--gold-light);font-weight:600}
+
+    @media(max-width:900px){
+      .compare-grid{grid-template-columns:1fr}
+      .calc-wrapper{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .cta-banner{padding:40px 24px}
+      .cta-banner h2{font-size:1.7rem}
+      .roadmap-item{grid-template-columns:56px 1fr;gap:16px}
+      .roadmap-num{width:56px;height:56px;font-size:1.2rem}
+      .roadmap-item::after{right:27px}
+    }
+    /* PREMIUM UPGRADES 2026 */
+    .btn-primary { box-shadow: 0 4px 16px rgba(201,168,76,.2); }
+    .btn-primary:hover { transform: translateY(-3px) !important; box-shadow: 0 10px 32px rgba(201,168,76,.5) !important; }
+    .compare-card { box-shadow: 0 4px 12px rgba(14,30,64,.06); }
+    .compare-card:hover { transform: translateY(-6px) scale(1.01) !important; box-shadow: 0 20px 48px rgba(14,30,64,.2) !important; }
+    .roadmap-content { box-shadow: 0 4px 12px rgba(14,30,64,.06); }
+    .roadmap-content:hover { box-shadow: 0 12px 32px rgba(14,30,64,.15) !important; }
+    .calc-insight { background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.25); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 16px; font-size: .88rem; color: var(--gold-light); font-weight: 600; line-height: 1.5; text-align: center; transition: opacity .4s ease; }
+    .trust-line { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 14px; position: relative; }
+    .mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 800; padding: 14px 20px; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -4px 20px rgba(14,30,64,.3); }
+    .mobile-cta-bar .btn-primary { flex: 1; justify-content: center; padding: 12px 20px; font-size: .95rem; }
+    @media(max-width:768px) { .mobile-cta-bar { display: flex; } body { padding-bottom: 72px; } }
+    /* ─── DONUT CHART ─── */
+    .donut-ring-wrap{position:relative;width:148px;height:148px;margin:12px auto 16px}
+    .donut-ring{width:148px;height:148px;border-radius:50%;background:rgba(255,255,255,.07);transition:background .5s ease}
+    .donut-center-ov{position:absolute;inset:26px;border-radius:50%;background:linear-gradient(135deg,#0f1f42,#1a3255);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(255,255,255,.06) inset}
+    .donut-c-num{font-size:1.45rem;font-weight:900;color:var(--gold-light);line-height:1}
+    .donut-c-lbl{font-size:.65rem;color:rgba(255,255,255,.42);margin-top:2px}
+    .donut-legend{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+    .leg-item{display:flex;align-items:center;justify-content:space-between}
+    .leg-left{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.72);font-size:.82rem}
+    .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .leg-val{font-size:.85rem;font-weight:700;color:var(--white)}
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.svg" alt="אלמוג בן דוד" /></a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-back">← חזרה לאתר</a>
+      <a href="#roadmap" class="nav-cta">התחל עסק ←</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle2"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">🚀 פתיחת עסק | ליווי מלא</div>
+      <h1>פותחים עסק?<br/><em>מתחילים נכון</em></h1>
+      <p>ליווי מלא לפתיחת העסק שלך – מהרישום ברשויות ועד לניהול השוטף. אלמוג בן דוד דואגת שתתחיל חזק, חוקי, ורווחי.</p>
+      <div class="hero-btns">
+        <a href="#roadmap" class="btn btn-primary">🗺 ראה את המפה לפתיחת עסק</a>
+        <a href="index.html#contact" class="btn btn-outline">ייעוץ חינמי</a>
+      </div>
+      <div class="hero-checklist">
+        <div class="hero-check"><div class="check-icon">✓</div><span>פתיחת תיק מס הכנסה ומע"מ</span></div>
+        <div class="hero-check"><div class="check-icon">✓</div><span>בחירת מסלול המיסוי שמתאים לעסק שלך</span></div>
+        <div class="hero-check"><div class="check-icon">✓</div><span>הנחיות לניהול חשבונאי נכון מהיום הראשון</span></div>
+        <div class="hero-check"><div class="check-icon">✓</div><span>ליווי שוטף לאורך השנה הראשונה</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section section-light">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">איזה סוג עסק מתאים לך?</h2>
+      <p style="color:var(--text-mid);max-width:560px;margin:0 auto">השוואה מלאה – עזרי לך לבחור נכון</p>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card reveal">
+        <div class="compare-icon">🪙</div>
+        <h3>עוסק פטור</h3>
+        <div class="compare-type">הכנסה שנתית עד ~120,000 ₪</div>
+        <ul class="compare-list">
+          <li>לא גובה מע"מ מלקוחות</li>
+          <li>פשוט לניהול</li>
+          <li>דיווח שנתי בלבד</li>
+          <li class="no">לא מחזיר מע"מ על הוצאות</li>
+          <li class="no">מגבלת הכנסה</li>
+        </ul>
+        <div class="compare-cta">
+          <a href="index.html#contact" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px">מתאים לי?</a>
+        </div>
+      </div>
+      <div class="compare-card featured reveal reveal-delay-1">
+        <div class="compare-badge">הכי נפוץ</div>
+        <div class="compare-icon">💼</div>
+        <h3>עוסק מורשה</h3>
+        <div class="compare-type">הכנסה שנתית 120,000 ₪ ומעלה</div>
+        <ul class="compare-list">
+          <li>גובה מע"מ ומחזיר על הוצאות</li>
+          <li>ללא מגבלת הכנסה</li>
+          <li>מוכר לעסקים גדולים</li>
+          <li>הוצאות מוכרות מלאות</li>
+          <li>דיווח דו-חודשי</li>
+        </ul>
+        <div class="compare-cta">
+          <a href="index.html#contact" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px">מתאים לי?</a>
+        </div>
+      </div>
+      <div class="compare-card reveal reveal-delay-2">
+        <div class="compare-icon">🏢</div>
+        <h3>חברה בע"מ</h3>
+        <div class="compare-type">הכנסה גבוהה / כמה שותפים</div>
+        <ul class="compare-list">
+          <li>הפרדת חבות אישית</li>
+          <li>מס חברות 23%</li>
+          <li>יכולת גיוס משקיעים</li>
+          <li>תדמית מקצועית</li>
+          <li>ניהול מורכב יותר</li>
+        </ul>
+        <div class="compare-cta">
+          <a href="index.html#contact" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px">מתאים לי?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section" id="roadmap">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">מפת הדרך לפתיחת עסק</h2>
+      <p style="color:var(--text-mid)">כל שלב שצריך לעבור – עם אלמוג לידך</p>
+    </div>
+    <div class="roadmap">
+      <div class="roadmap-item reveal">
+        <div class="roadmap-num">1</div>
+        <div>
+          <div class="roadmap-content">
+            <h3>ייעוץ ראשוני וקביעת מסלול</h3>
+            <p>נפגשים, מבינים את העסק שלך, ומחליטים יחד איזה מבנה עסקי הכי מתאים – עוסק פטור, מורשה, או חברה בע"מ.</p>
+            <span class="roadmap-time">⏱ שיחה של 45 דקות</span>
+          </div>
+        </div>
+      </div>
+      <div class="roadmap-item reveal">
+        <div class="roadmap-num">2</div>
+        <div>
+          <div class="roadmap-content">
+            <h3>רישום ברשות המיסים</h3>
+            <p>פתיחת תיק מע"מ, תיק מס הכנסה, ותיק ניכויים – אני מטפלת בכל הניירת מולם. בדרך כלל לוקח 3–7 ימי עסקים.</p>
+            <span class="roadmap-time">⏱ 3–7 ימי עסקים</span>
+          </div>
+        </div>
+      </div>
+      <div class="roadmap-item reveal">
+        <div class="roadmap-num">3</div>
+        <div>
+          <div class="roadmap-content">
+            <h3>רישום בביטוח לאומי</h3>
+            <p>כעצמאי, חובה להירשם ולדעת מתי ואיך משלמים דמי ביטוח. אסביר לך בדיוק מה מצפה לך ואיך לחסוך.</p>
+            <span class="roadmap-time">⏱ 1–3 ימים</span>
+          </div>
+        </div>
+      </div>
+      <div class="roadmap-item reveal">
+        <div class="roadmap-num">4</div>
+        <div>
+          <div class="roadmap-content">
+            <h3>הגדרת מערכת הנהלת חשבונות</h3>
+            <p>הגדרת מערכת רישום הכנסות/הוצאות, הנהלת ספרים, ושיטת הפקת חשבוניות – בצורה שמתאימה לסוג העסק שלך.</p>
+            <span class="roadmap-time">⏱ יום אחד</span>
+          </div>
+        </div>
+      </div>
+      <div class="roadmap-item reveal">
+        <div class="roadmap-num">5</div>
+        <div>
+          <div class="roadmap-content">
+            <h3>ליווי שוטף – שנה ראשונה</h3>
+            <p>אני זמינה לשאלות, מגישה דוחות מע"מ כל חודשיים, ומכינה דוח שנתי בסוף השנה. שנה ראשונה ללא הפתעות.</p>
+            <span class="roadmap-time">📅 לאורך כל השנה</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section section-light" id="calc">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">מחשבון עסקי</h2>
+      <p style="color:var(--text-mid)">חשב הכנסה נטו, מע"מ, וביטוח לאומי לעצמאים</p>
+    </div>
+    <div class="calc-wrapper">
+      <div class="calc-form">
+        <h3>מחשבון עצמאי / עוסק</h3>
+        <p>הכנס נתונים לתחזית פיננסית</p>
+        <div class="form-group">
+          <label>הכנסה שנתית משוערת (₪)</label>
+          <input type="number" id="self-income" value="200000" oninput="calcSelf()" />
+        </div>
+        <div class="form-group">
+          <label>סוג עסק</label>
+          <select id="self-type" onchange="calcSelf()">
+            <option value="exempt">עוסק פטור (עד 120K)</option>
+            <option value="authorized" selected>עוסק מורשה</option>
+            <option value="company">חברה בע"מ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>הוצאות עסקיות שנתיות (₪)</label>
+          <input type="number" id="self-expenses" value="40000" oninput="calcSelf()" />
+        </div>
+        <div class="form-group">
+          <label>מצב משפחתי</label>
+          <select id="self-family" onchange="calcSelf()">
+            <option value="2.25">רווק/ה</option>
+            <option value="2.75">נשוי/ה</option>
+          </select>
+        </div>
+        <div class="calc-disclaimer">💡 המחשבון הוא הערכה בלבד. לתכנון מס אמיתי – <a href="index.html#contact" style="color:var(--navy);font-weight:600">פנה לייעוץ</a>.</div>
+      </div>
+      <div class="calc-result">
+        <h3>תחזית שנתית</h3>
+        <div class="result-tab-area">
+          <button class="result-tab active" onclick="switchResTab(0)">מס הכנסה</button>
+          <button class="result-tab" onclick="switchResTab(1)">מע"מ</button>
+          <button class="result-tab" onclick="switchResTab(2)">נטו</button>
+        </div>
+        <div class="res-section active" id="res-0">
+          <div class="result-big"><div class="result-big-num" id="self-tax">0 ₪</div><div class="result-big-label">מס הכנסה שנתי</div></div>
+          <div class="result-row"><span class="result-label">הכנסה חייבת</span><span class="result-value" id="self-taxable">0 ₪</span></div>
+          <div class="result-row"><span class="result-label">מס לפני זיכוי</span><span class="result-value" id="self-tax-before">0 ₪</span></div>
+          <div class="result-row"><span class="result-label">זיכוי מס</span><span class="result-value" id="self-credit">0 ₪</span></div>
+        </div>
+        <div class="res-section" id="res-1">
+          <div class="result-big"><div class="result-big-num" id="self-vat-collect">0 ₪</div><div class="result-big-label">מע"מ לגביה מלקוחות</div></div>
+          <div class="result-row"><span class="result-label">מע"מ על הוצאות (זיכוי)</span><span class="result-value" id="self-vat-credit">0 ₪</span></div>
+          <div class="result-row"><span class="result-label">מע"מ לתשלום לרשות</span><span class="result-value" id="self-vat-pay">0 ₪</span></div>
+        </div>
+        <div class="res-section" id="res-2">
+          <div class="result-big"><div class="result-big-num" id="self-net">0 ₪</div><div class="result-big-label">הכנסה נטו שנתית</div></div>
+          <div class="donut-ring-wrap">
+            <div class="donut-ring" id="self-donut"></div>
+            <div class="donut-center-ov"><div class="donut-c-num" id="self-net-pct">0%</div><div class="donut-c-lbl">שיעור נטו</div></div>
+          </div>
+          <div class="donut-legend">
+            <div class="leg-item"><div class="leg-left"><div class="leg-dot" style="background:#C9A84C"></div><span>הכנסה נטו</span></div><span class="leg-val" id="leg-net">0 ₪</span></div>
+            <div class="leg-item"><div class="leg-left"><div class="leg-dot" style="background:#e05252"></div><span>מס הכנסה</span></div><span class="leg-val" id="leg-tax">0 ₪</span></div>
+            <div class="leg-item"><div class="leg-left"><div class="leg-dot" style="background:#f0a020"></div><span>ביטוח לאומי</span></div><span class="leg-val" id="leg-bl">0 ₪</span></div>
+            <div class="leg-item"><div class="leg-left"><div class="leg-dot" style="background:#6a9df5"></div><span>מע"מ נטו</span></div><span class="leg-val" id="leg-vat">0 ₪</span></div>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:12px;margin-top:14px">
+            <div class="result-row"><span class="result-label">הכנסה ברוטו</span><span class="result-value" id="self-gross">0 ₪</span></div>
+            <div class="result-row"><span class="result-label">סה"כ תשלומים לרשויות</span><span class="result-value" id="self-total-tax">0 ₪</span></div>
+            <div class="result-row"><span class="result-label">נטו לחודש</span><span class="result-value" id="self-monthly">0 ₪</span></div>
+          </div>
+        </div>
+        <div class="result-cta">
+          <p>רוצה לתכנן נכון מהיום הראשון?</p>
+          <a href="index.html#contact" class="btn btn-primary">📞 ייעוץ חינמי</a>
+        </div>
+        <div class="calc-insight" id="self-insight"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="gold-line" style="margin:0 auto 20px"></div>
+      <h2 style="font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:10px">שאלות נפוצות</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>כמה עולה לפתוח עסק?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>פתיחת תיק עוסק היא חינמית ברשות המיסים. שכר הטרחה שלי לליווי פתיחת עסק כולל ייעוץ ראשוני, רישום ברשויות, והגדרת מערכת חשבונאית – מדובר בהשקעה חד-פעמית קטנה שחוסכת הרבה כסף בשנים הראשונות.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>עוסק פטור או מורשה – מה עדיף?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>תלוי בסוג הלקוחות שלך ובהכנסה הצפויה. אם לקוחותיך הם עסקים (B2B), מורשה עדיף – הם ממילא מחזירים מע"מ. אם לקוחותיך הם פרטיים (B2C) עם הכנסה מתחת ל-120K, פטור עשוי להיות עדיף. אני אדריך אותך לפי הסיטואציה שלך.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>מה זה ביטוח לאומי לעצמאי?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>כעצמאי, אתה משלם דמי ביטוח לאומי בשיעור מדורג על הכנסתך. שיעורים כ-6.72% עד 17.83% (מבוסס על הנתונים העדכניים). זה שונה לחלוטין משכיר. חשוב להירשם נכון כי יש קשר ישיר לזכאות לדמי לידה, אבטלה, ונכות.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>האם אני חייב לנהל ספרים?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>כן! כל עסק בישראל חייב לנהל ספרים בהתאם לתקנות. עוסק פטור – ניהול מינימלי. עוסק מורשה – רישום מלא. חברה – הנהלת חשבונות כפולה. אני מסדרת לך את כל זה מהיום הראשון.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h3>כמה זמן לוקחת פתיחת עסק?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>עם ליווי מקצועי, פתיחת תיק עוסק (פטור/מורשה) לוקחת 3–7 ימי עסקים בלבד. פתיחת חברה בע"מ דרך רשם החברות לוקחת 1–2 שבועות. אני מזרזת את התהליך ועוקבת עד לאישור.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-light">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <h2>מוכן להתחיל? בואו נעשה את זה נכון</h2>
+      <p>ייעוץ ראשוני חינמי – ספר לי על העסק שאתה חולם עליו</p>
+      <a href="index.html#contact" class="btn btn-primary">🚀 דברו איתי עכשיו</a>
+      <p class="trust-line">✓ ייעוץ ראשוני ללא התחייבות · מענה תוך 24 שעות · פרטיות מלאה</p>
+    </div>
+  </div>
+</section>
+
+<div class="footer-mini">
+  <p>© 2026 <a href="index.html">אלמוג בן דוד – רואת חשבון מוסמכת</a> | באר שבע</p>
+  <div style="margin-top:10px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap">
+    <a href="accessibility.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">הצהרת נגישות</a>
+    <a href="privacy.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">מדיניות פרטיות</a>
+    <a href="terms.html" style="color:rgba(255,255,255,.4);font-size:.82rem;font-weight:400">תנאי שימוש</a>
+  </div>
+</div>
+
+<a href="https://wa.me/972500000000" target="_blank" style="position:fixed;bottom:28px;left:28px;z-index:900;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4);transition:.3s">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+const revObs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// ─── FINANCIAL CONSTANTS ───
+// 2026 values not yet published — using 2025 official values (רשות המסים ישראל)
+const CREDIT_POINT_ANNUAL = 2904; // ₪/year
+// 2026 tax brackets not yet published — using 2025 official values
+const TAX_BRACKETS = [[81480,.10],[116760,.14],[187440,.20],[260520,.31],[557200,.35],[Infinity,.47]];
+// VAT raised to 18% Jan 2025 — applies to 2026
+const VAT_RATE = 0.18;
+// Self-employed BL: ~12% simplified rate on taxable income (actual rates 6.72%–17.83%)
+// 2026 BL thresholds not yet published — using 2025 official values
+
+function formatNum(n){ return Math.round(n).toLocaleString('he-IL') + ' ₪'; }
+
+// Animated number counter
+function animateNum(elId, targetVal) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const start = parseFloat((el.textContent || '0').replace(/[^0-9.-]/g, '')) || 0;
+  const duration = 600;
+  const startTime = performance.now();
+  function step(now) {
+    const p = Math.min((now - startTime) / duration, 1);
+    const ease = p < .5 ? 2*p*p : -1+(4-2*p)*p;
+    const val = start + (targetVal - start) * ease;
+    el.textContent = Math.round(val).toLocaleString('he-IL') + ' ₪';
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+let selfData = {};
+function calcSelf() {
+  const income = parseFloat(document.getElementById('self-income').value) || 0;
+  const type = document.getElementById('self-type').value;
+  const expenses = parseFloat(document.getElementById('self-expenses').value) || 0;
+  const creditPts = parseFloat(document.getElementById('self-family').value) || 2.25;
+  const taxable = Math.max(0, income - expenses);
+  const creditValue = creditPts * CREDIT_POINT_ANNUAL;
+  let tax = 0, prev = 0;
+  for (const [limit, rate] of TAX_BRACKETS) {
+    if (taxable <= prev) break;
+    tax += (Math.min(taxable, limit) - prev) * rate;
+    prev = limit;
+  }
+  const finalTax = Math.max(0, tax - creditValue);
+  const vat = type === 'exempt' ? 0 : income * VAT_RATE;
+  const vatCredit = type === 'exempt' ? 0 : expenses * VAT_RATE;
+  const vatPay = Math.max(0, vat - vatCredit);
+  const bl = taxable * 0.12;
+  const totalTax = finalTax + bl;
+  const net = income - totalTax - vatPay;
+  selfData = {taxable, tax, finalTax, creditValue: Math.min(creditValue, tax), vat, vatCredit, vatPay, bl, totalTax, net, income};
+  updateSelfDisplay();
+}
+
+function updateSelfDisplay() {
+  const d = selfData;
+  animateNum('self-taxable', d.taxable);
+  animateNum('self-tax-before', d.tax);
+  animateNum('self-credit', d.creditValue);
+  animateNum('self-tax', d.finalTax);
+  animateNum('self-vat-collect', d.vat);
+  animateNum('self-vat-credit', d.vatCredit);
+  animateNum('self-vat-pay', d.vatPay);
+  animateNum('self-gross', d.income);
+  animateNum('self-total-tax', d.totalTax);
+  animateNum('self-net', Math.max(0, d.net));
+  animateNum('self-monthly', Math.max(0, d.net / 12));
+
+  // Donut chart update
+  const donut = document.getElementById('self-donut');
+  if (donut && d.income > 0) {
+    const n = Math.max(0, d.net) / d.income * 100;
+    const tx = d.finalTax / d.income * 100;
+    const bl = d.bl / d.income * 100;
+    const vat = d.vatPay / d.income * 100;
+    donut.style.background = `conic-gradient(#C9A84C 0% ${n.toFixed(1)}%,#e05252 ${n.toFixed(1)}% ${(n+tx).toFixed(1)}%,#f0a020 ${(n+tx).toFixed(1)}% ${(n+tx+bl).toFixed(1)}%,#6a9df5 ${(n+tx+bl).toFixed(1)}% ${(n+tx+bl+vat).toFixed(1)}%,rgba(255,255,255,.07) ${(n+tx+bl+vat).toFixed(1)}% 100%)`;
+    document.getElementById('self-net-pct').textContent = Math.round(n) + '%';
+    document.getElementById('leg-net').textContent = formatNum(Math.max(0, d.net));
+    document.getElementById('leg-tax').textContent = formatNum(d.finalTax);
+    document.getElementById('leg-bl').textContent = formatNum(d.bl);
+    document.getElementById('leg-vat').textContent = formatNum(d.vatPay);
+  }
+
+  // Smart insight
+  const insight = document.getElementById('self-insight');
+  if (insight) {
+    const effectiveRate = d.income > 0 ? ((d.totalTax / d.income) * 100).toFixed(0) : 0;
+    const type = document.getElementById('self-type').value;
+    if (type === 'exempt') insight.textContent = '💡 כעוסק פטור, אינך גובה מע"מ — אך גם לא מחזיר על הוצאות. שקול האם זה המסלול הנכון לך.';
+    else if (d.net > 0) insight.textContent = `💼 שיעור העומס המיסויי האפקטיבי שלך: ${effectiveRate}%. תכנון מס נכון יכול להפחית זאת משמעותית.`;
+    else insight.textContent = '⚡ שים לב — ייתכן שיש אפשרויות לייעול מס. צור קשר לייעוץ.';
+    insight.style.opacity = '0';
+    setTimeout(() => { insight.style.opacity = '1'; }, 50);
+  }
+}
+
+function switchResTab(i) {
+  document.querySelectorAll('.result-tab').forEach((t,j) => t.classList.toggle('active', i===j));
+  document.querySelectorAll('.res-section').forEach((s,j) => s.classList.toggle('active', i===j));
+}
+
+calcSelf();
+
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+<div class="mobile-cta-bar" id="mobileCta">
+  <a href="#calc" class="btn btn-primary">🧮 חשב את המס שלי</a>
+  <a href="https://wa.me/972500000000" target="_blank" style="width:48px;height:48px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+</body>
+</html>
