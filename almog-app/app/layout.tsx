@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   viewport: 'width=device-width, initial-scale=1',
-  robots: 'index, follow',
+  robots: 'noindex, nofollow',
 }
 
 export default function RootLayout({
