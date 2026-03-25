@@ -12,8 +12,6 @@ export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
 
-  if (pathname?.startsWith('/hazarat-mas')) return null
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
@@ -30,6 +28,8 @@ export default function Navigation() {
     }
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
+
+  if (pathname?.startsWith('/hazarat-mas')) return null
 
   const navLinks = [
     { label: 'ראשי', href: '/' },
