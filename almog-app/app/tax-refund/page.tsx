@@ -1,10 +1,6 @@
-import Link from 'next/link'
-import type { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'החזר מס | אלמוג בן דוד – רואת חשבון',
-  description: 'בדיקת זכאות להחזר מס חינם. ממוצע ₪15,000 לכל לקוח. הגשה מהירה, תוצאות אמיתיות.',
-}
+import Link from 'next/link'
 
 const triggers = [
   { icon: '🔄', title: 'החלפת עבודה', desc: 'כל מעבר בין מעסיקים עשוי ליצור זכאות להחזר' },
@@ -168,7 +164,7 @@ export default function TaxRefundPage() {
             }}>
               בדיקה חינם עכשיו →
             </Link>
-            <a href="https://wa.me/972500000000" target="_blank" rel="noopener noreferrer" style={{
+            <a href="https://wa.me/972547312262" target="_blank" rel="noopener noreferrer" style={{
               padding: '17px 36px', background: 'transparent',
               color: 'white', fontWeight: 700, fontSize: '1rem',
               borderRadius: '50px', border: '2px solid rgba(255,255,255,0.3)',
