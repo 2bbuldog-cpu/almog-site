@@ -90,7 +90,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         bottom: 0,
         zIndex: 50,
         boxShadow: '0 0 40px rgba(0,0,0,0.3)',
-        transform: sidebarOpen ? 'translateX(0)' : 'translateX(0)',
+        transform: 'translateX(0)',
         transition: 'transform 0.3s ease',
       }}
       className="sidebar"

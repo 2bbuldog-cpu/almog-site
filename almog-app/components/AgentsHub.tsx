@@ -1,45 +1,74 @@
+'use client'
+
 export default function AgentsHub() {
   const cards = [
     {
-      title: "Generate Leads",
-      description: "Automatically capture and qualify new leads from multiple sources.",
-      icon: "🎯",
+      title: 'יצירת לידים',
+      description: 'לכידה וסינון אוטומטי של לידים חדשים ממקורות שונים.',
+      icon: '🎯',
     },
     {
-      title: "Manage Clients",
-      description: "Track client interactions, documents, and follow-ups in one place.",
-      icon: "👥",
+      title: 'ניהול לקוחות',
+      description: 'מעקב אחר תקשורת, מסמכים ומשימות — במקום אחד.',
+      icon: '👥',
     },
     {
-      title: "Financial Tools",
-      description: "Run tax calculations, refund estimates, and financial summaries.",
-      icon: "📊",
+      title: 'כלים פיננסיים',
+      description: 'חישובי מס, הערכות החזר וסיכומים פיננסיים בלחיצה.',
+      icon: '📊',
     },
-  ];
+  ]
 
   return (
-    <section className="py-16 px-4">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-3">Agents Hub</h2>
-        <p className="text-gray-500 mb-12 text-lg">
-          Powerful tools to automate your workflow and grow your client base
+    <section style={{ padding: '64px 16px', direction: 'rtl' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0E1E40', marginBottom: '12px' }}>
+          מרכז הסוכנים
+        </h2>
+        <p style={{ color: '#64748B', fontSize: '1.05rem', marginBottom: '48px' }}>
+          כלים חכמים לייעול העבודה וצמיחת בסיס הלקוחות
         </p>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div style={{ display: 'grid', gap: '24px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
           {cards.map((card) => (
             <div
               key={card.title}
-              className="rounded-xl shadow-md bg-white p-8 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
+              style={{
+                background: 'white',
+                borderRadius: '16px',
+                boxShadow: '0 4px 24px rgba(14,30,64,0.08)',
+                padding: '32px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                border: '1px solid #E2E8F0',
+              }}
             >
-              <span className="text-4xl mb-4">{card.icon}</span>
-              <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
-              <p className="text-gray-500 text-sm mb-6">{card.description}</p>
-              <button className="mt-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
-                Start Now
-              </button>
+              <span style={{ fontSize: '2.5rem', marginBottom: '16px' }}>{card.icon}</span>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                {card.title}
+              </h3>
+              <p style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '24px', flex: 1 }}>
+                {card.description}
+              </p>
+              <a
+                href="/crm"
+                style={{
+                  padding: '10px 24px',
+                  background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
+                  color: '#0E1E40',
+                  fontWeight: 700,
+                  fontSize: '0.9rem',
+                  borderRadius: '50px',
+                  textDecoration: 'none',
+                }}
+              >
+                התחל עכשיו
+              </a>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -925,6 +925,9 @@ export default function HomePage() {
                 {link.label}
               </a>
             ))}
+            <Link href="/crm" style={{ color: 'rgba(201,168,76,0.5)', fontSize: '0.82rem', textDecoration: 'none' }}>
+              כניסה למערכת
+            </Link>
           </div>
         </div>
       </footer>

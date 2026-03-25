@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 
 const WHATSAPP_URL = 'https://wa.me/972547312262'
 
@@ -82,14 +81,15 @@ export default function Navigation() {
               overflow: 'hidden',
               boxShadow: '0 2px 12px rgba(201,168,76,0.3)',
               flexShrink: 0,
+              background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.4rem',
+              fontWeight: 900,
+              color: '#0E1E40',
             }}>
-              <Image
-                src="/LOGO_3D.jpg"
-                alt="אלמוג בן דוד"
-                width={48}
-                height={48}
-                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              />
+              א
             </div>
             <div>
               <div style={{
@@ -447,7 +447,7 @@ export default function Navigation() {
       )}
 
       <style jsx>{`
-        @media (max-width: 768px) {
+        @media (max-width: 1023px) {
           .hidden-mobile {
             display: none !important;
           }
@@ -455,7 +455,7 @@ export default function Navigation() {
             display: flex !important;
           }
         }
-        @media (min-width: 769px) {
+        @media (min-width: 1024px) {
           .show-mobile {
             display: none !important;
           }
