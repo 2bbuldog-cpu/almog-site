@@ -60,7 +60,30 @@
       "Bash(find '/c/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web' -name *.css -o -name globals.css -o -name layout.tsx)",
       "Bash(for f:*)",
       "Read(//c/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/**)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(find 'c:/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/almog-app' -path *api/auth* -type f)",
+      "Bash(grep -r \"CRM_PASSWORD\\\\|password.*=\" 'c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app' --include=*.ts --include=*.tsx --include=*.js)",
+      "Read(//c/Users/amitm/OneDrive - Asee Finance/שולחן העبודה/almog web/almog-app/**)",
+      "Bash(grep -r \"test\\\\|demo\\\\|example\\\\|user\\\\|account\" 'c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app' --include=*.md --include=*.txt --include=*.json --exclude-dir=node_modules --exclude-dir=.next)",
+      "Bash(grep -r \"email\\\\|password\\\\|user\\\\|auth\\\\|credential\" 'c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app\\\\supabase' --include=*.json --include=*.sql --include=*.ts)",
+      "Bash(find 'c:/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/almog-app' -name *.jpg -o -name *.png -o -name *.svg -o -name *.webp)",
+      "Bash(wc -l article-*.html)",
+      "Bash(grep -E \"\\\\.html$\")",
+      "Bash(cp -r \"app/hazarat-mas/.\" \"app/\\(site\\)/hazarat-mas\")",
+      "Bash(ls \"app/\\(site\\)/\")",
+      "Read(//c/Users/amitm/OneDrive - Asee Finance/שולחן העבودה/almog web/almog-app/app/\\(site\\)/hazarat-mas/**)",
+      "Bash(ls -la 'c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app\\\\app\\\\\\(site\\)')",
+      "Bash(ls -la \"c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app\\\\app\\\\\\(site\\)\\\\hazarat-mas\")",
+      "Bash(find 'c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web' -name *supabase* -type f)",
+      "Bash(wc -l \"c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app\\\\app\\\\\\(site\\)\\\\hazarat-mas\\\\form\\\\page.tsx\")",
+      "Bash(cat \"c:\\\\Users\\\\amitm\\\\OneDrive - Asee Finance\\\\שולחן העבודה\\\\almog web\\\\almog-app\\\\app\\\\\\(site\\)\\\\hazarat-mas\\\\form\\\\page.tsx\")",
+      "Bash(npx vercel:*)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(mkdir -p \"C:/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/almog-app/app/api/crm/leads\")",
+      "Bash(mkdir -p \"C:/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/almog-app/app/api/crm/leads/[id]/notes\")",
+      "Bash(mkdir -p \"C:/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/almog-app/app/api/crm/leads/[id]/tasks/[taskId]\")",
+      "Bash(mkdir -p \"C:/Users/amitm/OneDrive - Asee Finance/שולחן העבודה/almog web/almog-app/app/api/crm/leads/[id]/docs/[docId]\")",
+      "Bash(npx next:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\amitm\\OneDrive - Asee Finance\\שולחן העבודה\\almog web\\almog-crm\\app",
@@ -69,7 +92,8 @@
       "c:\\Users\\amitm\\OneDrive - Asee Finance\\שולחן העבודה\\almog web\\images",
       "\\tmp",
       "c:\\tmp",
-      "C:\\Users\\amitm\\AppData\\Local\\Temp"
+      "C:\\Users\\amitm\\AppData\\Local\\Temp",
+      "C:\\Users\\amitm\\OneDrive - Asee Finance\\שולחן העבודה\\almog web\\almog-app\\app\\api\\crm\\tasks"
     ]
   }
 }
