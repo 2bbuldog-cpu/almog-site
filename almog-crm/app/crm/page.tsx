@@ -106,7 +106,7 @@ export default function CrmDashboard() {
         height: '60px',
         borderBottom: '1px solid rgba(255,255,255,.08)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <span style={{ color: '#E8C96A', fontWeight: 900, fontSize: '1.05rem' }}>אלמוג | CRM</span>
           <span style={{
             background: 'rgba(201,168,76,.15)', color: '#C9A84C',
@@ -114,6 +114,27 @@ export default function CrmDashboard() {
           }}>
             {totalLeads} לידים
           </span>
+          <nav style={{ display: 'flex', gap: '4px' }}>
+            {[
+              { label: 'לידים', href: '/crm' },
+              { label: 'לקוחות', href: '/crm/clients' },
+              { label: 'פגישות', href: '/crm/meetings' },
+              { label: 'מסמכים', href: '/crm/documents' },
+              { label: 'הגדרות', href: '/crm/settings' },
+            ].map(item => (
+              <a key={item.href} href={item.href} style={{
+                color: item.href === '/crm' ? '#fff' : 'rgba(255,255,255,.45)',
+                fontSize: '.82rem',
+                textDecoration: 'none',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                background: item.href === '/crm' ? 'rgba(255,255,255,.1)' : 'transparent',
+                fontWeight: item.href === '/crm' ? 700 : 400,
+              }}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
         </div>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <a href="/" target="_blank" style={{

@@ -151,7 +151,7 @@ export default function LeadDetailPage() {
         justifyContent: 'space-between', height: '60px',
         borderBottom: '1px solid rgba(255,255,255,.08)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button
             onClick={() => router.push('/crm')}
             style={{
@@ -161,8 +161,27 @@ export default function LeadDetailPage() {
               fontFamily: "'Heebo', sans-serif", fontSize: '.85rem',
             }}
           >
-            ← חזרה ללידים
+            ← חזרה
           </button>
+          <nav style={{ display: 'flex', gap: '4px' }}>
+            {[
+              { label: 'לידים', href: '/crm' },
+              { label: 'לקוחות', href: '/crm/clients' },
+              { label: 'פגישות', href: '/crm/meetings' },
+              { label: 'מסמכים', href: '/crm/documents' },
+              { label: 'הגדרות', href: '/crm/settings' },
+            ].map(item => (
+              <a key={item.href} href={item.href} style={{
+                color: 'rgba(255,255,255,.45)',
+                fontSize: '.82rem',
+                textDecoration: 'none',
+                padding: '6px 12px',
+                borderRadius: '8px',
+              }}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
           <span style={{ color: '#fff', fontWeight: 700 }}>{lead.name}</span>
           {saving && <span style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem' }}>שומר...</span>}
         </div>

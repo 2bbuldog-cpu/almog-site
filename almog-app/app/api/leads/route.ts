@@ -79,10 +79,12 @@ export async function GET() {
 
 // ─── POST /api/leads ──────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
+  console.log('[POST /api/leads] ── route hit ──')
+  console.log('[POST /api/leads] SERVICE_KEY exists:', !!process.env.SUPABASE_SERVICE_KEY)
+
   try {
-    console.log('SERVICE KEY EXISTS:', !!process.env.SUPABASE_SERVICE_KEY)
     const body = await request.json()
-    console.log('[/api/leads] Incoming payload:', JSON.stringify(body))
+    console.log('[POST /api/leads] body:', JSON.stringify(body))
 
     const {
       full_name,
@@ -113,29 +115,37 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'מספר טלפון הוא שדה חובה' }, { status: 400 })
     }
 
-    const qualification_score = computeQualificationScore({
+    const rawScore = computeQualificationScore({
       changed_jobs, children, maternity_leave, academic_degree,
       donations, special_points, years, income_range,
     })
+    const score = Math.round(rawScore / 10)
+    const score_label = score >= 7 ? 'hot' : score >= 4 ? 'warm' : 'cold'
 
+    console.log('[POST /api/leads] creating service client…')
     const supabase = createServiceClient()
 
-    // ── Insert lead ──────────────────────────────────────────────────────────
+    // ── Insert lead — column names match actual DB schema ────────────────────
+    const leadRow = {
+      name: full_name.trim(),          // DB col: name
+      phone: phone.trim(),
+      email: email?.trim() || null,
+      city: city?.trim() || null,
+      source: source || 'hazarat-mas',
+      status: 'questionnaire_done',
+      score,                           // DB col: score
+      score_label,                     // DB col: score_label
+    }
+    console.log('[POST /api/leads] inserting lead row:', JSON.stringify(leadRow))
+
     const { data: lead, error: leadError } = await supabase
       .from('leads')
-      .insert({
-        full_name: full_name.trim(),
-        phone: phone.trim(),
-        email: email?.trim() || null,
-        source: source || 'hazarat-mas',
-        status: 'new',
-        qualification_score,
-      })
+      .insert(leadRow)
       .select()
       .single()
 
     if (leadError) {
-      console.error('[/api/leads] Lead insert error:', JSON.stringify(leadError))
+      console.error('[POST /api/leads] lead insert FAILED:', JSON.stringify(leadError))
       return NextResponse.json(
         {
           success: false,
@@ -145,32 +155,35 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
+    console.log('[POST /api/leads] lead created, id:', lead.id)
 
-    console.log('[/api/leads] Lead created:', lead.id)
+    // ── Insert questionnaire response — column names match actual DB schema ──
+    const qRow = {
+      lead_id: lead.id,
+      years_to_check: years || [],          // DB col: years_to_check
+      employment_type: employment_type || null,
+      changed_employer: changed_jobs || false,         // DB col: changed_employer
+      num_employers: changed_jobs ? (changed_jobs_count || null) : null, // DB col: num_employers
+      num_children: children ? (children_count || 0) : 0,  // DB col: num_children
+      maternity_leave: maternity_leave || false,
+      academic_degree: academic_degree || false,
+      donations: donations || false,
+      donation_amount: donations && donations_amount ? String(donations_amount) : null, // DB col: donation_amount
+      special_points: special_points || [],
+      income_range: income_range || '',
+      periphery_resident: special_points?.includes('periphery') ?? null,
+      raw_data: body,
+    }
+    console.log('[POST /api/leads] inserting questionnaire row…')
 
-    // ── Insert questionnaire response ────────────────────────────────────────
     const { error: qError } = await supabase
       .from('questionnaire_responses')
-      .insert({
-        lead_id: lead.id,
-        years: years || [],
-        employment_type: employment_type || null,
-        changed_jobs: changed_jobs || false,
-        changed_jobs_count: changed_jobs ? (changed_jobs_count || 0) : null,
-        children_count: children ? (children_count || 0) : 0,
-        maternity_leave: maternity_leave || false,
-        academic_degree: academic_degree || false,
-        degree_year: academic_degree && degree_year ? parseInt(degree_year) : null,
-        donations: donations || false,
-        donations_amount: donations && donations_amount ? parseInt(donations_amount) : null,
-        city: city?.trim() || null,
-        special_points: special_points || [],
-        income_range: income_range || null,
-      })
+      .insert(qRow)
 
     if (qError) {
-      // Non-fatal — lead was saved, questionnaire is secondary
-      console.error('[/api/leads] Questionnaire insert error:', JSON.stringify(qError))
+      console.error('[POST /api/leads] questionnaire insert FAILED (non-fatal):', JSON.stringify(qError))
+    } else {
+      console.log('[POST /api/leads] questionnaire row saved')
     }
 
     // ── Save notes ───────────────────────────────────────────────────────────
@@ -178,21 +191,18 @@ export async function POST(request: NextRequest) {
       const { error: noteError } = await supabase.from('lead_notes').insert({
         lead_id: lead.id,
         content: notes.trim(),
-        created_by: 'questionnaire',
+        author: 'questionnaire',    // DB col: author
       })
       if (noteError) {
-        console.error('[/api/leads] Note insert error:', JSON.stringify(noteError))
+        console.error('[POST /api/leads] note insert FAILED (non-fatal):', JSON.stringify(noteError))
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      lead_id: lead.id,
-      qualification_score,
-    })
+    console.log('[POST /api/leads] ── success ──')
+    return NextResponse.json({ success: true, lead_id: lead.id, score })
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)
-    console.error('[/api/leads] Unexpected error:', msg)
+    console.error('[POST /api/leads] UNEXPECTED ERROR:', msg)
     return NextResponse.json(
       { success: false, error: `שגיאה פנימית בשרת: ${msg}` },
       { status: 500 }
