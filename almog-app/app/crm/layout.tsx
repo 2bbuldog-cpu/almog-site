@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
 
 const navItems = [
   { icon: '📊', label: 'דשבורד', href: '/crm' },
@@ -15,35 +14,24 @@ const navItems = [
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
-  const [user, setUser] = useState<{ email?: string } | null>(null)
   const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session && pathname !== '/crm/login') {
-        router.replace('/crm/login')
-        return
-      }
-      setUser(session?.user ?? null)
+    if (pathname === '/crm/login') {
+      setLoading(false)
+      return
+    }
+    const auth = sessionStorage.getItem('crm_auth')
+    if (!auth) {
+      router.replace('/crm/login')
+    } else {
       setLoading(false)
     }
-    checkAuth()
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT') {
-        router.replace('/crm/login')
-      } else if (session) {
-        setUser(session.user)
-      }
-    })
-
-    return () => subscription.unsubscribe()
   }, [pathname, router])
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
+  const handleSignOut = () => {
+    sessionStorage.removeItem('crm_auth')
     router.replace('/crm/login')
   }
 
@@ -159,9 +147,6 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
           padding: '16px 20px',
           borderTop: '1px solid rgba(255,255,255,0.08)',
         }}>
-          <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', marginBottom: '8px' }}>
-            {user?.email}
-          </div>
           <button
             onClick={handleSignOut}
             style={{

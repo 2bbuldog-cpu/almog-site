@@ -2,35 +2,35 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
 
 export default function CRMLoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email.trim() || !password.trim()) {
-      setError('אנא הכנס אימייל וסיסמה')
+    if (!password.trim()) {
+      setError('אנא הכנס סיסמה')
       return
     }
     setLoading(true)
     setError('')
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
+    const res = await fetch('/api/crm-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
     })
 
-    if (authError) {
-      setError('אימייל או סיסמה שגויים. נסה שוב.')
+    if (!res.ok) {
+      setError('סיסמה שגויה. נסה שוב.')
       setLoading(false)
       return
     }
 
+    sessionStorage.setItem('crm_auth', 'true')
     router.replace('/crm')
   }
 
@@ -101,34 +101,6 @@ export default function CRMLoginPage() {
             </div>
           )}
 
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{
-              display: 'block', fontSize: '0.85rem', fontWeight: 700,
-              color: 'rgba(255,255,255,0.7)', marginBottom: '8px',
-            }}>
-              כתובת אימייל
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="almog@example.com"
-              autoComplete="email"
-              required
-              style={{
-                width: '100%', padding: '14px 16px',
-                background: 'rgba(255,255,255,0.08)',
-                border: '2px solid rgba(255,255,255,0.1)',
-                borderRadius: '10px', color: 'white',
-                fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                direction: 'ltr', outline: 'none',
-                transition: 'border-color 0.3s ease',
-              }}
-              onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = 'rgba(201,168,76,0.6)' }}
-              onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = 'rgba(255,255,255,0.1)' }}
-            />
-          </div>
-
           <div style={{ marginBottom: '28px' }}>
             <label style={{
               display: 'block', fontSize: '0.85rem', fontWeight: 700,
@@ -142,6 +114,7 @@ export default function CRMLoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               autoComplete="current-password"
+              autoFocus
               required
               style={{
                 width: '100%', padding: '14px 16px',
