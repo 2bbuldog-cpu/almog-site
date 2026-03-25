@@ -43,6 +43,8 @@ export default function Navigation() {
         { label: 'שאלון החזר מס', href: '/sheelon' },
       ],
     },
+    { label: 'מאמרים', href: '/articles' },
+    { label: 'מחשבונים', href: '/calculators' },
     { label: 'סוכני AI', href: '/#agents' },
     { label: 'יצירת קשר', href: '/#contact' },
   ]
