@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createServiceClient } from '@/lib/supabase'
 
 function computeQualificationScore(data: {
-  changed_jobs?: boolean
-  children?: boolean
-  maternity_leave?: boolean
-  academic_degree?: boolean
-  donations?: boolean
+  changed_jobs?: boolean | null
+  children?: boolean | null
+  maternity_leave?: boolean | null
+  academic_degree?: boolean | null
+  donations?: boolean | null
   special_points?: string[]
   years?: number[]
   income_range?: string
@@ -34,6 +29,7 @@ function computeQualificationScore(data: {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    console.log('[/api/leads] Incoming payload:', JSON.stringify(body))
 
     const {
       full_name,
@@ -72,7 +68,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const qualification_score = computeQualificationScore({
+    // Score on 0–100 scale, then convert to 0–10 for DB
+    const rawScore = computeQualificationScore({
       changed_jobs,
       children,
       maternity_leave,
@@ -82,72 +79,84 @@ export async function POST(request: NextRequest) {
       years,
       income_range,
     })
+    const score = Math.round(rawScore / 10)
+    const score_label = score >= 7 ? 'hot' : score >= 4 ? 'warm' : 'cold'
 
-    // Insert lead
+    // Use service client to bypass RLS
+    const supabase = createServiceClient()
+
+    // Insert lead — column names match actual Supabase schema
     const { data: lead, error: leadError } = await supabase
       .from('leads')
       .insert({
-        full_name: full_name.trim(),
+        name: full_name.trim(),          // DB column is "name", not "full_name"
         phone: phone.trim(),
         email: email?.trim() || null,
-        source: source || 'website_questionnaire',
-        status: 'new',
-        qualification_score,
+        city: city?.trim() || null,
+        source: source || 'hazarat-mas',
+        status: 'questionnaire_done',
+        score,
+        score_label,
       })
       .select()
       .single()
 
     if (leadError) {
-      console.error('Lead insert error:', leadError)
+      console.error('[/api/leads] Lead insert error:', leadError)
       return NextResponse.json(
-        { success: false, error: 'שגיאה בשמירת הנתונים' },
+        { success: false, error: `שגיאה בשמירת הנתונים: ${leadError.message}` },
         { status: 500 }
       )
     }
 
-    // Insert questionnaire response
+    console.log('[/api/leads] Lead created:', lead.id)
+
+    // Insert questionnaire response — column names match actual schema
     const { error: qError } = await supabase
       .from('questionnaire_responses')
       .insert({
         lead_id: lead.id,
-        years: years || [],
+        years_to_check: years || [],           // was: years
         employment_type: employment_type || null,
-        changed_jobs: changed_jobs || false,
-        changed_jobs_count: changed_jobs ? (changed_jobs_count || 0) : null,
-        children_count: children ? (children_count || 0) : 0,
+        changed_employer: changed_jobs || false,     // was: changed_jobs
+        num_employers: changed_jobs ? (changed_jobs_count || null) : null, // was: changed_jobs_count
+        num_children: children ? (children_count || 0) : 0,  // was: children_count
         maternity_leave: maternity_leave || false,
         academic_degree: academic_degree || false,
-        degree_year: academic_degree && degree_year ? parseInt(degree_year) : null,
         donations: donations || false,
-        donations_amount: donations && donations_amount ? parseInt(donations_amount) : null,
-        city: city?.trim() || null,
+        donation_amount: donations && donations_amount ? String(donations_amount) : null, // was: donations_amount
         special_points: special_points || [],
-        income_range: income_range || null,
+        income_range: income_range || '',
+        periphery_resident: special_points?.includes('periphery') ?? null,
+        raw_data: body,
       })
 
     if (qError) {
-      console.error('Questionnaire insert error:', qError)
-      // Don't fail the whole request if questionnaire save fails
+      console.error('[/api/leads] Questionnaire insert error:', qError)
+      // Non-fatal — lead was already created
     }
 
-    // Save notes as a lead note if provided
+    // Save notes if provided
     if (notes && typeof notes === 'string' && notes.trim()) {
-      await supabase.from('lead_notes').insert({
+      const { error: noteError } = await supabase.from('lead_notes').insert({
         lead_id: lead.id,
         content: notes.trim(),
-        created_by: 'questionnaire',
+        author: 'questionnaire',    // DB column is "author", not "created_by"
       })
+      if (noteError) {
+        console.error('[/api/leads] Note insert error:', noteError)
+      }
     }
 
     return NextResponse.json({
       success: true,
       lead_id: lead.id,
-      qualification_score,
+      score,
     })
   } catch (error) {
-    console.error('API error:', error)
+    console.error('[/api/leads] Unexpected error:', error)
     return NextResponse.json(
-      { success: false, error: 'שגיאה פנימית בשרת' },
+      { success: false, error: `שגיאה פנימית בשרת: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }
     )
   }

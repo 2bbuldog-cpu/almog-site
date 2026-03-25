@@ -222,6 +222,36 @@ export default function Navigation() {
             )}
 
             <Link
+              href="/hazarat-mas"
+              style={{
+                marginRight: '4px',
+                padding: '11px 24px',
+                background: scrolled ? '#0E1E40' : 'rgba(255,255,255,0.15)',
+                border: `1.5px solid ${scrolled ? '#0E1E40' : 'rgba(255,255,255,0.35)'}`,
+                color: scrolled ? '#FFFFFF' : '#FFFFFF',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(-1px)'
+                el.style.boxShadow = '0 6px 20px rgba(14,30,64,0.25)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = ''
+                el.style.boxShadow = ''
+              }}
+            >
+              בדיקת זכאות
+            </Link>
+            <Link
               href="/sheelon"
               style={{
                 marginRight: '4px',
@@ -444,6 +474,19 @@ export default function Navigation() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '24px' }}>
+            <Link
+              href="/hazarat-mas"
+              onClick={() => setMenuOpen(false)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                padding: '18px', background: 'rgba(255,255,255,0.12)',
+                border: '1.5px solid rgba(255,255,255,0.35)',
+                color: 'white', fontWeight: 800, fontSize: '1.05rem',
+                borderRadius: '50px', textDecoration: 'none',
+              }}
+            >
+              בדיקת זכאות
+            </Link>
             <Link
               href="/sheelon"
               onClick={() => setMenuOpen(false)}
