@@ -3,11 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
-
-const AgentsHub = dynamic(() => import('@/components/AgentsHub'), { ssr: false })
-
-const WHATSAPP_URL = 'https://wa.me/972500000000'
+const WHATSAPP_URL = 'https://wa.me/972547312262'
 
 const services = [
   {
@@ -312,7 +308,7 @@ export default function HomePage() {
             </div>
 
             {/* Almog Image */}
-            <div style={{
+            <div className="hero-image-wrap" style={{
               display: 'flex',
               justifyContent: 'center',
               position: 'relative',
@@ -427,7 +423,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== SERVICES SECTION ===== */}
-      <section style={{ padding: '100px 24px', background: '#F7F9FC' }}>
+      <section className="page-section" style={{ padding: '100px 24px', background: '#F7F9FC' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div style={{
@@ -544,7 +540,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== WHY US SECTION ===== */}
-      <section style={{ padding: '100px 24px', background: 'white' }}>
+      <section className="page-section" style={{ padding: '100px 24px', background: 'white' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{
             display: 'grid',
@@ -656,7 +652,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section style={{ padding: '100px 24px', background: '#F7F9FC' }}>
+      <section className="page-section" style={{ padding: '100px 24px', background: '#F7F9FC' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div style={{
@@ -731,7 +727,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section style={{ padding: '100px 24px', background: '#0E1E40' }}>
+      <section className="page-section" style={{ padding: '100px 24px', background: '#0E1E40' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div style={{
@@ -814,13 +810,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== AI AGENTS SECTION ===== */}
-      <section id="agents" style={{ padding: '0' }}>
-        <AgentsHub />
-      </section>
-
-      {/* ===== FAQ SECTION ===== */}
-      <section style={{ padding: '100px 24px', background: 'white' }}>
+{/* ===== FAQ SECTION ===== */}
+      <section className="page-section" style={{ padding: '100px 24px', background: 'white' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div style={{
@@ -845,7 +836,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FINAL CTA ===== */}
-      <section id="contact" style={{
+      <section id="contact" className="page-section" style={{
         padding: '100px 24px',
         background: 'linear-gradient(160deg, #0E1E40 0%, #0c1c3a 60%, #091525 100%)',
         textAlign: 'center',
