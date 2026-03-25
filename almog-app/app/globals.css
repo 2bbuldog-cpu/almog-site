@@ -17,11 +17,13 @@
   --text-secondary: #4A5568;
   --text-muted: #718096;
   --border: #E2E8F0;
-  --radius: 16px;
-  --shadow-card: 0 4px 24px rgba(14,30,64,0.08);
-  --shadow-hover: 0 12px 40px rgba(14,30,64,0.16);
-  --shadow-gold: 0 4px 20px rgba(201,168,76,0.3);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 4px rgba(14,30,64,0.06);
+  --shadow-card: 0 2px 12px rgba(14,30,64,0.07);
+  --shadow-hover: 0 8px 28px rgba(14,30,64,0.12);
+  --shadow-gold: 0 2px 12px rgba(201,168,76,0.2);
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -113,8 +115,8 @@ input, textarea, select {
 }
 
 .btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(201,168,76,0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201,168,76,0.3);
   background: linear-gradient(135deg, var(--gold-light), var(--gold));
 }
 
@@ -162,13 +164,13 @@ input, textarea, select {
 
 .btn-navy:hover {
   background: var(--navy-mid);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(14,30,64,0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(14,30,64,0.2);
 }
 
 .card {
   background: var(--white);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   border: 1px solid var(--border);
   transition: var(--transition);
@@ -176,7 +178,15 @@ input, textarea, select {
 
 .card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
+}
+
+/* Panel: like card but no hover lift — for CRM data panels */
+.panel {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
 }
 
 .section-title {

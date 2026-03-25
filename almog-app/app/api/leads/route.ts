@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
       full_name,
       phone,
       email,
+      source,
       years,
       employment_type,
       changed_jobs,
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest) {
         full_name: full_name.trim(),
         phone: phone.trim(),
         email: email?.trim() || null,
-        source: 'website_questionnaire',
+        source: source || 'website_questionnaire',
         status: 'new',
         qualification_score,
       })

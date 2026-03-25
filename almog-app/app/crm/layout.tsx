@@ -5,10 +5,13 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
 const navItems = [
-  { icon: '📊', label: 'דשבורד', href: '/crm' },
-  { icon: '👥', label: 'לידים', href: '/crm/leads' },
-  { icon: '✅', label: 'משימות', href: '/crm/tasks' },
-  { icon: '⚙️', label: 'הגדרות', href: '/crm/settings' },
+  { label: 'דשבורד', href: '/crm' },
+  { label: 'לידים', href: '/crm/leads' },
+  { label: 'לקוחות', href: '/crm/clients' },
+  { label: 'משימות', href: '/crm/tasks' },
+  { label: 'פגישות', href: '/crm/meetings' },
+  { label: 'מסמכים', href: '/crm/documents' },
+  { label: 'הגדרות', href: '/crm/settings' },
 ]
 
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
@@ -35,7 +38,6 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
     router.replace('/crm/login')
   }
 
-  // Show login page without layout
   if (pathname === '/crm/login') {
     return <>{children}</>
   }
@@ -47,13 +49,10 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#F7F9FC',
+        background: '#f3f4f6',
         fontFamily: 'Heebo, sans-serif',
       }}>
-        <div style={{ textAlign: 'center', color: '#0E1E40' }}>
-          <div style={{ fontSize: '2rem', marginBottom: '12px' }}>⏳</div>
-          <div style={{ fontWeight: 700 }}>טוען...</div>
-        </div>
+        <div style={{ color: '#374151', fontSize: '0.88rem' }}>טוען...</div>
       </div>
     )
   }
@@ -62,7 +61,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      background: '#F7F9FC',
+      background: '#f3f4f6',
       fontFamily: 'Heebo, sans-serif',
       direction: 'rtl',
     }}>
@@ -70,46 +69,41 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          style={{
-            position: 'fixed', inset: 0, zIndex: 40,
-            background: 'rgba(0,0,0,0.5)',
-          }}
+          style={{ position: 'fixed', inset: 0, zIndex: 40, background: 'rgba(0,0,0,0.35)' }}
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <aside style={{
-        width: '240px',
-        background: 'linear-gradient(180deg, #0E1E40 0%, #0c1c3a 100%)',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 50,
-        boxShadow: '0 0 40px rgba(0,0,0,0.3)',
-        transform: 'translateX(0)',
-        transition: 'transform 0.3s ease',
-      }}
-      className="sidebar"
+      <aside
+        className="sidebar"
+        style={{
+          width: '200px',
+          background: '#1c2b47',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+        }}
       >
-        {/* Logo Area */}
+        {/* Logo */}
         <div style={{
-          padding: '28px 20px',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          padding: '16px 14px',
+          borderBottom: '1px solid rgba(255,255,255,0.09)',
         }}>
-          <div style={{ color: '#E8C96A', fontWeight: 900, fontSize: '1.1rem', marginBottom: '4px' }}>
-            CRM | אלמוג
+          <div style={{ color: '#ffffff', fontWeight: 700, fontSize: '0.88rem', letterSpacing: '0.02em' }}>
+            אלמוג פיננסים
           </div>
-          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.78rem' }}>
+          <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.7rem', marginTop: '2px' }}>
             מערכת ניהול לקוחות
           </div>
         </div>
 
         {/* Navigation */}
-        <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
+        <nav style={{ flex: 1, paddingTop: '6px', overflowY: 'auto' }}>
           {navItems.map((item) => {
             const isActive = item.href === '/crm'
               ? pathname === '/crm'
@@ -120,92 +114,68 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 onClick={() => setSidebarOpen(false)}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 16px',
-                  borderRadius: '10px',
-                  marginBottom: '4px',
-                  background: isActive ? 'rgba(201,168,76,0.15)' : 'transparent',
-                  border: isActive ? '1px solid rgba(201,168,76,0.25)' : '1px solid transparent',
-                  color: isActive ? '#E8C96A' : 'rgba(255,255,255,0.6)',
-                  fontWeight: isActive ? 700 : 500,
-                  fontSize: '0.95rem',
+                  display: 'block',
+                  padding: '9px 14px',
+                  borderRight: isActive ? '3px solid #c9a84c' : '3px solid transparent',
+                  background: isActive ? 'rgba(255,255,255,0.06)' : 'transparent',
+                  color: isActive ? '#fff' : 'rgba(255,255,255,0.48)',
+                  fontWeight: isActive ? 600 : 400,
+                  fontSize: '0.84rem',
                   textDecoration: 'none',
-                  transition: 'all 0.2s ease',
                 }}
               >
-                <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
                 {item.label}
               </Link>
             )
           })}
         </nav>
 
-        {/* User Info */}
+        {/* Sign out */}
         <div style={{
-          padding: '16px 20px',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          padding: '12px 14px',
+          borderTop: '1px solid rgba(255,255,255,0.09)',
         }}>
           <button
             onClick={handleSignOut}
             style={{
               width: '100%',
-              padding: '10px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px',
-              color: 'rgba(255,255,255,0.5)',
-              fontSize: '0.85rem',
+              padding: '8px',
+              background: 'transparent',
+              border: '1px solid rgba(255,255,255,0.14)',
+              color: 'rgba(255,255,255,0.38)',
+              fontSize: '0.78rem',
               cursor: 'pointer',
               fontFamily: 'Heebo, sans-serif',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = 'rgba(229,62,62,0.15)'
-              el.style.borderColor = 'rgba(229,62,62,0.3)'
-              el.style.color = '#FC8181'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = 'rgba(255,255,255,0.05)'
-              el.style.borderColor = 'rgba(255,255,255,0.1)'
-              el.style.color = 'rgba(255,255,255,0.5)'
             }}
           >
-            🚪 התנתקות
+            התנתקות
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main style={{
-        flex: 1,
-        marginRight: '240px',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      className="crm-main"
+      <main
+        className="crm-main"
+        style={{
+          flex: 1,
+          marginRight: '200px',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
       >
         {/* Top Header */}
         <header style={{
           background: 'white',
-          borderBottom: '1px solid #E2E8F0',
-          padding: '0 24px',
-          height: '64px',
+          borderBottom: '1px solid #e5e7eb',
+          padding: '0 20px',
+          height: '48px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           position: 'sticky',
           top: 0,
           zIndex: 30,
-          boxShadow: '0 1px 8px rgba(0,0,0,0.04)',
         }}>
           <button
             className="sidebar-toggle"
@@ -215,50 +185,65 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              padding: '8px',
-              fontSize: '1.2rem',
-              color: '#0E1E40',
+              padding: '6px',
+              fontSize: '1rem',
+              color: '#374151',
             }}
           >
             ☰
           </button>
 
-          <div style={{ color: '#0E1E40', fontWeight: 700, fontSize: '1rem' }}>
-            {navItems.find(n =>
-              n.href === '/crm' ? pathname === '/crm' : pathname.startsWith(n.href)
-            )?.label || 'CRM'}
-          </div>
+          {/* Search */}
+          <input
+            type="text"
+            placeholder="חיפוש..."
+            style={{
+              padding: '5px 10px',
+              border: '1px solid #d1d5db',
+              fontSize: '0.8rem',
+              fontFamily: 'Heebo, sans-serif',
+              direction: 'rtl',
+              outline: 'none',
+              width: '200px',
+              color: '#374151',
+              background: '#f9fafb',
+            }}
+          />
 
+          {/* Right side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.88rem', cursor: 'pointer' }}>
+              🔔
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{
+                width: '26px', height: '26px',
+                background: '#1c2b47',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 600, color: 'white', fontSize: '0.76rem',
+              }}>
+                א
+              </div>
+              <span style={{ fontSize: '0.8rem', color: '#374151', fontWeight: 500 }}>
+                אלמוג
+              </span>
+            </div>
             <Link
               href="/"
               style={{
-                padding: '8px 16px',
-                borderRadius: '8px',
-                color: '#4A5568',
-                fontSize: '0.82rem',
-                fontWeight: 600,
+                padding: '4px 10px',
+                color: '#6b7280',
+                fontSize: '0.75rem',
                 textDecoration: 'none',
-                background: '#F7F9FC',
-                border: '1px solid #E2E8F0',
-                display: 'flex', alignItems: 'center', gap: '6px',
+                border: '1px solid #e5e7eb',
               }}
             >
-              🌐 לאתר הראשי
+              לאתר הראשי
             </Link>
-            <div style={{
-              width: '36px', height: '36px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 800, color: '#0E1E40', fontSize: '0.85rem',
-            }}>
-              א
-            </div>
           </div>
         </header>
 
-        <div style={{ flex: 1, padding: '28px 24px' }}>
+        <div style={{ flex: 1, padding: '20px' }}>
           {children}
         </div>
       </main>

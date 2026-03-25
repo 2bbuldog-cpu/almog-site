@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 interface QuestionnaireData {
   years: number[]
@@ -71,27 +70,25 @@ function computeScore(data: QuestionnaireData): number {
   return Math.min(score, 100)
 }
 
+function getPhase(step: number): { number: number; label: string } {
+  if (step <= 4) return { number: 1, label: 'פרטים בסיסיים' }
+  if (step <= 8) return { number: 2, label: 'הכנסות ונתונים' }
+  return { number: 3, label: 'אישור ושליחה' }
+}
+
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
 export default function QuestionnairePage() {
-  const router = useRouter()
   const [step, setStep] = useState<Step>(1)
   const [data, setData] = useState<QuestionnaireData>(INITIAL_DATA)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [direction, setDirection] = useState<'forward' | 'back'>('forward')
+  const [submitted, setSubmitted] = useState(false)
 
   const totalSteps = 12
 
-  const goNext = () => {
-    setDirection('forward')
-    setStep((s) => Math.min(s + 1, totalSteps) as Step)
-  }
-
-  const goBack = () => {
-    setDirection('back')
-    setStep((s) => Math.max(s - 1, 1) as Step)
-  }
+  const goNext = () => setStep((s) => Math.min(s + 1, totalSteps) as Step)
+  const goBack = () => setStep((s) => Math.max(s - 1, 1) as Step)
 
   const toggleYear = (year: number) => {
     setData((d) => ({
@@ -126,7 +123,7 @@ export default function QuestionnairePage() {
       })
       const result = await res.json()
       if (result.success) {
-        router.push('/thank-you')
+        setSubmitted(true)
       } else {
         setError(result.error || 'שגיאה בשמירת הנתונים. אנא נסה שוב.')
       }
@@ -137,64 +134,134 @@ export default function QuestionnairePage() {
   }
 
   const score = computeScore(data)
+  const phase = getPhase(step)
 
-  const btnStyle = {
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '14px 18px',
+    border: '1.5px solid #CBD5E0',
+    borderRadius: '8px',
+    fontSize: '0.95rem',
+    fontFamily: 'Heebo, sans-serif',
+    direction: 'rtl',
+    outline: 'none',
+    boxSizing: 'border-box',
+  }
+
+  const btnStyle: React.CSSProperties = {
     padding: '14px 32px',
-    background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
+    background: '#C9A84C',
     color: '#0E1E40',
     fontWeight: 800,
     fontSize: '1rem',
-    borderRadius: '50px',
+    borderRadius: '8px',
     border: 'none',
     cursor: 'pointer',
     fontFamily: 'Heebo, sans-serif',
-    boxShadow: '0 6px 20px rgba(201,168,76,0.3)',
-    transition: 'all 0.3s ease',
+    transition: 'background 0.2s ease',
     display: 'inline-flex',
     alignItems: 'center',
     gap: '8px',
-  } as React.CSSProperties
+  }
 
-  const outlineBtnStyle = {
+  const outlineBtnStyle: React.CSSProperties = {
     padding: '13px 28px',
     background: 'transparent',
-    color: '#0E1E40',
-    fontWeight: 700,
-    fontSize: '0.95rem',
-    borderRadius: '50px',
-    border: '2px solid #E2E8F0',
+    color: '#4A5568',
+    fontWeight: 600,
+    fontSize: '0.9rem',
+    borderRadius: '8px',
+    border: '1.5px solid #CBD5E0',
     cursor: 'pointer',
     fontFamily: 'Heebo, sans-serif',
-    transition: 'all 0.3s ease',
-  } as React.CSSProperties
+    transition: 'border-color 0.2s ease',
+  }
 
-  const radioCardStyle = (selected: boolean) => ({
-    padding: '18px 24px',
-    border: `2px solid ${selected ? '#C9A84C' : '#E2E8F0'}`,
-    borderRadius: '12px',
+  const radioCardStyle = (selected: boolean): React.CSSProperties => ({
+    padding: '16px 20px',
+    border: `1.5px solid ${selected ? '#C9A84C' : '#E2E8F0'}`,
+    borderRadius: '8px',
     cursor: 'pointer',
-    background: selected ? 'rgba(201,168,76,0.08)' : 'white',
-    transition: 'all 0.25s ease',
+    background: selected ? '#FFFBF0' : 'white',
+    transition: 'all 0.2s ease',
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
     fontFamily: 'Heebo, sans-serif',
-    userSelect: 'none' as const,
+    userSelect: 'none',
   })
 
-  const checkCardStyle = (selected: boolean) => ({
+  const checkCardStyle = (selected: boolean): React.CSSProperties => ({
     padding: '16px 20px',
-    border: `2px solid ${selected ? '#C9A84C' : '#E2E8F0'}`,
-    borderRadius: '12px',
+    border: `1.5px solid ${selected ? '#C9A84C' : '#E2E8F0'}`,
+    borderRadius: '8px',
     cursor: 'pointer',
-    background: selected ? 'rgba(201,168,76,0.08)' : 'white',
-    transition: 'all 0.25s ease',
-    textAlign: 'center' as const,
+    background: selected ? '#FFFBF0' : 'white',
+    transition: 'all 0.2s ease',
+    textAlign: 'center',
     fontFamily: 'Heebo, sans-serif',
     fontWeight: selected ? 700 : 500,
-    color: selected ? '#B7860A' : '#4A5568',
+    color: selected ? '#946E10' : '#4A5568',
+    userSelect: 'none',
   })
 
+  // ─── SUCCESS STATE ───────────────────────────────────────────────────────────
+  if (submitted) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#F7F9FC',
+        fontFamily: 'Heebo, sans-serif',
+        direction: 'rtl',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px',
+      }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '48px 40px',
+          maxWidth: '480px',
+          width: '100%',
+          textAlign: 'center',
+          boxShadow: '0 2px 16px rgba(14,30,64,0.08)',
+        }}>
+          <div style={{
+            width: '64px', height: '64px',
+            background: '#0E1E40',
+            borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 24px',
+            fontSize: '1.5rem',
+          }}>
+            🔍
+          </div>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#0E1E40', marginBottom: '12px' }}>
+            אנחנו בודקים את הנתונים שלך עכשיו
+          </h2>
+          <p style={{ color: '#4A5568', fontSize: '1rem', lineHeight: 1.7, marginBottom: '8px' }}>
+            אלמוג תבדוק את הזכאות שלך ותחזור אליך תוך 24 שעות עם תוצאה מפורטת.
+          </p>
+          <p style={{ color: '#C9A84C', fontSize: '0.88rem', fontWeight: 700, marginBottom: '24px' }}>
+            רוב הלקוחות מקבלים תשובה עוד היום
+          </p>
+          <div style={{
+            background: '#F7F9FC',
+            borderRadius: '8px',
+            padding: '16px 20px',
+            fontSize: '0.88rem',
+            color: '#718096',
+            lineHeight: 1.6,
+          }}>
+            אלמוג בן דוד | רואת חשבון מוסמכת
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
   return (
     <div style={{
       minHeight: '100vh',
@@ -206,53 +273,123 @@ export default function QuestionnairePage() {
 
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #0E1E40, #1B3358)',
-        padding: '40px 24px 60px',
+        background: '#0E1E40',
+        padding: '36px 24px 52px',
         textAlign: 'center',
       }}>
-        <h1 style={{ fontSize: 'clamp(1.6rem, 3vw, 2rem)', fontWeight: 900, color: 'white', marginBottom: '8px' }}>
-          בדיקת זכאות להחזר מס
+        <p style={{
+          color: '#C9A84C',
+          fontSize: '0.8rem',
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          marginBottom: '12px',
+        }}>
+          הליך בדיקת זכאות להחזר מס
+        </p>
+        <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 1.9rem)', fontWeight: 900, color: 'white', marginBottom: '10px', lineHeight: 1.3 }}>
+          בדוק תוך 60 שניות אם מגיע לך החזר מס
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem' }}>
-          שאלון קצר – פחות מ-5 דקות, חינם לחלוטין
+        <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.88rem', marginBottom: '10px' }}>
+          שאלון קצר – חינם לחלוטין, ללא התחייבות
+        </p>
+        <p style={{ color: '#C9A84C', fontSize: '0.8rem', fontWeight: 700 }}>
+          לוקח פחות מדקה
         </p>
       </div>
 
+      {/* Trust Bar */}
+      <div style={{
+        background: 'white',
+        borderBottom: '1px solid #E2E8F0',
+        padding: '12px 24px',
+        textAlign: 'center',
+        fontSize: '0.82rem',
+        color: '#718096',
+      }}>
+        <span style={{ fontWeight: 700, color: '#0E1E40' }}>אלמוג בן דוד</span>
+        {' | '}
+        <span>רואת חשבון מוסמכת</span>
+        {' | '}
+        <span>אלפי אנשים כבר בדקו את הזכאות שלהם</span>
+      </div>
+
       {/* Progress & Card */}
-      <div style={{ maxWidth: '640px', margin: '-32px auto 0', padding: '0 24px 60px' }}>
-        {/* Progress Bar */}
+      <div style={{ maxWidth: '620px', margin: '-28px auto 0', padding: '0 20px 60px' }}>
+
+        {/* Phase + Progress Bar */}
         <div style={{
           background: 'white',
-          borderRadius: '20px 20px 0 0',
-          padding: '24px 28px 0',
-          boxShadow: '0 4px 24px rgba(14,30,64,0.08)',
+          borderRadius: '12px 12px 0 0',
+          padding: '20px 24px 0',
+          boxShadow: '0 2px 12px rgba(14,30,64,0.07)',
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-            <span style={{ fontSize: '0.82rem', color: '#718096', fontWeight: 600 }}>
-              שלב {step} מתוך {totalSteps}
-            </span>
-            <span style={{ fontSize: '0.82rem', color: '#C9A84C', fontWeight: 700 }}>
-              {Math.round((step / totalSteps) * 100)}%
+          {/* Phase labels */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '14px' }}>
+            {[
+              { n: 1, label: 'פרטים בסיסיים' },
+              { n: 2, label: 'הכנסות ונתונים' },
+              { n: 3, label: 'אישור ושליחה' },
+            ].map((ph) => (
+              <div key={ph.n} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                opacity: ph.n === phase.number ? 1 : 0.4,
+              }}>
+                <div style={{
+                  width: '20px', height: '20px',
+                  borderRadius: '50%',
+                  background: ph.n < phase.number ? '#C9A84C' : ph.n === phase.number ? '#0E1E40' : '#E2E8F0',
+                  color: ph.n <= phase.number ? 'white' : '#718096',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.7rem', fontWeight: 800, flexShrink: 0,
+                }}>
+                  {ph.n < phase.number ? '✓' : ph.n}
+                </div>
+                <span style={{ fontSize: '0.75rem', fontWeight: ph.n === phase.number ? 700 : 500, color: ph.n === phase.number ? '#0E1E40' : '#718096' }}>
+                  {ph.label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress Bar */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.78rem', color: '#718096' }}>שלב {phase.number} מתוך 3</span>
+            <span style={{ fontSize: '0.82rem', color: '#C9A84C', fontWeight: 800 }}>
+              {Math.round((step / totalSteps) * 100)}% הושלם
             </span>
           </div>
-          <div style={{ height: '6px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
+          <div style={{ height: '5px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
             <div style={{
               height: '100%',
               width: `${(step / totalSteps) * 100}%`,
-              background: 'linear-gradient(90deg, #C9A84C, #E8C96A)',
+              background: '#C9A84C',
               borderRadius: '3px',
               transition: 'width 0.4s ease',
             }} />
           </div>
+          {step >= 6 && step < totalSteps && (
+            <p style={{
+              marginTop: '10px',
+              fontSize: '0.76rem',
+              color: '#C9A84C',
+              fontWeight: 700,
+              textAlign: 'center',
+            }}>
+              כמעט סיימת — עוד כמה שאלות ויש לנו את כל מה שצריך
+            </p>
+          )}
         </div>
 
         {/* Main Card */}
         <div style={{
           background: 'white',
-          borderRadius: '0 0 20px 20px',
-          padding: '32px 28px 36px',
-          boxShadow: '0 8px 40px rgba(14,30,64,0.1)',
-          minHeight: '380px',
+          borderRadius: '0 0 12px 12px',
+          padding: '28px 24px 32px',
+          boxShadow: '0 2px 12px rgba(14,30,64,0.07)',
+          minHeight: '360px',
           display: 'flex',
           flexDirection: 'column',
         }}>
@@ -261,32 +398,32 @@ export default function QuestionnairePage() {
             {/* STEP 1: Tax Years */}
             {step === 1 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   על אילו שנים לבדוק?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   ניתן לתבוע על עד 6 שנים אחורה. בחר את כל השנים הרלוונטיות:
                 </p>
-                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {AVAILABLE_YEARS.map((year) => (
                     <div
                       key={year}
                       onClick={() => toggleYear(year)}
                       style={{
                         ...checkCardStyle(data.years.includes(year)),
-                        padding: '14px 28px',
-                        fontSize: '1.05rem',
+                        padding: '14px 24px',
+                        fontSize: '1rem',
                         fontWeight: 700,
-                        flex: '1 0 80px',
+                        flex: '1 0 70px',
                       }}
                     >
                       {year}
-                      {data.years.includes(year) && <span style={{ marginRight: '6px' }}>✓</span>}
+                      {data.years.includes(year) && <span style={{ marginRight: '4px', color: '#C9A84C' }}>✓</span>}
                     </div>
                   ))}
                 </div>
                 {data.years.length === 0 && (
-                  <p style={{ color: '#E53E3E', fontSize: '0.82rem', marginTop: '12px' }}>
+                  <p style={{ color: '#E53E3E', fontSize: '0.8rem', marginTop: '10px' }}>
                     בחר לפחות שנה אחת כדי להמשיך
                   </p>
                 )}
@@ -296,25 +433,24 @@ export default function QuestionnairePage() {
             {/* STEP 2: Employment Type */}
             {step === 2 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   מה מעמד ההעסקה שלך?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   בשנים שבחרת
                 </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {[
-                    { value: 'employee', label: 'שכיר בלבד', icon: '💼' },
-                    { value: 'self_employed', label: 'עצמאי בלבד', icon: '🚀' },
-                    { value: 'both', label: 'גם שכיר וגם עצמאי', icon: '💡' },
-                    { value: 'unemployed', label: 'לא עבדתי', icon: '🏠' },
+                    { value: 'employee', label: 'שכיר בלבד' },
+                    { value: 'self_employed', label: 'עצמאי בלבד' },
+                    { value: 'both', label: 'גם שכיר וגם עצמאי' },
+                    { value: 'unemployed', label: 'לא עבדתי' },
                   ].map((opt) => (
                     <div
                       key={opt.value}
                       onClick={() => setData((d) => ({ ...d, employment_type: opt.value as QuestionnaireData['employment_type'] }))}
                       style={radioCardStyle(data.employment_type === opt.value)}
                     >
-                      <span style={{ fontSize: '1.4rem' }}>{opt.icon}</span>
                       <span style={{ fontWeight: 700, color: '#0E1E40' }}>{opt.label}</span>
                       {data.employment_type === opt.value && (
                         <span style={{ marginRight: 'auto', color: '#C9A84C', fontWeight: 800 }}>✓</span>
@@ -328,30 +464,29 @@ export default function QuestionnairePage() {
             {/* STEP 3: Changed Jobs */}
             {step === 3 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   האם החלפת מקום עבודה?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   בשנים שבחרת (כולל מעבר מחופשת לידה)
                 </p>
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                   {[
-                    { value: true, label: 'כן', icon: '✅' },
-                    { value: false, label: 'לא', icon: '❌' },
+                    { value: true, label: 'כן' },
+                    { value: false, label: 'לא' },
                   ].map((opt) => (
                     <div
                       key={String(opt.value)}
                       onClick={() => setData((d) => ({ ...d, changed_jobs: opt.value }))}
                       style={{ ...checkCardStyle(data.changed_jobs === opt.value), flex: 1, padding: '20px' }}
                     >
-                      <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>{opt.icon}</div>
                       {opt.label}
                     </div>
                   ))}
                 </div>
                 {data.changed_jobs && (
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '10px' }}>
+                    <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '10px' }}>
                       כמה פעמים?
                     </label>
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -381,23 +516,22 @@ export default function QuestionnairePage() {
             {/* STEP 4: Children */}
             {step === 4 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   האם יש לך ילדים?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   ילדים עד גיל 18 מזכים בנקודות זיכוי
                 </p>
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                   {[
-                    { value: true, label: 'כן', icon: '👨‍👩‍👧' },
-                    { value: false, label: 'לא', icon: '❌' },
+                    { value: true, label: 'כן' },
+                    { value: false, label: 'לא' },
                   ].map((opt) => (
                     <div
                       key={String(opt.value)}
                       onClick={() => setData((d) => ({ ...d, children: opt.value }))}
                       style={{ ...checkCardStyle(data.children === opt.value), flex: 1, padding: '20px' }}
                     >
-                      <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>{opt.icon}</div>
                       {opt.label}
                     </div>
                   ))}
@@ -405,7 +539,7 @@ export default function QuestionnairePage() {
                 {data.children && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '10px' }}>
+                      <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '10px' }}>
                         כמה ילדים?
                       </label>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -424,7 +558,7 @@ export default function QuestionnairePage() {
                       </div>
                     </div>
                     <div>
-                      <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                      <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
                         טווח גילאים (לא חובה)
                       </label>
                       <input
@@ -432,12 +566,9 @@ export default function QuestionnairePage() {
                         placeholder="לדוגמה: 3, 7, 12"
                         value={data.children_ages}
                         onChange={(e) => setData((d) => ({ ...d, children_ages: e.target.value }))}
-                        style={{
-                          width: '100%', padding: '12px 16px',
-                          border: '2px solid #E2E8F0', borderRadius: '10px',
-                          fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                          direction: 'rtl', outline: 'none',
-                        }}
+                        style={inputStyle}
+                        onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
+                        onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                       />
                     </div>
                   </div>
@@ -448,24 +579,23 @@ export default function QuestionnairePage() {
             {/* STEP 5: Maternity Leave */}
             {step === 5 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   האם יצאת לחופשת לידה?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   כולל אימוץ. חזרה מחופשת לידה יוצרת לעיתים זכאות להחזר משמעותי
                 </p>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   {[
-                    { value: true, label: 'כן', icon: '👶' },
-                    { value: false, label: 'לא', icon: '❌' },
+                    { value: true, label: 'כן' },
+                    { value: false, label: 'לא' },
                   ].map((opt) => (
                     <div
                       key={String(opt.value)}
                       onClick={() => setData((d) => ({ ...d, maternity_leave: opt.value }))}
-                      style={{ ...checkCardStyle(data.maternity_leave === opt.value), flex: 1, padding: '28px' }}
+                      style={{ ...checkCardStyle(data.maternity_leave === opt.value), flex: 1, padding: '24px' }}
                     >
-                      <div style={{ fontSize: '2rem', marginBottom: '10px' }}>{opt.icon}</div>
-                      <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{opt.label}</div>
+                      <div style={{ fontSize: '1.05rem', fontWeight: 700 }}>{opt.label}</div>
                     </div>
                   ))}
                 </div>
@@ -475,30 +605,29 @@ export default function QuestionnairePage() {
             {/* STEP 6: Academic Degree */}
             {step === 6 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   האם סיימת תואר אקדמי?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   זיכוי מס על שכר לימוד ניתן לתבוע עד 3 שנים מסיום הלימודים
                 </p>
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                   {[
-                    { value: true, label: 'כן', icon: '🎓' },
-                    { value: false, label: 'לא', icon: '❌' },
+                    { value: true, label: 'כן' },
+                    { value: false, label: 'לא' },
                   ].map((opt) => (
                     <div
                       key={String(opt.value)}
                       onClick={() => setData((d) => ({ ...d, academic_degree: opt.value }))}
                       style={{ ...checkCardStyle(data.academic_degree === opt.value), flex: 1, padding: '24px' }}
                     >
-                      <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>{opt.icon}</div>
                       {opt.label}
                     </div>
                   ))}
                 </div>
                 {data.academic_degree && (
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
                       שנת סיום התואר (בקירוב)
                     </label>
                     <input
@@ -508,12 +637,9 @@ export default function QuestionnairePage() {
                       placeholder="לדוגמה: 2022"
                       value={data.degree_year}
                       onChange={(e) => setData((d) => ({ ...d, degree_year: e.target.value }))}
-                      style={{
-                        width: '100%', padding: '12px 16px',
-                        border: '2px solid #E2E8F0', borderRadius: '10px',
-                        fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                        direction: 'rtl', outline: 'none',
-                      }}
+                      style={inputStyle}
+                      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
+                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                     />
                   </div>
                 )}
@@ -523,30 +649,29 @@ export default function QuestionnairePage() {
             {/* STEP 7: Donations */}
             {step === 7 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   האם תרמת לעמותות מוכרות?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   תרומה מעל ₪190 לעמותה עם אישור מס הכנסה מזכה בהחזר של 35%
                 </p>
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                   {[
-                    { value: true, label: 'כן', icon: '💝' },
-                    { value: false, label: 'לא', icon: '❌' },
+                    { value: true, label: 'כן' },
+                    { value: false, label: 'לא' },
                   ].map((opt) => (
                     <div
                       key={String(opt.value)}
                       onClick={() => setData((d) => ({ ...d, donations: opt.value }))}
                       style={{ ...checkCardStyle(data.donations === opt.value), flex: 1, padding: '24px' }}
                     >
-                      <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>{opt.icon}</div>
                       {opt.label}
                     </div>
                   ))}
                 </div>
                 {data.donations && (
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
                       סכום משוער של התרומות (₪)
                     </label>
                     <input
@@ -555,12 +680,9 @@ export default function QuestionnairePage() {
                       placeholder="לדוגמה: 2000"
                       value={data.donations_amount}
                       onChange={(e) => setData((d) => ({ ...d, donations_amount: e.target.value }))}
-                      style={{
-                        width: '100%', padding: '12px 16px',
-                        border: '2px solid #E2E8F0', borderRadius: '10px',
-                        fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                        direction: 'rtl', outline: 'none',
-                      }}
+                      style={inputStyle}
+                      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
+                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                     />
                   </div>
                 )}
@@ -570,10 +692,10 @@ export default function QuestionnairePage() {
             {/* STEP 8: City */}
             {step === 8 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   מהי עיר המגורים שלך?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   תושבי יישובי עדיפות לאומית (פריפריה) זכאים להטבות מס נוספות
                 </p>
                 <input
@@ -581,15 +703,9 @@ export default function QuestionnairePage() {
                   placeholder="שם העיר"
                   value={data.city}
                   onChange={(e) => setData((d) => ({ ...d, city: e.target.value }))}
-                  style={{
-                    width: '100%', padding: '16px 20px',
-                    border: '2px solid #E2E8F0', borderRadius: '12px',
-                    fontSize: '1rem', fontFamily: 'Heebo, sans-serif',
-                    direction: 'rtl', outline: 'none',
-                    transition: 'border-color 0.3s ease',
-                  }}
+                  style={{ ...inputStyle, padding: '16px 20px', fontSize: '1rem' }}
                   onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
-                  onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#E2E8F0' }}
+                  onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                 />
               </div>
             )}
@@ -597,13 +713,13 @@ export default function QuestionnairePage() {
             {/* STEP 9: Special Points */}
             {step === 9 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   נקודות זיכוי מיוחדות
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '24px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '20px' }}>
                   סמן את כל מה שרלוונטי אליך (לא חובה)
                 </p>
-                <div className="special-points-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   {SPECIAL_POINTS_OPTIONS.map((opt) => (
                     <div
                       key={opt.id}
@@ -618,17 +734,17 @@ export default function QuestionnairePage() {
                       }}
                     >
                       <div style={{
-                        width: '20px', height: '20px',
-                        borderRadius: '5px',
-                        border: `2px solid ${data.special_points.includes(opt.id) ? '#C9A84C' : '#CBD5E0'}`,
+                        width: '18px', height: '18px',
+                        borderRadius: '4px',
+                        border: `1.5px solid ${data.special_points.includes(opt.id) ? '#C9A84C' : '#CBD5E0'}`,
                         background: data.special_points.includes(opt.id) ? '#C9A84C' : 'white',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         flexShrink: 0,
-                        color: 'white', fontSize: '0.75rem',
+                        color: 'white', fontSize: '0.7rem',
                       }}>
                         {data.special_points.includes(opt.id) ? '✓' : ''}
                       </div>
-                      <span style={{ fontSize: '0.88rem' }}>{opt.label}</span>
+                      <span style={{ fontSize: '0.85rem' }}>{opt.label}</span>
                     </div>
                   ))}
                 </div>
@@ -638,13 +754,13 @@ export default function QuestionnairePage() {
             {/* STEP 10: Income Range */}
             {step === 10 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   מה ההכנסה השנתית שלך?
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   הכנסה ברוטו בקירוב
                 </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {[
                     { value: 'under_60k', label: 'עד ₪60,000 בשנה', sublabel: 'עד ₪5,000 לחודש' },
                     { value: '60k_120k', label: '₪60,000–₪120,000 בשנה', sublabel: '₪5,000–₪10,000 לחודש' },
@@ -657,8 +773,8 @@ export default function QuestionnairePage() {
                       style={radioCardStyle(data.income_range === opt.value)}
                     >
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, color: '#0E1E40', fontSize: '0.95rem' }}>{opt.label}</div>
-                        <div style={{ fontSize: '0.78rem', color: '#718096' }}>{opt.sublabel}</div>
+                        <div style={{ fontWeight: 700, color: '#0E1E40', fontSize: '0.92rem' }}>{opt.label}</div>
+                        <div style={{ fontSize: '0.76rem', color: '#718096', marginTop: '2px' }}>{opt.sublabel}</div>
                       </div>
                       {data.income_range === opt.value && (
                         <span style={{ color: '#C9A84C', fontWeight: 800 }}>✓</span>
@@ -672,15 +788,15 @@ export default function QuestionnairePage() {
             {/* STEP 11: Contact Details */}
             {step === 11 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   פרטי קשר
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '28px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '24px' }}>
                   כדי שאלמוג תוכל ליצור קשר עם תוצאות הבדיקה
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
                       שם מלא *
                     </label>
                     <input
@@ -688,18 +804,13 @@ export default function QuestionnairePage() {
                       placeholder="ישראל ישראלי"
                       value={data.full_name}
                       onChange={(e) => setData((d) => ({ ...d, full_name: e.target.value }))}
-                      style={{
-                        width: '100%', padding: '14px 18px',
-                        border: '2px solid #E2E8F0', borderRadius: '10px',
-                        fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                        direction: 'rtl', outline: 'none',
-                      }}
+                      style={inputStyle}
                       onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
-                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#E2E8F0' }}
+                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
                       טלפון *
                     </label>
                     <input
@@ -707,18 +818,13 @@ export default function QuestionnairePage() {
                       placeholder="054-7312262"
                       value={data.phone}
                       onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                      style={{
-                        width: '100%', padding: '14px 18px',
-                        border: '2px solid #E2E8F0', borderRadius: '10px',
-                        fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                        direction: 'ltr', textAlign: 'left', outline: 'none',
-                      }}
+                      style={{ ...inputStyle, direction: 'ltr', textAlign: 'left' }}
                       onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
-                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#E2E8F0' }}
+                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: '#0E1E40', marginBottom: '8px' }}>
                       אימייל (לא חובה)
                     </label>
                     <input
@@ -726,14 +832,9 @@ export default function QuestionnairePage() {
                       placeholder="example@email.com"
                       value={data.email}
                       onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                      style={{
-                        width: '100%', padding: '14px 18px',
-                        border: '2px solid #E2E8F0', borderRadius: '10px',
-                        fontSize: '0.95rem', fontFamily: 'Heebo, sans-serif',
-                        direction: 'ltr', textAlign: 'left', outline: 'none',
-                      }}
+                      style={{ ...inputStyle, direction: 'ltr', textAlign: 'left' }}
                       onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#C9A84C' }}
-                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#E2E8F0' }}
+                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#CBD5E0' }}
                     />
                   </div>
                 </div>
@@ -743,38 +844,34 @@ export default function QuestionnairePage() {
             {/* STEP 12: Summary */}
             {step === 12 && (
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0E1E40', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0E1E40', marginBottom: '6px' }}>
                   סיכום ואישור
                 </h2>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '24px' }}>
+                <p style={{ color: '#718096', fontSize: '0.88rem', marginBottom: '20px' }}>
                   בדוק את הפרטים ושלח לבדיקה
                 </p>
 
                 {/* Score Badge */}
                 <div style={{
-                  background: score >= 60
-                    ? 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.15))'
-                    : score >= 30
-                    ? 'linear-gradient(135deg, rgba(201,168,76,0.1), rgba(232,201,106,0.15))'
-                    : 'linear-gradient(135deg, rgba(107,114,128,0.1), rgba(107,114,128,0.15))',
-                  border: `1px solid ${score >= 60 ? 'rgba(34,197,94,0.3)' : score >= 30 ? 'rgba(201,168,76,0.3)' : 'rgba(107,114,128,0.3)'}`,
-                  borderRadius: '16px',
-                  padding: '20px 24px',
-                  marginBottom: '20px',
+                  background: '#F7F9FC',
+                  border: '1.5px solid #E2E8F0',
+                  borderRadius: '10px',
+                  padding: '18px 20px',
+                  marginBottom: '18px',
                   textAlign: 'center',
                 }}>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#0E1E40', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0E1E40', marginBottom: '2px' }}>
                     {score}
-                    <span style={{ fontSize: '1rem', color: '#718096' }}>/100</span>
+                    <span style={{ fontSize: '0.9rem', color: '#718096' }}>/100</span>
                   </div>
-                  <div style={{ fontWeight: 700, color: '#0E1E40', marginBottom: '4px' }}>
-                    {score >= 60 ? 'סיכוי גבוה להחזר מס!' : score >= 30 ? 'כנראה מגיע לך החזר' : 'כדאי לבדוק'}
+                  <div style={{ fontWeight: 700, color: score >= 60 ? '#2F855A' : score >= 30 ? '#946E10' : '#4A5568' }}>
+                    {score >= 60 ? 'סיכוי גבוה לזכאות' : score >= 30 ? 'ייתכן שמגיע לך החזר' : 'כדאי לבדוק'}
                   </div>
-                  <div style={{ color: '#718096', fontSize: '0.82rem' }}>ציון זכאות ראשוני</div>
+                  <div style={{ color: '#718096', fontSize: '0.78rem', marginTop: '2px' }}>ציון זכאות ראשוני</div>
                 </div>
 
                 {/* Summary */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '18px' }}>
                   {[
                     { label: 'שנות מס', value: data.years.join(', ') || 'לא נבחר' },
                     { label: 'סטטוס תעסוקה', value: { employee: 'שכיר', self_employed: 'עצמאי', both: 'שכיר + עצמאי', unemployed: 'לא עובד', '': '' }[data.employment_type] || '' },
@@ -784,9 +881,9 @@ export default function QuestionnairePage() {
                     <div key={item.label} style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      padding: '10px 0',
-                      borderBottom: '1px solid #F7F9FC',
-                      fontSize: '0.9rem',
+                      padding: '9px 0',
+                      borderBottom: '1px solid #F0F4F8',
+                      fontSize: '0.88rem',
                     }}>
                       <span style={{ color: '#718096' }}>{item.label}:</span>
                       <span style={{ fontWeight: 600, color: '#0E1E40' }}>{item.value}</span>
@@ -796,16 +893,20 @@ export default function QuestionnairePage() {
 
                 {error && (
                   <div style={{
-                    background: 'rgba(229,62,62,0.1)', border: '1px solid rgba(229,62,62,0.3)',
-                    borderRadius: '10px', padding: '12px 16px',
-                    color: '#C53030', fontSize: '0.88rem', marginBottom: '16px',
+                    background: 'rgba(229,62,62,0.07)',
+                    border: '1px solid rgba(229,62,62,0.25)',
+                    borderRadius: '8px',
+                    padding: '10px 14px',
+                    color: '#C53030',
+                    fontSize: '0.85rem',
+                    marginBottom: '14px',
                   }}>
                     {error}
                   </div>
                 )}
 
-                <p style={{ color: '#718096', fontSize: '0.78rem', lineHeight: 1.6, marginBottom: '16px' }}>
-                  בלחיצה על "שלח לבדיקה" אני מאשר/ת שהפרטים שמסרתי נכונים ומאשר/ת קבלת יצירת קשר מאלמוג בן דוד.
+                <p style={{ color: '#718096', fontSize: '0.76rem', lineHeight: 1.6, marginBottom: '4px' }}>
+                  בלחיצה על "בדוק זכאות עכשיו" אני מאשר/ת שהפרטים שמסרתי נכונים ומאשר/ת קבלת יצירת קשר מאלמוג בן דוד, רואת חשבון מוסמכת.
                 </p>
               </div>
             )}
@@ -816,9 +917,9 @@ export default function QuestionnairePage() {
             display: 'flex',
             justifyContent: step === 1 ? 'flex-end' : 'space-between',
             alignItems: 'center',
-            marginTop: '32px',
-            paddingTop: '20px',
-            borderTop: '1px solid #F7F9FC',
+            marginTop: '28px',
+            paddingTop: '18px',
+            borderTop: '1px solid #F0F4F8',
           }}>
             {step > 1 && (
               <button onClick={goBack} style={outlineBtnStyle}>
@@ -841,7 +942,7 @@ export default function QuestionnairePage() {
                     (step === 2 && !data.employment_type) ||
                     (step === 10 && !data.income_range) ||
                     (step === 11 && (!data.full_name.trim() || !data.phone.trim()))
-                  ) ? 0.5 : 1,
+                  ) ? 0.45 : 1,
                   cursor: (
                     (step === 1 && data.years.length === 0) ||
                     (step === 2 && !data.employment_type)
@@ -854,9 +955,9 @@ export default function QuestionnairePage() {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                style={{ ...btnStyle, minWidth: '160px' }}
+                style={{ ...btnStyle, minWidth: '180px', justifyContent: 'center', fontSize: '1.05rem' }}
               >
-                {loading ? 'שולח...' : '💰 שלח לבדיקה חינם'}
+                {loading ? 'שולח...' : 'בדוק זכאות עכשיו'}
               </button>
             )}
           </div>

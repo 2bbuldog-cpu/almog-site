@@ -7,36 +7,30 @@ const WHATSAPP_URL = 'https://wa.me/972547312262'
 
 const services = [
   {
-    icon: '💰',
     title: 'החזרי מס',
     description: 'בדיקה חינם, הגשה מהירה, תוצאות אמיתיות. בממוצע ₪15,000 חזרה לכיס.',
     href: '/tax-refund',
     cta: 'בדוק זכאות חינם',
-    color: '#C9A84C',
   },
   {
-    icon: '🚀',
     title: 'פתיחת עסק',
     description: 'עוסק פטור, מורשה או חברה? נחליט יחד מה הכי משתלם עבורך.',
     href: '/service-business',
     cta: 'קבל ייעוץ',
-    color: '#1B3358',
   },
   {
-    icon: '🌅',
     title: 'תכנון פרישה',
-    description: 'כמה כסף יהיה לך ביום שאחרי? תכנון נכון עכשיו = חיים טובים מחר.',
+    description: 'תכנון פיננסי לקראת פרישה — כמה צברת, כמה תצטרך, מה עושים עכשיו.',
     href: '/service-retirement',
-    cta: 'תכנן את העתיד',
-    color: '#0E1E40',
+    cta: 'לפרטים נוספים',
   },
 ]
 
 const whyUs = [
-  { icon: '🎯', title: 'מקצועיות', desc: 'רישיון מלא מרשות המסים, ניסיון של מעל 10 שנים' },
-  { icon: '📱', title: 'זמינות', desc: 'זמינה בוואטסאפ גם בשעות הלא שגרתיות' },
-  { icon: '🔍', title: 'שקיפות', desc: 'מחירים ברורים מראש, ללא הפתעות ועמלות נסתרות' },
-  { icon: '✅', title: 'תוצאות', desc: 'מאות לקוחות מרוצים ומליוני שקלים שהוחזרו' },
+  { title: 'מקצועיות', desc: 'רישיון מלא מרשות המסים, ניסיון של מעל 10 שנים' },
+  { title: 'זמינות', desc: 'זמינה בוואטסאפ גם בשעות הלא שגרתיות' },
+  { title: 'שקיפות', desc: 'מחירים ברורים מראש, ללא הפתעות ועמלות נסתרות' },
+  { title: 'תוצאות', desc: 'מאות לקוחות מרוצים ומליוני שקלים שהוחזרו' },
 ]
 
 const steps = [
@@ -169,23 +163,10 @@ export default function HomePage() {
         alignItems: 'center',
         paddingTop: '80px',
       }}>
-        {/* Background decorative elements */}
+        {/* Subtle background texture */}
         <div style={{
-          position: 'absolute', top: '-10%', right: '-10%',
-          width: '600px', height: '600px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: '-10%', left: '-5%',
-          width: '400px', height: '400px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', top: '30%', left: '5%',
-          width: '1px', height: '200px',
-          background: 'linear-gradient(180deg, transparent, rgba(201,168,76,0.3), transparent)',
+          position: 'absolute', top: 0, right: 0, bottom: 0, left: 0,
+          background: 'radial-gradient(ellipse at 70% 40%, rgba(201,168,76,0.04) 0%, transparent 60%)',
           pointerEvents: 'none',
         }} />
 
@@ -201,28 +182,22 @@ export default function HomePage() {
             {/* Text Content */}
             <div style={{ animation: 'fadeIn 0.8s ease both' }}>
               <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 20px',
-                background: 'rgba(201,168,76,0.12)',
-                border: '1px solid rgba(201,168,76,0.35)',
-                borderRadius: '50px',
-                marginBottom: '28px',
-                color: '#E8C96A',
+                marginBottom: '20px',
+                color: 'rgba(232,201,106,0.8)',
                 fontSize: '0.82rem',
-                fontWeight: 700,
+                fontWeight: 600,
+                letterSpacing: '0.04em',
               }}>
-                ✦ רואת חשבון מוסמכת | באר שבע ואונליין
+                רואת חשבון מוסמכת | באר שבע ואונליין
               </div>
 
               <h1 style={{
-                fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
-                fontWeight: 900,
+                fontSize: 'clamp(2rem, 4.5vw, 3rem)',
+                fontWeight: 800,
                 color: '#FFFFFF',
-                lineHeight: 1.15,
+                lineHeight: 1.2,
                 marginBottom: '20px',
-                letterSpacing: '-0.5px',
+                letterSpacing: '-0.3px',
               }}>
                 מגיע לך יותר{' '}
                 <span style={{
@@ -249,42 +224,40 @@ export default function HomePage() {
                 <Link
                   href="/sheelon"
                   style={{
-                    padding: '16px 32px',
+                    padding: '14px 32px',
                     background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
                     color: '#0E1E40',
-                    fontWeight: 800,
+                    fontWeight: 700,
                     fontSize: '1rem',
                     borderRadius: '50px',
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: '0 8px 24px rgba(201,168,76,0.4)',
-                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 16px rgba(201,168,76,0.25)',
+                    transition: 'all 0.25s ease',
                   }}
                 >
-                  🧾 בדוק כמה מגיע לך — חינם
+                  בדיקת זכאות — חינם
                 </Link>
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    padding: '15px 32px',
+                    padding: '13px 28px',
                     background: 'transparent',
-                    color: 'white',
-                    fontWeight: 700,
+                    color: 'rgba(255,255,255,0.85)',
+                    fontWeight: 600,
                     fontSize: '1rem',
                     borderRadius: '50px',
-                    border: '2px solid rgba(255,255,255,0.35)',
+                    border: '1.5px solid rgba(255,255,255,0.3)',
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.25s ease',
                   }}
                 >
-                  💬 דברי עם אלמוג
+                  ייעוץ ראשוני בוואטסאפ
                 </a>
               </div>
 
@@ -300,8 +273,8 @@ export default function HomePage() {
                   { num: '10+', label: 'שנות ניסיון' },
                 ].map((stat) => (
                   <div key={stat.num}>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#E8C96A' }}>{stat.num}</div>
-                    <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{stat.label}</div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'white' }}>{stat.num}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)', fontWeight: 500, marginTop: '2px' }}>{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -315,32 +288,20 @@ export default function HomePage() {
               animation: 'fadeIn 1s ease 0.3s both',
             }}>
               <div style={{
-                width: '420px',
+                width: '400px',
                 maxWidth: '100%',
                 position: 'relative',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-20px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '80%',
-                  height: '60%',
-                  borderRadius: '50%',
-                  background: 'radial-gradient(ellipse, rgba(201,168,76,0.25) 0%, transparent 70%)',
-                  filter: 'blur(30px)',
-                  zIndex: 0,
-                }} />
                 <Image
                   src="/almog-nobg.png"
                   alt="אלמוג בן דוד"
-                  width={420}
-                  height={520}
+                  width={400}
+                  height={500}
                   style={{
                     objectFit: 'contain',
                     position: 'relative',
                     zIndex: 1,
-                    filter: 'drop-shadow(0 20px 60px rgba(0,0,0,0.5))',
+                    filter: 'drop-shadow(0 8px 32px rgba(0,0,0,0.35))',
                     maxWidth: '100%',
                   }}
                   priority
@@ -387,35 +348,29 @@ export default function HomePage() {
 
       {/* ===== TRUST BAR ===== */}
       <section style={{
-        background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
-        padding: '28px 24px',
+        background: '#C9A84C',
+        padding: '24px',
+        borderBottom: '1px solid rgba(14,30,64,0.1)',
       }}>
         <div style={{
           maxWidth: '900px',
           margin: '0 auto',
           display: 'flex',
           justifyContent: 'center',
-          gap: '48px',
+          gap: '56px',
           flexWrap: 'wrap',
         }}>
           {[
-            { icon: '👥', num: '500+', label: 'לקוחות מרוצים' },
-            { icon: '💸', num: '₪15,000', label: 'החזר ממוצע' },
-            { icon: '⭐', num: '10+', label: 'שנות ניסיון' },
+            { num: '500+', label: 'לקוחות' },
+            { num: '₪15,000', label: 'החזר ממוצע' },
+            { num: '10+', label: 'שנות ניסיון' },
           ].map((item) => (
-            <div key={item.num} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-            }}>
-              <span style={{ fontSize: '2rem' }}>{item.icon}</span>
-              <div>
-                <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#0E1E40', lineHeight: 1 }}>
-                  {item.num}
-                </div>
-                <div style={{ fontSize: '0.82rem', color: 'rgba(14,30,64,0.7)', fontWeight: 600 }}>
-                  {item.label}
-                </div>
+            <div key={item.num} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0E1E40', lineHeight: 1 }}>
+                {item.num}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: 'rgba(14,30,64,0.65)', fontWeight: 600, marginTop: '3px' }}>
+                {item.label}
               </div>
             </div>
           ))}
@@ -425,32 +380,17 @@ export default function HomePage() {
       {/* ===== SERVICES SECTION ===== */}
       <section className="page-section" style={{ padding: '100px 24px', background: '#F7F9FC' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 18px',
-              background: 'rgba(201,168,76,0.1)',
-              border: '1px solid rgba(201,168,76,0.3)',
-              borderRadius: '50px',
-              marginBottom: '16px',
-              color: '#C9A84C',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-            }}>
-              ✦ השירותים שלנו
-            </div>
+          <div style={{ marginBottom: '48px' }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-              fontWeight: 900,
+              fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)',
+              fontWeight: 800,
               color: '#0E1E40',
-              marginBottom: '16px',
+              marginBottom: '12px',
             }}>
-              מה אנחנו עושים בשבילך
+              השירותים שלנו
             </h2>
-            <p style={{ fontSize: '1.05rem', color: '#4A5568', maxWidth: '500px', margin: '0 auto', lineHeight: 1.7 }}>
-              שלושה תחומים, תוצאה אחת: יותר כסף ושקט נפשי
+            <p style={{ fontSize: '1rem', color: '#4A5568', lineHeight: 1.6 }}>
+              בדיקה ראשונית חינם, ללא התחייבות
             </p>
           </div>
 
@@ -466,41 +406,27 @@ export default function HomePage() {
                 key={service.title}
                 style={{
                   background: 'white',
-                  borderRadius: '20px',
-                  padding: '36px 28px',
-                  boxShadow: '0 4px 24px rgba(14,30,64,0.07)',
+                  borderRadius: '16px',
+                  padding: '28px 24px',
+                  boxShadow: '0 2px 12px rgba(14,30,64,0.06)',
                   border: '1px solid #E2E8F0',
-                  transition: 'all 0.35s ease',
+                  borderTop: '3px solid #C9A84C',
+                  transition: 'all 0.25s ease',
                   animation: `fadeIn 0.5s ease ${i * 0.1}s both`,
                   display: 'flex',
                   flexDirection: 'column',
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement
-                  el.style.transform = 'translateY(-8px)'
-                  el.style.boxShadow = '0 20px 48px rgba(14,30,64,0.14)'
-                  el.style.borderColor = '#C9A84C'
+                  el.style.transform = 'translateY(-3px)'
+                  el.style.boxShadow = '0 8px 28px rgba(14,30,64,0.1)'
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement
                   el.style.transform = ''
-                  el.style.boxShadow = '0 4px 24px rgba(14,30,64,0.07)'
-                  el.style.borderColor = '#E2E8F0'
+                  el.style.boxShadow = '0 2px 12px rgba(14,30,64,0.06)'
                 }}
               >
-                <div style={{
-                  fontSize: '2.5rem',
-                  marginBottom: '20px',
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '16px',
-                  background: 'linear-gradient(135deg, rgba(201,168,76,0.1), rgba(232,201,106,0.15))',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  {service.icon}
-                </div>
                 <h3 style={{
                   fontSize: '1.3rem',
                   fontWeight: 800,
@@ -553,9 +479,9 @@ export default function HomePage() {
             {/* Left: Image */}
             <div style={{ position: 'relative' }}>
               <div style={{
-                borderRadius: '24px',
+                borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 24px 80px rgba(14,30,64,0.2)',
+                boxShadow: '0 8px 32px rgba(14,30,64,0.12)',
                 position: 'relative',
               }}>
                 <Image
@@ -579,69 +505,37 @@ export default function HomePage() {
                   <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>ממוצע החזר מס</div>
                 </div>
               </div>
-              {/* Decorative dot */}
-              <div style={{
-                position: 'absolute',
-                top: '-20px',
-                left: '-20px',
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
-                opacity: 0.15,
-              }} />
             </div>
 
             {/* Right: Content */}
             <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 18px',
-                background: 'rgba(201,168,76,0.1)',
-                border: '1px solid rgba(201,168,76,0.3)',
-                borderRadius: '50px',
-                marginBottom: '20px',
-                color: '#C9A84C',
-                fontSize: '0.82rem',
-                fontWeight: 700,
-              }}>
-                ✦ למה לבחור באלמוג?
-              </div>
               <h2 style={{
-                fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
-                fontWeight: 900,
+                fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)',
+                fontWeight: 800,
                 color: '#0E1E40',
-                marginBottom: '16px',
-                lineHeight: 1.2,
+                marginBottom: '12px',
+                lineHeight: 1.25,
               }}>
-                לא רק רואת חשבון –<br />שותפה אמיתית לדרך
+                למה לבחור באלמוג?
               </h2>
-              <p style={{ color: '#4A5568', lineHeight: 1.8, marginBottom: '36px', fontSize: '1rem' }}>
-                עשר שנות ניסיון, מאות לקוחות מרוצים, ושקיפות מלאה בכל שלב.
-                אלמוג מאמינה שכל אחד מגיע ליהנות ממה שמגיע לו.
+              <p style={{ color: '#4A5568', lineHeight: 1.7, marginBottom: '32px', fontSize: '0.95rem' }}>
+                עשר שנות ניסיון, מאות לקוחות מרוצים, שקיפות מלאה בכל שלב.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 {whyUs.map((item) => (
                   <div key={item.title} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                     <div style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '12px',
-                      background: 'linear-gradient(135deg, rgba(201,168,76,0.1), rgba(232,201,106,0.15))',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '1.4rem',
+                      width: '4px',
+                      height: '44px',
+                      borderRadius: '2px',
+                      background: '#C9A84C',
                       flexShrink: 0,
-                    }}>
-                      {item.icon}
-                    </div>
+                      marginTop: '2px',
+                    }} />
                     <div>
-                      <div style={{ fontWeight: 800, color: '#0E1E40', fontSize: '1rem', marginBottom: '4px' }}>{item.title}</div>
-                      <div style={{ color: '#4A5568', fontSize: '0.9rem', lineHeight: 1.6 }}>{item.desc}</div>
+                      <div style={{ fontWeight: 700, color: '#0E1E40', fontSize: '0.95rem', marginBottom: '4px' }}>{item.title}</div>
+                      <div style={{ color: '#4A5568', fontSize: '0.88rem', lineHeight: 1.6 }}>{item.desc}</div>
                     </div>
                   </div>
                 ))}
@@ -654,19 +548,11 @@ export default function HomePage() {
       {/* ===== HOW IT WORKS ===== */}
       <section className="page-section" style={{ padding: '100px 24px', background: '#F7F9FC' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 18px', background: 'rgba(201,168,76,0.1)',
-              border: '1px solid rgba(201,168,76,0.3)', borderRadius: '50px',
-              marginBottom: '16px', color: '#C9A84C', fontSize: '0.82rem', fontWeight: 700,
-            }}>
-              ✦ איך זה עובד
-            </div>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 900, color: '#0E1E40', marginBottom: '12px' }}>
-              3 צעדים פשוטים להחזר שלך
+          <div style={{ marginBottom: '48px' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 800, color: '#0E1E40', marginBottom: '10px' }}>
+              איך זה עובד
             </h2>
-            <p style={{ color: '#4A5568', fontSize: '1rem' }}>מהרגע שממלאים את השאלון ועד שהכסף בחשבון</p>
+            <p style={{ color: '#4A5568', fontSize: '0.95rem' }}>מהרגע שממלאים את השאלון ועד שהכסף בחשבון</p>
           </div>
 
           <div style={{ display: 'flex', gap: '24px', position: 'relative' }} className="steps-grid">
@@ -731,15 +617,13 @@ export default function HomePage() {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 18px', background: 'rgba(201,168,76,0.15)',
-              border: '1px solid rgba(201,168,76,0.35)', borderRadius: '50px',
-              marginBottom: '16px', color: '#E8C96A', fontSize: '0.82rem', fontWeight: 700,
+              color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', fontWeight: 600,
+              letterSpacing: '0.04em', marginBottom: '12px',
             }}>
-              ✦ מה הלקוחות אומרים
+              ביקורות לקוחות
             </div>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 900, color: 'white', marginBottom: '12px' }}>
-              הם כבר קיבלו את הכסף שלהם
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 800, color: 'white', marginBottom: '12px' }}>
+              הם כבר קיבלו את ההחזר שלהם
             </h2>
           </div>
 
@@ -813,18 +697,11 @@ export default function HomePage() {
 {/* ===== FAQ SECTION ===== */}
       <section className="page-section" style={{ padding: '100px 24px', background: 'white' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 18px', background: 'rgba(201,168,76,0.1)',
-              border: '1px solid rgba(201,168,76,0.3)', borderRadius: '50px',
-              marginBottom: '16px', color: '#C9A84C', fontSize: '0.82rem', fontWeight: 700,
-            }}>
-              ✦ שאלות נפוצות
-            </div>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 900, color: '#0E1E40', marginBottom: '12px' }}>
-              יש לך שאלות? יש לנו תשובות
+          <div style={{ marginBottom: '48px' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 800, color: '#0E1E40', marginBottom: '10px' }}>
+              שאלות נפוצות
             </h2>
+            <p style={{ color: '#4A5568', fontSize: '0.95rem' }}>תשובות לשאלות שעולות לרוב לפני שמתחילים</p>
           </div>
 
           <div>
@@ -843,60 +720,47 @@ export default function HomePage() {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        <div style={{
-          position: 'absolute', top: '-20%', right: '-10%',
-          width: '500px', height: '500px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{ maxWidth: '700px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{
-            fontSize: 'clamp(2rem, 5vw, 3rem)',
-            fontWeight: 900, color: 'white',
-            marginBottom: '20px', lineHeight: 1.2,
+            fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
+            fontWeight: 800, color: 'white',
+            marginBottom: '16px', lineHeight: 1.25,
           }}>
-            מוכן לבדוק{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              מה מגיע לך?
-            </span>
+            מוכן לבדוק מה מגיע לך?
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: '40px' }}>
-            השאלון לוקח פחות מ-5 דקות, חינם לחלוטין, ועשוי להוביל להחזר של אלפי שקלים.
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', lineHeight: 1.7, marginBottom: '36px' }}>
+            השאלון לוקח פחות מ-5 דקות. חינם לחלוטין, ללא התחייבות.
           </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link
               href="/questionnaire"
               style={{
-                padding: '18px 44px',
+                padding: '14px 36px',
                 background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
-                color: '#0E1E40', fontWeight: 800, fontSize: '1.1rem',
+                color: '#0E1E40', fontWeight: 700, fontSize: '1rem',
                 borderRadius: '50px', textDecoration: 'none',
-                boxShadow: '0 8px 30px rgba(201,168,76,0.4)',
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                boxShadow: '0 4px 16px rgba(201,168,76,0.25)',
+                display: 'inline-flex', alignItems: 'center',
               }}
             >
-              💰 מלא את השאלון – חינם
+              בדיקת זכאות — חינם
             </Link>
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                padding: '17px 40px',
-                background: 'transparent', color: 'white', fontWeight: 700, fontSize: '1.05rem',
-                borderRadius: '50px', border: '2px solid rgba(255,255,255,0.3)',
-                textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '13px 32px',
+                background: 'transparent', color: 'rgba(255,255,255,0.85)', fontWeight: 600, fontSize: '1rem',
+                borderRadius: '50px', border: '1.5px solid rgba(255,255,255,0.3)',
+                textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
               }}
             >
-              💬 שלח הודעה לאלמוג
+              ייעוץ בוואטסאפ
             </a>
           </div>
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.82rem', marginTop: '24px' }}>
-            ללא עלות, ללא התחייבות, תשלום רק אם מצאנו לך כסף
+          <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', marginTop: '20px' }}>
+            תשלום רק אם מצאנו לך כסף
           </p>
         </div>
       </section>

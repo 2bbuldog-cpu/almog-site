@@ -1,14 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 const WHATSAPP_URL = 'https://wa.me/972547312262'
 
 export default function Navigation() {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+
+  if (pathname?.startsWith('/hazarat-mas')) return null
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,10 +37,10 @@ export default function Navigation() {
       label: 'שירותים',
       href: '#',
       dropdown: [
-        { label: 'החזרי מס', href: '/tax-refund', icon: '💰' },
-        { label: 'פתיחת עסק', href: '/service-business', icon: '🚀' },
-        { label: 'תכנון פרישה', href: '/service-retirement', icon: '🌅' },
-        { label: 'שאלון החזר מס', href: '/sheelon', icon: '🧾' },
+        { label: 'החזרי מס', href: '/tax-refund' },
+        { label: 'פתיחת עסק', href: '/service-business' },
+        { label: 'תכנון פרישה', href: '/service-retirement' },
+        { label: 'שאלון החזר מס', href: '/sheelon' },
       ],
     },
     { label: 'סוכני AI', href: '/#agents' },
@@ -192,7 +196,6 @@ export default function Navigation() {
                             el.style.color = '#0E1E40'
                           }}
                         >
-                          <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
                           {item.label}
                         </Link>
                       ))}
@@ -246,7 +249,7 @@ export default function Navigation() {
                 el.style.transform = ''
               }}
             >
-              🧾 שאלון מס
+              שאלון מס
             </Link>
             <a
               href={WHATSAPP_URL}
@@ -278,8 +281,33 @@ export default function Navigation() {
                 el.style.boxShadow = '0 4px 16px rgba(201,168,76,0.3)'
               }}
             >
-              <span>💬</span> ייעוץ חינם
+              ייעוץ חינם
             </a>
+
+            {/* Internal access — subtle, not for public */}
+            <Link
+              href="/crm/login"
+              style={{
+                marginRight: '8px',
+                padding: '8px 14px',
+                fontSize: '0.75rem',
+                fontWeight: 400,
+                color: scrolled ? 'rgba(14,30,64,0.28)' : 'rgba(255,255,255,0.22)',
+                transition: 'color 0.3s ease',
+                textDecoration: 'none',
+                letterSpacing: '0.01em',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.color = scrolled ? 'rgba(14,30,64,0.55)' : 'rgba(255,255,255,0.5)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.color = scrolled ? 'rgba(14,30,64,0.28)' : 'rgba(255,255,255,0.22)'
+              }}
+            >
+              כניסה פנימית
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -389,7 +417,7 @@ export default function Navigation() {
                           transition: 'background 0.2s ease',
                         }}
                       >
-                        <span>{item.icon}</span> {item.label}
+                        {item.label}
                       </Link>
                     ))}
                   </>
@@ -427,7 +455,7 @@ export default function Navigation() {
                 borderRadius: '50px', textDecoration: 'none',
               }}
             >
-              🧾 שאלון החזר מס חינמי
+              שאלון החזר מס
             </Link>
             <a
               href={WHATSAPP_URL}
@@ -440,8 +468,24 @@ export default function Navigation() {
                 borderRadius: '50px', textDecoration: 'none',
               }}
             >
-              💬 ייעוץ ראשוני חינם
+              ייעוץ ראשוני חינם
             </a>
+            <Link
+              href="/crm/login"
+              onClick={() => setMenuOpen(false)}
+              style={{
+                display: 'block',
+                textAlign: 'center',
+                padding: '10px',
+                color: 'rgba(255,255,255,0.22)',
+                fontSize: '0.76rem',
+                fontWeight: 400,
+                textDecoration: 'none',
+                marginTop: '4px',
+              }}
+            >
+              כניסה פנימית
+            </Link>
           </div>
         </div>
       )}
