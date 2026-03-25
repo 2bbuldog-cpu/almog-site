@@ -19,7 +19,7 @@ function getDaysSinceUpdate(lead: Lead): number {
 
 function getUrgency(lead: Lead): Urgency {
   const age = getAgeHours(lead)
-  if (lead.status === 'new') {
+  if (lead.status === 'new' || lead.status === 'questionnaire_done') {
     if (age < 24)  return 'new'
     if (age < 72)  return 'attention'
     return 'overdue'
@@ -53,6 +53,7 @@ const URGENCY_BG: Record<Urgency, string> = {
 // ─── Next action ─────────────────────────────────────────────────────────────
 
 const NEXT_ACTION: Record<string, string> = {
+  questionnaire_done: 'יצירת קשר ראשוני',
   new: 'יצירת קשר ראשוני',
   contacted: 'קביעת פגישה / בקשת מסמכים',
   waiting_docs: 'מעקב מסמכים חסרים',
@@ -148,7 +149,7 @@ export default function CRMDashboard() {
         conversionRate: (closedCount + lostCount) > 0
           ? Math.round((closedCount / (closedCount + lostCount)) * 100)
           : 0,
-        uncontacted: leads.filter(l => l.status === 'new' && getAgeHours(l) > 24).length,
+        uncontacted: leads.filter(l => (l.status === 'new' || l.status === 'questionnaire_done') && getAgeHours(l) > 24).length,
       })
 
       const pipelineCounts: Record<string, number> = {}
@@ -169,7 +170,7 @@ export default function CRMDashboard() {
     setLoading(false)
   }
 
-  const allStatuses = ['new', 'contacted', 'waiting_docs', 'under_review', 'submitted', 'completed', 'lost']
+  const allStatuses = ['questionnaire_done', 'new', 'contacted', 'waiting_docs', 'under_review', 'submitted', 'completed', 'lost']
 
   return (
     <div style={{ direction: 'rtl' }}>
@@ -253,7 +254,7 @@ export default function CRMDashboard() {
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = URGENCY_BG[urgency] }}
                       onClick={() => window.location.href = `/crm/leads/${lead.id}`}
                     >
-                      <td style={{ ...td, fontWeight: 600, color: '#111827' }}>{lead.full_name}</td>
+                      <td style={{ ...td, fontWeight: 600, color: '#111827' }}>{lead.name}</td>
                       <td style={{ ...td, direction: 'ltr', textAlign: 'right', color: '#6b7280' }}>
                         <a href={`tel:${lead.phone}`} onClick={e => e.stopPropagation()} style={{ color: 'inherit', textDecoration: 'none' }}>
                           {lead.phone}
@@ -405,7 +406,7 @@ export default function CRMDashboard() {
                       onClick={() => window.location.href = `/crm/leads/${lead.id}`}
                     >
                       <td style={{ ...td, fontWeight: 600, color: '#111827' }}>
-                        {lead.full_name}
+                        {lead.name}
                         {urgency !== 'ok' && urgency !== 'new' && (
                           <span style={{
                             marginRight: '6px', fontSize: '0.65rem', fontWeight: 700,
@@ -419,7 +420,7 @@ export default function CRMDashboard() {
                       <td style={{ ...td, color: '#9ca3af', fontSize: '0.76rem' }}>{formatAge(lead)}</td>
                       <td style={td}>{STATUS_LABELS[lead.status]}</td>
                       <td style={{ ...td, color: '#374151', fontSize: '0.78rem' }}>{NEXT_ACTION[lead.status]}</td>
-                      <td style={{ ...td, color: '#6b7280' }}>{lead.qualification_score}</td>
+                      <td style={{ ...td, color: '#6b7280' }}>{lead.score}</td>
                     </tr>
                   )
                 })}

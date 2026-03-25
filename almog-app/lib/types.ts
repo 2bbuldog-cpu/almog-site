@@ -1,4 +1,5 @@
 export type LeadStatus =
+  | 'questionnaire_done'
   | 'new'
   | 'contacted'
   | 'waiting_docs'
@@ -9,12 +10,14 @@ export type LeadStatus =
 
 export interface Lead {
   id: string
-  full_name: string
+  name: string                           // DB col: name
   phone: string
   email?: string
+  city?: string
   source: string
   status: LeadStatus
-  qualification_score: number
+  score: number                          // DB col: score (0–10)
+  score_label?: 'hot' | 'warm' | 'cold' // DB col: score_label
   created_at: string
   updated_at: string
 }
@@ -22,19 +25,20 @@ export interface Lead {
 export interface QuestionnaireResponse {
   id: string
   lead_id: string
-  years: number[]
+  years_to_check: number[]
   employment_type: 'employee' | 'self_employed' | 'both' | 'unemployed'
-  changed_jobs: boolean
-  changed_jobs_count?: number
-  children_count: number
+  changed_employer: boolean
+  num_employers?: number
+  num_children: number
   maternity_leave: boolean
   academic_degree: boolean
   degree_year?: number
   donations: boolean
-  donations_amount?: number
-  city: string
+  donation_amount?: string
+  city?: string
   special_points: string[]
-  income_range: 'under_60k' | '60k_120k' | '120k_200k' | 'over_200k'
+  income_range: 'under_60k' | '60k_120k' | '120k_200k' | 'over_200k' | ''
+  periphery_resident?: boolean
   created_at: string
 }
 
@@ -43,7 +47,8 @@ export interface LeadNote {
   lead_id: string
   content: string
   created_at: string
-  created_by: string
+  created_by?: string
+  author?: string
 }
 
 export interface Task {
@@ -70,6 +75,7 @@ export type EmploymentType = 'employee' | 'self_employed' | 'both' | 'unemployed
 export type TaskPriority = 'low' | 'medium' | 'high'
 
 export const STATUS_LABELS: Record<LeadStatus, string> = {
+  questionnaire_done: 'שאלון הושלם',
   new: 'ליד חדש',
   contacted: 'בוצע קשר',
   waiting_docs: 'ממתין למסמכים',
@@ -80,6 +86,7 @@ export const STATUS_LABELS: Record<LeadStatus, string> = {
 }
 
 export const STATUS_COLORS: Record<LeadStatus, string> = {
+  questionnaire_done: '#0369a1',
   new: '#B7860A',
   contacted: '#1D4ED8',
   waiting_docs: '#C2410C',
@@ -90,6 +97,7 @@ export const STATUS_COLORS: Record<LeadStatus, string> = {
 }
 
 export const STATUS_BG: Record<LeadStatus, string> = {
+  questionnaire_done: 'rgba(3,105,161,0.08)',
   new: 'rgba(201,168,76,0.1)',
   contacted: 'rgba(59,130,246,0.1)',
   waiting_docs: 'rgba(249,115,22,0.1)',

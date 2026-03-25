@@ -21,7 +21,7 @@ function getDaysSinceUpdate(lead: Lead): number {
 
 function getUrgency(lead: Lead): Urgency {
   const age = getAgeHours(lead)
-  if (lead.status === 'new') {
+  if (lead.status === 'new' || lead.status === 'questionnaire_done') {
     if (age < 24)  return 'new'
     if (age < 72)  return 'attention'
     return 'overdue'
@@ -77,12 +77,13 @@ function formatAge(lead: Lead): string {
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
-const allStatuses: Array<LeadStatus | ''> = ['', 'new', 'contacted', 'waiting_docs', 'under_review', 'submitted', 'completed', 'lost']
+const allStatuses: Array<LeadStatus | ''> = ['', 'questionnaire_done', 'new', 'contacted', 'waiting_docs', 'under_review', 'submitted', 'completed', 'lost']
 const statusLabels: Record<string, string> = {
   '': 'כל הסטטוסים', ...STATUS_LABELS,
 }
 
 const pipelineStages = [
+  { key: 'questionnaire_done', label: 'שאלון הושלם' },
   { key: 'new',          label: 'ליד חדש' },
   { key: 'contacted',    label: 'בוצע קשר' },
   { key: 'waiting_docs', label: 'מסמכים' },
@@ -121,7 +122,7 @@ export default function LeadsPage() {
   const [page, setPage]               = useState(0)
   const [search, setSearch]           = useState('')
   const [statusFilter, setStatusFilter] = useState<LeadStatus | ''>('')
-  const [sortBy, setSortBy]           = useState<'created_at' | 'qualification_score'>('created_at')
+  const [sortBy, setSortBy]           = useState<'created_at' | 'score'>('created_at')
   const [sortDir, setSortDir]         = useState<'desc' | 'asc'>('desc')
 
   const fetchLeads = useCallback(async () => {
@@ -129,7 +130,7 @@ export default function LeadsPage() {
     try {
       let query = supabase.from('leads').select('*', { count: 'exact' })
       if (search.trim()) {
-        query = query.or(`full_name.ilike.%${search}%,phone.ilike.%${search}%`)
+        query = query.or(`name.ilike.%${search}%,phone.ilike.%${search}%`)
       }
       if (statusFilter) {
         query = query.eq('status', statusFilter)
@@ -242,8 +243,8 @@ export default function LeadsPage() {
             const val = e.target.value
             if (val === 'created_at_desc')           { setSortBy('created_at'); setSortDir('desc') }
             else if (val === 'created_at_asc')        { setSortBy('created_at'); setSortDir('asc') }
-            else if (val === 'qualification_score_desc') { setSortBy('qualification_score'); setSortDir('desc') }
-            else                                      { setSortBy('qualification_score'); setSortDir('asc') }
+            else if (val === 'score_desc') { setSortBy('score'); setSortDir('desc') }
+            else                          { setSortBy('score'); setSortDir('asc') }
           }}
           style={{
             padding: '6px 10px', border: '1px solid #d1d5db', fontSize: '0.82rem',
@@ -253,8 +254,8 @@ export default function LeadsPage() {
         >
           <option value="created_at_desc">חדש ביותר</option>
           <option value="created_at_asc">ישן ביותר</option>
-          <option value="qualification_score_desc">ציון גבוה</option>
-          <option value="qualification_score_asc">ציון נמוך</option>
+          <option value="score_desc">ציון גבוה</option>
+          <option value="score_asc">ציון נמוך</option>
         </select>
       </div>
 
@@ -295,7 +296,7 @@ export default function LeadsPage() {
                       >
                         <td style={{ ...td, fontWeight: 600, color: '#111827', whiteSpace: 'nowrap' }}>
                           <Link href={`/crm/leads/${lead.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            {lead.full_name}
+                            {lead.name}
                           </Link>
                         </td>
                         <td style={{ ...td, direction: 'ltr', textAlign: 'right' }}>
@@ -323,7 +324,7 @@ export default function LeadsPage() {
                           {NEXT_ACTION[lead.status]}
                         </td>
                         <td style={{ ...td, color: '#6b7280' }}>
-                          {lead.qualification_score}
+                          {lead.score}
                         </td>
                         <td style={td}>
                           <div style={{ display: 'flex', gap: '5px' }}>

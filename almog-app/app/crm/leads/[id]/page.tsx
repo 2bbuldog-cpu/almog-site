@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import {
   Lead, LeadNote, Task, DocumentItem, QuestionnaireResponse,
-  STATUS_LABELS,
+  STATUS_LABELS, IncomeRange,
   EMPLOYMENT_LABELS, INCOME_RANGE_LABELS, DEFAULT_DOCS,
 } from '@/lib/types'
 
@@ -173,9 +173,9 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           ← חזרה לרשימה
         </button>
         <span style={{ color: '#d1d5db' }}>|</span>
-        <span style={{ fontSize: '1rem', fontWeight: 700, color: '#111827' }}>{lead.full_name}</span>
+        <span style={{ fontSize: '1rem', fontWeight: 700, color: '#111827' }}>{lead.name}</span>
         <span style={{ fontSize: '0.8rem', color: '#9ca3af', marginRight: 'auto' }}>
-          ציון: {lead.qualification_score}
+          ציון: {lead.score}
         </span>
       </div>
 
@@ -195,7 +195,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div>
                 <div style={fieldLabel}>שם מלא</div>
-                <div style={fieldValue}>{lead.full_name}</div>
+                <div style={fieldValue}>{lead.name}</div>
               </div>
               <div>
                 <div style={fieldLabel}>טלפון</div>
@@ -213,10 +213,10 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                   </div>
                 </div>
               )}
-              {qResponse?.city && (
+              {(lead.city || qResponse?.city) && (
                 <div>
                   <div style={fieldLabel}>עיר</div>
-                  <div style={fieldValue}>{qResponse.city}</div>
+                  <div style={fieldValue}>{lead.city || qResponse?.city}</div>
                 </div>
               )}
               <div>
@@ -310,14 +310,14 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             ) : (
               <div className="q-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 {[
-                  { label: 'שנות מס', value: qResponse.years?.join(', ') || '–' },
+                  { label: 'שנות מס', value: qResponse.years_to_check?.join(', ') || '–' },
                   { label: 'סטטוס תעסוקה', value: EMPLOYMENT_LABELS[qResponse.employment_type] || '–' },
-                  { label: 'החלפת עבודה', value: qResponse.changed_jobs ? `כן (${qResponse.changed_jobs_count || ''} פעמים)` : 'לא' },
-                  { label: 'ילדים', value: qResponse.children_count > 0 ? `כן (${qResponse.children_count})` : 'לא' },
+                  { label: 'החלפת עבודה', value: qResponse.changed_employer ? `כן (${qResponse.num_employers || ''} פעמים)` : 'לא' },
+                  { label: 'ילדים', value: qResponse.num_children > 0 ? `כן (${qResponse.num_children})` : 'לא' },
                   { label: 'חופשת לידה', value: qResponse.maternity_leave ? 'כן' : 'לא' },
                   { label: 'תואר אקדמי', value: qResponse.academic_degree ? `כן${qResponse.degree_year ? ` (${qResponse.degree_year})` : ''}` : 'לא' },
-                  { label: 'תרומות', value: qResponse.donations ? `כן${qResponse.donations_amount ? ` (₪${qResponse.donations_amount.toLocaleString()})` : ''}` : 'לא' },
-                  { label: 'טווח הכנסה', value: INCOME_RANGE_LABELS[qResponse.income_range] || '–' },
+                  { label: 'תרומות', value: qResponse.donations ? `כן${qResponse.donation_amount ? ` (₪${qResponse.donation_amount})` : ''}` : 'לא' },
+                  { label: 'טווח הכנסה', value: INCOME_RANGE_LABELS[qResponse.income_range as IncomeRange] || '–' },
                   {
                     label: 'נקודות מיוחדות',
                     value: qResponse.special_points?.length > 0
