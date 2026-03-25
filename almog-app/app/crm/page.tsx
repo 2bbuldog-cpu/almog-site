@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
 import { Lead, Task, STATUS_LABELS } from '@/lib/types'
 
 // ─── Urgency ─────────────────────────────────────────────────────────────────
@@ -129,14 +128,11 @@ export default function CRMDashboard() {
     setLoading(true)
     try {
       const today = new Date(); today.setHours(0, 0, 0, 0)
-      const [leadsResult, tasksResult] = await Promise.all([
-        supabase.from('leads').select('*').order('created_at', { ascending: false }),
-        supabase.from('tasks').select('*').eq('completed', false)
-          .lte('due_date', new Date().toISOString().split('T')[0])
-          .order('due_date', { ascending: true }),
-      ])
-      const leads: Lead[] = leadsResult.data || []
-      const tasks: Task[] = tasksResult.data || []
+      const res = await fetch('/api/crm/dashboard')
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const json = await res.json()
+      const leads: Lead[] = json.leads || []
+      const tasks: Task[] = json.overdueTasks || []
 
       const closedCount = leads.filter(l => l.status === 'completed').length
       const lostCount   = leads.filter(l => l.status === 'lost').length

@@ -169,7 +169,6 @@ export async function POST(request: NextRequest) {
       academic_degree: academic_degree || false,
       donations: donations || false,
       donation_amount: donations && donations_amount ? String(donations_amount) : null, // DB col: donation_amount
-      special_points: special_points || [],
       income_range: income_range || '',
       periphery_resident: special_points?.includes('periphery') ?? null,
       raw_data: body,

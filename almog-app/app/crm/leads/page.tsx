@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
 import { Lead, LeadStatus, STATUS_LABELS } from '@/lib/types'
 
 const PAGE_SIZE = 25
@@ -128,20 +127,18 @@ export default function LeadsPage() {
   const fetchLeads = useCallback(async () => {
     setLoading(true)
     try {
-      let query = supabase.from('leads').select('*', { count: 'exact' })
-      if (search.trim()) {
-        query = query.or(`name.ilike.%${search}%,phone.ilike.%${search}%`)
-      }
-      if (statusFilter) {
-        query = query.eq('status', statusFilter)
-      }
-      query = query
-        .order(sortBy, { ascending: sortDir === 'asc' })
-        .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1)
-      const { data, count, error } = await query
-      if (error) throw error
-      setLeads(data || [])
-      setTotal(count || 0)
+      const params = new URLSearchParams({
+        search,
+        status:  statusFilter,
+        sortBy,
+        sortDir,
+        page:    String(page),
+      })
+      const res = await fetch(`/api/crm/leads?${params.toString()}`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const json = await res.json()
+      setLeads(json.leads || [])
+      setTotal(json.total || 0)
     } catch (error) {
       console.error('Leads fetch error:', error)
     }

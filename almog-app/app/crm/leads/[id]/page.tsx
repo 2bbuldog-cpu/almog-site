@@ -2,11 +2,10 @@
 
 import { useEffect, useState, use } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
 import {
   Lead, LeadNote, Task, DocumentItem, QuestionnaireResponse,
   STATUS_LABELS, IncomeRange,
-  EMPLOYMENT_LABELS, INCOME_RANGE_LABELS, DEFAULT_DOCS,
+  EMPLOYMENT_LABELS, INCOME_RANGE_LABELS,
 } from '@/lib/types'
 
 const SPECIAL_LABELS: Record<string, string> = {
@@ -68,49 +67,53 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
 
   const fetchLeadData = async () => {
     setLoading(true)
-    const [leadRes, qRes, notesRes, tasksRes, docsRes] = await Promise.all([
-      supabase.from('leads').select('*').eq('id', id).single(),
-      supabase.from('questionnaire_responses').select('*').eq('lead_id', id).maybeSingle(),
-      supabase.from('lead_notes').select('*').eq('lead_id', id).order('created_at', { ascending: false }),
-      supabase.from('tasks').select('*').eq('lead_id', id).order('due_date', { ascending: true }),
-      supabase.from('document_checklist').select('*').eq('lead_id', id).order('required', { ascending: false }),
-    ])
-    if (leadRes.error || !leadRes.data) {
+    try {
+      const res = await fetch(`/api/crm/leads/${id}`)
+      if (!res.ok) {
+        router.replace('/crm/leads')
+        return
+      }
+      const json = await res.json()
+      if (!json.lead) {
+        router.replace('/crm/leads')
+        return
+      }
+      setLead(json.lead)
+      setQResponse(json.questionnaire)
+      setNotes(json.notes || [])
+      setTasks(json.tasks || [])
+      setDocs(json.docs || [])
+    } catch {
       router.replace('/crm/leads')
       return
-    }
-    setLead(leadRes.data)
-    setQResponse(qRes.data)
-    setNotes(notesRes.data || [])
-    setTasks(tasksRes.data || [])
-    const existingDocs = docsRes.data || []
-    if (existingDocs.length === 0) {
-      const defaultDocs = DEFAULT_DOCS.map(name => ({
-        lead_id: id, doc_name: name, required: true, received: false,
-      }))
-      const { data: createdDocs } = await supabase.from('document_checklist').insert(defaultDocs).select()
-      setDocs(createdDocs || [])
-    } else {
-      setDocs(existingDocs)
     }
     setLoading(false)
   }
 
   const updateStatus = async (newStatus: Lead['status']) => {
     if (!lead) return
-    const { error } = await supabase.from('leads').update({ status: newStatus }).eq('id', id)
-    if (!error) setLead({ ...lead, status: newStatus })
+    const res = await fetch(`/api/crm/leads/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus }),
+    })
+    if (res.ok) setLead({ ...lead, status: newStatus })
   }
 
   const addNote = async () => {
     if (!newNote.trim()) return
     setSavingNote(true)
-    const { data, error } = await supabase.from('lead_notes').insert({
-      lead_id: id, content: newNote.trim(), created_by: 'almog',
-    }).select().single()
-    if (!error && data) {
-      setNotes([data, ...notes])
-      setNewNote('')
+    const res = await fetch(`/api/crm/leads/${id}/notes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: newNote.trim() }),
+    })
+    if (res.ok) {
+      const json = await res.json()
+      if (json.note) {
+        setNotes([json.note, ...notes])
+        setNewNote('')
+      }
     }
     setSavingNote(false)
   }
@@ -118,31 +121,47 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const addTask = async () => {
     if (!newTaskTitle.trim()) return
     setSavingTask(true)
-    const { data, error } = await supabase.from('tasks').insert({
-      lead_id: id, title: newTaskTitle.trim(),
-      due_date: newTaskDate || null, priority: newTaskPriority, completed: false,
-    }).select().single()
-    if (!error && data) {
-      setTasks([...tasks, data])
-      setNewTaskTitle('')
-      setNewTaskDate('')
+    const res = await fetch(`/api/crm/leads/${id}/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title:    newTaskTitle.trim(),
+        due_date: newTaskDate || null,
+        priority: newTaskPriority,
+      }),
+    })
+    if (res.ok) {
+      const json = await res.json()
+      if (json.task) {
+        setTasks([...tasks, json.task])
+        setNewTaskTitle('')
+        setNewTaskDate('')
+      }
     }
     setSavingTask(false)
   }
 
   const toggleTask = async (task: Task) => {
-    const { error } = await supabase.from('tasks').update({ completed: !task.completed }).eq('id', task.id)
-    if (!error) setTasks(tasks.map(t => t.id === task.id ? { ...t, completed: !t.completed } : t))
+    const res = await fetch(`/api/crm/leads/${id}/tasks/${task.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: !task.completed }),
+    })
+    if (res.ok) setTasks(tasks.map(t => t.id === task.id ? { ...t, completed: !t.completed } : t))
   }
 
   const toggleDoc = async (doc: DocumentItem) => {
-    const { error } = await supabase.from('document_checklist').update({ received: !doc.received }).eq('id', doc.id)
-    if (!error) setDocs(docs.map(d => d.id === doc.id ? { ...d, received: !d.received } : d))
+    const res = await fetch(`/api/crm/leads/${id}/docs/${doc.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ received: !doc.received }),
+    })
+    if (res.ok) setDocs(docs.map(d => d.id === doc.id ? { ...d, received: !d.received } : d))
   }
 
   const deleteTask = async (taskId: string) => {
-    await supabase.from('tasks').delete().eq('id', taskId)
-    setTasks(tasks.filter(t => t.id !== taskId))
+    const res = await fetch(`/api/crm/leads/${id}/tasks/${taskId}`, { method: 'DELETE' })
+    if (res.ok) setTasks(tasks.filter(t => t.id !== taskId))
   }
 
   if (loading) {

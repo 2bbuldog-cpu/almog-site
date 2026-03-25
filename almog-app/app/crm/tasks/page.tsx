@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Task } from '@/lib/types'
 
 type Filter = 'all' | 'pending' | 'overdue' | 'completed'
@@ -21,15 +20,12 @@ export default function TasksPage() {
   const fetchTasks = useCallback(async () => {
     setLoading(true)
     try {
-      let query = supabase
-        .from('tasks')
-        .select('*')
-        .order('due_date', { ascending: true, nullsFirst: false })
-
-      if (priorityFilter) query = query.eq('priority', priorityFilter)
-
-      const { data } = await query
-      setTasks(data || [])
+      const params = new URLSearchParams()
+      if (priorityFilter) params.set('priority', priorityFilter)
+      const res = await fetch(`/api/crm/tasks?${params.toString()}`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const json = await res.json()
+      setTasks(json.tasks || [])
     } catch (error) {
       console.error('Tasks fetch error:', error)
     }
@@ -39,13 +35,17 @@ export default function TasksPage() {
   useEffect(() => { fetchTasks() }, [fetchTasks])
 
   const toggleTask = async (task: Task) => {
-    const { error } = await supabase.from('tasks').update({ completed: !task.completed }).eq('id', task.id)
-    if (!error) setTasks(tasks.map(t => t.id === task.id ? { ...t, completed: !t.completed } : t))
+    const res = await fetch(`/api/crm/tasks/${task.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: !task.completed }),
+    })
+    if (res.ok) setTasks(tasks.map(t => t.id === task.id ? { ...t, completed: !t.completed } : t))
   }
 
   const deleteTask = async (id: string) => {
-    await supabase.from('tasks').delete().eq('id', id)
-    setTasks(tasks.filter(t => t.id !== id))
+    const res = await fetch(`/api/crm/tasks/${id}`, { method: 'DELETE' })
+    if (res.ok) setTasks(tasks.filter(t => t.id !== id))
   }
 
   const now = new Date()
