@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import fs from 'fs'
+import path from 'path'
+import TestimonialsCarousel from './TestimonialsCarousel'
 
 const bullets = [
   {
@@ -15,7 +18,25 @@ const bullets = [
   },
 ]
 
+const SUPPORTED_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp'])
+
+function getTestimonialImages() {
+  const dir = path.join(process.cwd(), 'public', 'testimonials')
+  try {
+    if (!fs.existsSync(dir)) return []
+    const files = fs.readdirSync(dir)
+    return files
+      .filter(f => SUPPORTED_EXTENSIONS.has(path.extname(f).toLowerCase()))
+      .sort()
+      .map((f, i) => ({ src: `/testimonials/${f}`, alt: `פידבק לקוח ${i + 1}` }))
+  } catch {
+    return []
+  }
+}
+
 export default function HazaratMasPage() {
+  const testimonialImages = getTestimonialImages()
+
   return (
     <div style={{ fontFamily: 'Heebo, sans-serif', direction: 'rtl', color: '#0E1E40' }}>
 
@@ -163,6 +184,11 @@ export default function HazaratMasPage() {
           </div>
         </div>
       </section>
+
+      {/* ── TESTIMONIALS CAROUSEL ── */}
+      {testimonialImages.length > 0 && (
+        <TestimonialsCarousel images={testimonialImages} />
+      )}
 
       {/* ── TRUST ── */}
       <section style={{
