@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Navigation from '@/components/Navigation'
 
 export const metadata: Metadata = {
   title: 'אלמוג בן דוד | רואת חשבון מוסמכת – החזרי מס, פתיחת עסק, תכנון פרישה',
@@ -33,8 +32,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Navigation />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   )

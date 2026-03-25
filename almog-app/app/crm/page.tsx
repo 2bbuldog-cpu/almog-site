@@ -208,6 +208,17 @@ export default function CRMDashboard() {
         ))}
       </div>
 
+      {/* Hot leads panel — empty state */}
+      {!loading && hotLeads.length === 0 && stats.total > 0 && (
+        <div style={{ ...card, marginBottom: '14px', borderRight: '3px solid #16a34a', display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px' }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#16a34a', flexShrink: 0 }} />
+          <div>
+            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#374151' }}>כל הלידים מטופלים</div>
+            <div style={{ fontSize: '0.76rem', color: '#9ca3af', marginTop: '2px' }}>אין לידים הדורשים טיפול מיידי כרגע</div>
+          </div>
+        </div>
+      )}
+
       {/* Hot leads panel */}
       {!loading && hotLeads.length > 0 && (
         <div style={{ ...card, marginBottom: '14px', borderRight: '3px solid #dc2626' }}>
@@ -329,7 +340,10 @@ export default function CRMDashboard() {
           {loading ? (
             <div style={{ color: '#9ca3af', fontSize: '0.82rem' }}>טוען...</div>
           ) : overdueTasks.length === 0 ? (
-            <div style={{ color: '#9ca3af', fontSize: '0.82rem', padding: '12px 0' }}>אין משימות באיחור</div>
+            <div style={{ padding: '20px 0', textAlign: 'center' }}>
+              <div style={{ color: '#374151', fontWeight: 600, fontSize: '0.84rem', marginBottom: '4px' }}>אין משימות פתוחות</div>
+              <div style={{ color: '#9ca3af', fontSize: '0.78rem' }}>כל המשימות מעודכנות</div>
+            </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {overdueTasks.map((task) => (
@@ -362,7 +376,10 @@ export default function CRMDashboard() {
         {loading ? (
           <div style={{ color: '#9ca3af', fontSize: '0.82rem' }}>טוען...</div>
         ) : recentLeads.length === 0 ? (
-          <div style={{ color: '#9ca3af', fontSize: '0.82rem', padding: '20px 0', textAlign: 'center' }}>אין לידים עדיין</div>
+          <div style={{ padding: '28px 0', textAlign: 'center' }}>
+            <div style={{ fontWeight: 600, color: '#374151', marginBottom: '6px', fontSize: '0.88rem' }}>אין לידים במערכת</div>
+            <div style={{ color: '#9ca3af', fontSize: '0.8rem' }}>לידים חדשים שמתקבלים מהאתר יופיעו כאן</div>
+          </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>

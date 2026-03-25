@@ -211,10 +211,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
           />
 
           {/* Right side */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ color: '#9ca3af', fontSize: '0.88rem', cursor: 'pointer' }}>
-              🔔
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{
                 width: '26px', height: '26px',
@@ -228,18 +225,6 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
                 אלמוג
               </span>
             </div>
-            <Link
-              href="/"
-              style={{
-                padding: '4px 10px',
-                color: '#6b7280',
-                fontSize: '0.75rem',
-                textDecoration: 'none',
-                border: '1px solid #e5e7eb',
-              }}
-            >
-              לאתר הראשי
-            </Link>
           </div>
         </header>
 
