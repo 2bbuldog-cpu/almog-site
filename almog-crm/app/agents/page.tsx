@@ -418,7 +418,7 @@ export default function AgentsPage() {
 
             <p style={{ textAlign: 'center', fontSize: '.72rem', color: 'rgba(255,255,255,.25)', marginTop: '14px', lineHeight: 1.5 }}>
               הסוכן מספק מידע כללי בלבד ואינו מהווה ייעוץ מקצועי מחייב.
-              לייעוץ אישי — <a href="/sheelon" style={{ color: goldLight, textDecoration: 'none' }}>מלאו שאלון</a> או <a href="https://wa.me/972500000000" style={{ color: goldLight, textDecoration: 'none' }}>צרו קשר</a>
+              לייעוץ אישי — <a href="/sheelon" style={{ color: goldLight, textDecoration: 'none' }}>מלאו שאלון</a> או <a href="https://wa.me/972547312262" style={{ color: goldLight, textDecoration: 'none' }}>צרו קשר</a>
             </p>
           </div>
         )}

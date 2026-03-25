@@ -141,7 +141,7 @@ export default function ThankYouPage() {
           בינתיים, שמור אותנו בוואטסאפ לשאלות מהירות
         </p>
         <a
-          href="https://wa.me/972500000000"
+          href="https://wa.me/972547312262"
           target="_blank"
           rel="noopener noreferrer"
           style={{

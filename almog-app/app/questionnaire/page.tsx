@@ -603,7 +603,7 @@ export default function QuestionnairePage() {
                 <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: '24px' }}>
                   סמן את כל מה שרלוונטי אליך (לא חובה)
                 </p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="special-points-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   {SPECIAL_POINTS_OPTIONS.map((opt) => (
                     <div
                       key={opt.id}
@@ -704,7 +704,7 @@ export default function QuestionnairePage() {
                     </label>
                     <input
                       type="tel"
-                      placeholder="050-0000000"
+                      placeholder="054-7312262"
                       value={data.phone}
                       onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
                       style={{

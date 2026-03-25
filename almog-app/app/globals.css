@@ -404,3 +404,53 @@ input, textarea, select {
 @media (max-width: 640px) {
   .articles-grid-react { grid-template-columns: 1fr; gap: 20px; }
 }
+
+/* ─── Mobile responsive fixes ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hero: stack vertically, hide image to save space */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+  .hero-image-wrap {
+    display: none !important;
+  }
+
+  /* Services: single column */
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Why us: image above text */
+  .why-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Testimonials: single column */
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Questionnaire step 9: single column */
+  .special-points-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Section padding reduction */
+  .page-section {
+    padding-top: 64px !important;
+    padding-bottom: 64px !important;
+  }
+}
+
+/* Steps: vertical on small screens */
+@media (max-width: 600px) {
+  .steps-grid {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .steps-line {
+    display: none !important;
+  }
+}

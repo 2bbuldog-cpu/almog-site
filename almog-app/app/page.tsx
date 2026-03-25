@@ -247,7 +247,7 @@ export default function HomePage() {
 
               <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                 <Link
-                  href="/tax-refund"
+                  href="/sheelon"
                   style={{
                     padding: '16px 32px',
                     background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
@@ -263,7 +263,7 @@ export default function HomePage() {
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  💰 בדוק אם מגיע לך החזר מס
+                  🧾 בדוק כמה מגיע לך — חינם
                 </Link>
                 <a
                   href={WHATSAPP_URL}

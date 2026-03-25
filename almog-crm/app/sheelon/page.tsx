@@ -894,7 +894,7 @@ export default function QuestionnairePage() {
                   type="tel"
                   value={form.phone}
                   onChange={e => update('phone', e.target.value)}
-                  placeholder="050-0000000"
+                  placeholder="054-7312262"
                   style={s.inputField}
                   autoComplete="tel"
                   dir="ltr"

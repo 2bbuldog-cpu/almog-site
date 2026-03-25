@@ -1,3 +1,9 @@
-# האתר בשיפוצים — אין אינדוקס
 User-agent: *
-Disallow: /
+Allow: /
+
+# דפים משפטיים — לא רלוונטיים לחיפוש
+Disallow: /privacy.html
+Disallow: /terms.html
+Disallow: /accessibility.html
+
+Sitemap: https://almogcpa.co.il/sitemap.xml

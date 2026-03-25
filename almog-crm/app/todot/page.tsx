@@ -149,7 +149,7 @@ function ThankYouContent() {
 
       {/* WhatsApp CTA */}
       <a
-        href="https://wa.me/972500000000?text=שלום אלמוג, מילאתי את השאלון באתר ואני מעוניין/ת לשמוע יותר על החזר מס"
+        href="https://wa.me/972547312262?text=שלום אלמוג, מילאתי את השאלון באתר ואני מעוניין/ת לשמוע יותר על החזר מס"
         target="_blank"
         rel="noopener noreferrer"
         style={{

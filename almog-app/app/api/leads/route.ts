@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
       city,
       special_points,
       income_range,
+      notes,
     } = body
 
     // Validate required fields
@@ -126,6 +127,15 @@ export async function POST(request: NextRequest) {
     if (qError) {
       console.error('Questionnaire insert error:', qError)
       // Don't fail the whole request if questionnaire save fails
+    }
+
+    // Save notes as a lead note if provided
+    if (notes && typeof notes === 'string' && notes.trim()) {
+      await supabase.from('lead_notes').insert({
+        lead_id: lead.id,
+        content: notes.trim(),
+        created_by: 'questionnaire',
+      })
     }
 
     return NextResponse.json({

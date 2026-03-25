@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const WHATSAPP_URL = 'https://wa.me/972500000000'
+const WHATSAPP_URL = 'https://wa.me/972547312262'
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
@@ -37,6 +37,7 @@ export default function Navigation() {
         { label: 'החזרי מס', href: '/tax-refund', icon: '💰' },
         { label: 'פתיחת עסק', href: '/service-business', icon: '🚀' },
         { label: 'תכנון פרישה', href: '/service-retirement', icon: '🌅' },
+        { label: 'שאלון החזר מס', href: '/sheelon', icon: '🧾' },
       ],
     },
     { label: 'סוכני AI', href: '/#agents' },
@@ -217,12 +218,42 @@ export default function Navigation() {
               )
             )}
 
+            <Link
+              href="/sheelon"
+              style={{
+                marginRight: '4px',
+                padding: '11px 22px',
+                background: scrolled ? 'rgba(14,30,64,0.06)' : 'rgba(255,255,255,0.1)',
+                border: `1.5px solid ${scrolled ? '#E2E8F0' : 'rgba(255,255,255,0.25)'}`,
+                color: scrolled ? '#0E1E40' : 'rgba(255,255,255,0.9)',
+                fontWeight: 700,
+                fontSize: '0.88rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = scrolled ? '#F7F9FC' : 'rgba(255,255,255,0.18)'
+                el.style.transform = 'translateY(-1px)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = scrolled ? 'rgba(14,30,64,0.06)' : 'rgba(255,255,255,0.1)'
+                el.style.transform = ''
+              }}
+            >
+              🧾 שאלון מס
+            </Link>
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                marginRight: '8px',
+                marginRight: '4px',
                 padding: '11px 24px',
                 background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
                 color: '#0E1E40',
@@ -384,27 +415,34 @@ export default function Navigation() {
             ))}
           </div>
 
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              padding: '18px',
-              background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
-              color: '#0E1E40',
-              fontWeight: 800,
-              fontSize: '1.1rem',
-              borderRadius: '50px',
-              textDecoration: 'none',
-              marginTop: '24px',
-            }}
-          >
-            💬 ייעוץ ראשוני חינם
-          </a>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '24px' }}>
+            <Link
+              href="/sheelon"
+              onClick={() => setMenuOpen(false)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                padding: '16px', background: 'rgba(255,255,255,0.08)',
+                border: '1.5px solid rgba(255,255,255,0.2)',
+                color: 'white', fontWeight: 700, fontSize: '1rem',
+                borderRadius: '50px', textDecoration: 'none',
+              }}
+            >
+              🧾 שאלון החזר מס חינמי
+            </Link>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                padding: '18px', background: 'linear-gradient(135deg, #C9A84C, #E8C96A)',
+                color: '#0E1E40', fontWeight: 800, fontSize: '1.1rem',
+                borderRadius: '50px', textDecoration: 'none',
+              }}
+            >
+              💬 ייעוץ ראשוני חינם
+            </a>
+          </div>
         </div>
       )}
 
