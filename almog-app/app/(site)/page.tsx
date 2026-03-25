@@ -154,7 +154,7 @@ export default function HomePage() {
     <div style={{ fontFamily: 'Heebo, sans-serif', direction: 'rtl' }}>
 
       {/* ===== HERO SECTION ===== */}
-      <section style={{
+      <section className="hero-section" style={{
         minHeight: '100vh',
         background: 'linear-gradient(160deg, #0E1E40 0%, #0c1c3a 50%, #091525 100%)',
         position: 'relative',
@@ -170,7 +170,7 @@ export default function HomePage() {
           pointerEvents: 'none',
         }} />
 
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px', width: '100%' }}>
+        <div className="hero-container-inner" style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px', width: '100%' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -180,7 +180,7 @@ export default function HomePage() {
           className="hero-grid"
           >
             {/* Text Content */}
-            <div style={{ animation: 'fadeIn 0.8s ease both' }}>
+            <div className="hero-text-content" style={{ animation: 'fadeIn 0.8s ease both' }}>
               <div style={{
                 marginBottom: '20px',
                 color: 'rgba(232,201,106,0.8)',
@@ -209,7 +209,18 @@ export default function HomePage() {
                 </span>
               </h1>
 
-              <p style={{
+              {/* Mobile-only: name attribution — replaces the hidden description */}
+              <div className="hero-name-mobile" style={{
+                fontSize: '0.9rem',
+                color: 'rgba(255,255,255,0.52)',
+                fontWeight: 500,
+                marginBottom: '28px',
+                letterSpacing: '0.01em',
+              }}>
+                אלמוג בן דוד — רואת חשבון מוסמכת
+              </div>
+
+              <p className="hero-desc" style={{
                 fontSize: '1.1rem',
                 color: 'rgba(255,255,255,0.7)',
                 lineHeight: 1.8,
@@ -261,7 +272,7 @@ export default function HomePage() {
                 </a>
               </div>
 
-              <div style={{
+              <div className="hero-stats" style={{
                 marginTop: '48px',
                 display: 'flex',
                 gap: '32px',
@@ -312,7 +323,7 @@ export default function HomePage() {
         </div>
 
         {/* Scroll indicator */}
-        <div style={{
+        <div className="hero-scroll-indicator" style={{
           position: 'absolute',
           bottom: '32px',
           left: '50%',

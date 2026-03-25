@@ -116,10 +116,14 @@ export default function QuestionnairePage() {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/leads', {
+      const url = '/api/leads'
+      const payload = data
+      console.log('Submitting to:', url)
+      console.log('Payload:', payload)
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
       const result = await res.json()
       if (result.success) {
@@ -127,7 +131,8 @@ export default function QuestionnairePage() {
       } else {
         setError(result.error || 'שגיאה בשמירת הנתונים. אנא נסה שוב.')
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch error (questionnaire):', err)
       setError('שגיאת תקשורת. אנא נסה שוב.')
     }
     setLoading(false)

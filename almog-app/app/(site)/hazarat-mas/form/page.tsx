@@ -95,10 +95,14 @@ export default function HazaratMasFormPage() {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/leads', {
+      const url = '/api/leads'
+      const payload = { ...data, source: 'hazarat-mas' }
+      console.log('Submitting to:', url)
+      console.log('Payload:', payload)
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source: 'hazarat-mas' }),
+        body: JSON.stringify(payload),
       })
       const result = await res.json()
       if (result.success) {
@@ -106,7 +110,8 @@ export default function HazaratMasFormPage() {
       } else {
         setError(result.error || 'שגיאה בשמירת הנתונים. אנא נסה שוב.')
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch error (hazarat-mas form):', err)
       setError('שגיאת תקשורת. אנא נסה שוב.')
     }
     setLoading(false)

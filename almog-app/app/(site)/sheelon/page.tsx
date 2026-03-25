@@ -347,10 +347,14 @@ export default function SheelonPage() {
     setLoading(true)
     setSubmitError('')
     try {
-      const res = await fetch('/api/leads', {
+      const url = '/api/leads'
+      const payload = buildPayload()
+      console.log('Submitting to:', url)
+      console.log('Payload:', payload)
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(buildPayload()),
+        body: JSON.stringify(payload),
       })
       const result = await res.json()
       if (result.success) {
@@ -358,7 +362,8 @@ export default function SheelonPage() {
       } else {
         setSubmitError(result.error || 'שגיאה בשמירת הנתונים. נסה שוב.')
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch error (sheelon):', err)
       setSubmitError('שגיאת תקשורת. בדוק חיבור לאינטרנט ונסה שוב.')
     }
     setLoading(false)
