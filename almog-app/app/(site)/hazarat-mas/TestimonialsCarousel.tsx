@@ -10,52 +10,15 @@ interface TextSlide {
   amount: string
   quote: string
   years: string
-  emoji: string
 }
 type Slide = ImageSlide | TextSlide
 
-// Placeholder cards shown until real feedback images are added
 const PLACEHOLDER_TESTIMONIALS: TextSlide[] = [
-  {
-    type: 'text',
-    name: 'מיכל ש.',
-    amount: '6,200 ₪',
-    quote: 'לא ידעתי בכלל שמגיע לי כסף. אלמוג בדקה ותוך שבועיים קיבלתי את הכסף לחשבון.',
-    years: 'שכירה · 3 שנים אחורה',
-    emoji: '💬',
-  },
-  {
-    type: 'text',
-    name: 'יוסי ק.',
-    amount: '4,800 ₪',
-    quote: 'עבדתי ב-2 מקומות באותה שנה ולא ידעתי שזה יוצר חוב מס. אלמוג סגרה את הכל בשבילי.',
-    years: 'שכיר · 2 מעסיקים',
-    emoji: '💬',
-  },
-  {
-    type: 'text',
-    name: 'שירה ל.',
-    amount: '3,400 ₪',
-    quote: 'חשבתי שזה מסובך, אבל התהליך היה פשוט ומהיר. ממליצה בחום לכולם לבדוק.',
-    years: 'שכירה · זיכוי לימודים',
-    emoji: '💬',
-  },
-  {
-    type: 'text',
-    name: 'אמיר ד.',
-    amount: '7,100 ₪',
-    quote: 'יצאתי מהצבא ולא ידעתי שמגיע לי החזר. קיבלתי כסף על 4 שנים אחורה.',
-    years: 'משוחרר צבא · 4 שנים',
-    emoji: '💬',
-  },
-  {
-    type: 'text',
-    name: 'נועה מ.',
-    amount: '5,500 ₪',
-    quote: 'הייתי בטוחה שאני לא זכאית. שלחתי פרטים, ואחרי 10 ימים הכסף אצלי.',
-    years: 'שכירה + לימודים',
-    emoji: '💬',
-  },
+  { type: 'text', name: 'מיכל ש.', amount: '6,200 ₪', quote: 'לא ידעתי בכלל שמגיע לי כסף. אלמוג בדקה ותוך שבועיים קיבלתי את הכסף לחשבון.', years: 'שכירה · 3 שנים אחורה' },
+  { type: 'text', name: 'יוסי ק.', amount: '4,800 ₪', quote: 'עבדתי ב-2 מקומות באותה שנה. אלמוג סגרה את הכל בשבילי.', years: 'שכיר · 2 מעסיקים' },
+  { type: 'text', name: 'שירה ל.', amount: '3,400 ₪', quote: 'חשבתי שזה מסובך, אבל התהליך היה פשוט ומהיר. ממליצה בחום.', years: 'שכירה · זיכוי לימודים' },
+  { type: 'text', name: 'אמיר ד.', amount: '7,100 ₪', quote: 'יצאתי מהצבא ולא ידעתי שמגיע לי החזר. קיבלתי כסף על 4 שנים אחורה.', years: 'משוחרר צבא · 4 שנים' },
+  { type: 'text', name: 'נועה מ.', amount: '5,500 ₪', quote: 'הייתי בטוחה שאני לא זכאית. שלחתי פרטים ואחרי 10 ימים הכסף אצלי.', years: 'שכירה + לימודים' },
 ]
 
 interface Props {
@@ -73,6 +36,7 @@ export default function TestimonialsCarousel({ images }: Props) {
   const dragStartX = useRef(0)
   const dragDelta = useRef(0)
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
 
   const total = slides.length
   const maxIndex = Math.max(0, total - slidesPerView)
@@ -119,6 +83,26 @@ export default function TestimonialsCarousel({ images }: Props) {
     dragDelta.current = 0
   }
 
+  // Calculate pixel-based offset: step = (containerWidth + gap) / slidesPerView
+  const getTranslate = () => {
+    const container = trackRef.current?.parentElement
+    if (!container) return '0px'
+    const gap = 16
+    const containerWidth = container.clientWidth
+    const step = (containerWidth + gap) / slidesPerView
+    return `${current * step}px`
+  }
+
+  const [translate, setTranslate] = useState('0px')
+
+  useEffect(() => {
+    const update = () => setTranslate(getTranslate())
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, slidesPerView])
+
   const gapPx = 16
   const slideWidthPct = 100 / slidesPerView
 
@@ -147,7 +131,6 @@ export default function TestimonialsCarousel({ images }: Props) {
         </p>
 
         <div style={{ position: 'relative', padding: '0 28px' }}>
-
           {total > slidesPerView && (
             <button onClick={() => { prev(); resetAutoplay() }} aria-label="הקודם" style={arrowStyle('right')}>›</button>
           )}
@@ -162,15 +145,20 @@ export default function TestimonialsCarousel({ images }: Props) {
             onPointerUp={onPointerUp}
             onPointerLeave={onPointerUp}
           >
-            <div style={{
-              display: 'flex',
-              gap: `${gapPx}px`,
-              transform: `translateX(calc(${current} * (-${slideWidthPct}% - ${gapPx / slidesPerView}px)))`,
-              transition: isDragging ? 'none' : 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-              willChange: 'transform',
-              cursor: isDragging ? 'grabbing' : 'grab',
-              userSelect: 'none',
-            }}>
+            <div
+              ref={trackRef}
+              style={{
+                display: 'flex',
+                gap: `${gapPx}px`,
+                // RTL: positive translateX moves content right (showing earlier slides)
+                // We use positive value to go "back" in RTL direction
+                transform: `translateX(${translate})`,
+                transition: isDragging ? 'none' : 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                willChange: 'transform',
+                cursor: isDragging ? 'grabbing' : 'grab',
+                userSelect: 'none',
+              }}
+            >
               {slides.map((slide, i) => (
                 <div
                   key={i}
@@ -184,17 +172,17 @@ export default function TestimonialsCarousel({ images }: Props) {
                       borderRadius: '14px',
                       overflow: 'hidden',
                       boxShadow: '0 4px 24px rgba(14,30,64,0.10)',
-                      background: '#FFFFFF',
+                      background: '#f8f8f8',
                       border: '1px solid #E8EDF5',
-                      aspectRatio: '4/5',
                       position: 'relative',
+                      aspectRatio: '9/16',
                     }}>
                       <Image
                         src={slide.src}
                         alt={slide.alt}
                         fill
                         sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 31vw"
-                        style={{ objectFit: 'cover', objectPosition: 'top' }}
+                        style={{ objectFit: 'contain' }}
                         loading="lazy"
                         draggable={false}
                       />
@@ -257,38 +245,19 @@ function TextCard({ slide }: { slide: TextSlide }) {
       gap: '16px',
       minHeight: '240px',
     }}>
-      {/* Quote mark */}
       <div style={{ fontSize: '2.5rem', lineHeight: 1, color: '#C9A84C', fontFamily: 'Georgia, serif' }}>"</div>
-
-      {/* Quote text */}
-      <p style={{
-        fontSize: 'clamp(0.9rem, 2vw, 1rem)',
-        color: '#2D3748',
-        lineHeight: 1.7,
-        fontWeight: 500,
-        flex: 1,
-        margin: 0,
-      }}>
+      <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1rem)', color: '#2D3748', lineHeight: 1.7, fontWeight: 500, flex: 1, margin: 0 }}>
         {slide.quote}
       </p>
-
-      {/* Divider */}
       <div style={{ height: '1px', background: '#EDF2F7' }} />
-
-      {/* Footer */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#0E1E40' }}>{slide.name}</div>
           <div style={{ fontSize: '0.78rem', color: '#718096', marginTop: '2px' }}>{slide.years}</div>
         </div>
         <div style={{
-          background: '#F0FDF4',
-          border: '1px solid #BBF7D0',
-          borderRadius: '20px',
-          padding: '6px 14px',
-          fontWeight: 900,
-          fontSize: '0.95rem',
-          color: '#16A34A',
+          background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '20px',
+          padding: '6px 14px', fontWeight: 900, fontSize: '0.95rem', color: '#16A34A',
         }}>
           +{slide.amount}
         </div>
